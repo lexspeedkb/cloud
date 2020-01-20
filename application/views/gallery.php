@@ -27,10 +27,13 @@
                 <?php foreach ($files as $file): ?>
                     <tr>
                         <td>
-                            <img src="/files/s/<?=$file['path']['text'].$file['path']['name'];?>" style="width: 50px;">
+                            <img class="item" data-type="image" src="/files/o/<?=$file['path']['text'].$file['path']['name'];?>" style="width: 50px;">
                         </td>
                         <td class="mdl-data-table__cell--non-numeric">
-                            <?=$file['name']?>
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                <input class="mdl-textfield__input file-name" type="text" value="<?=$file['name']?>" data-id="<?=$file['id']?>">
+                                <label class="mdl-textfield__label" for="name">Название...</label>
+                            </div>
                         </td>
                         <td class="actions">
                             <a href="/files/o/<?=$file['path']['text'].$file['path']['name'];?>" class="icon" download>
