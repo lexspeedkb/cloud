@@ -1,0 +1,25 @@
+@import "index";
+@import "config";
+@import "material";
+
+
+
+::-webkit-scrollbar {
+  width: 3px;
+  height: 10px;
+  background-color: var(--grey);
+}
+
+::-webkit-scrollbar-button, ::-webkit-scrollbar-track, ::-webkit-scrollbar-track-piece {
+  background-color: var(--grey);
+}
+
+::-webkit-scrollbar-thumb {
+  height: 50px;
+  background-color: var(--yellow);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-corner, ::-webkit-resizer {
+  background-color: var(--grey);
+}

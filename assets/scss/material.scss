@@ -1,0 +1,25 @@
+.mdl-layout__header {
+  z-index: 1 !important;
+}
+
+.demo-card-image.mdl-card {
+  width: 10vw;
+  height: 10vw;
+  background: #fafafa;
+  min-width: 210px;
+}
+.demo-card-image > .mdl-card__actions {
+  height: 52px;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.2);
+}
+.demo-card-image__filename {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.download-icon {
+  color: #fff;
+  float: right;
+}
