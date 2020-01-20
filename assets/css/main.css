@@ -39,6 +39,10 @@
   background-repeat: no-repeat;
 }
 
+.table-gallery {
+  margin-top: 10px;
+}
+
 .mdl-layout__header {
   z-index: 1 !important;
 }
