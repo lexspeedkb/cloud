@@ -4,6 +4,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Files extends CI_Controller {
 
     public function render () {
+        $this->load->library('session');
+        $this->load->model('Model_files');
+        $this->load->model('Model_auth');
+
+        $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
+
+        if ($this->isOwner('name', $this->uri->segment(4), $user['id'])!==true) {
+            header('HTTP/1.0 403 Forbidden');
+            die();
+        }
+
         $img = str_replace('/', '', $this->uri->segment(4));
 
         $path = $this->getPath($img);
@@ -73,11 +84,12 @@ Deny from all";
 
         $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
 
-        if ($this->isOwner($this->uri->segment(3), $user['id'])!==true) {
-            die('rrrrr');
+        if ($this->isOwner('id', $this->uri->segment(3), $user['id'])!==true) {
+            header('HTTP/1.0 403 Forbidden');
+            die();
         }
 
-        $file = $this->Model_files->getOneFile($this->uri->segment(3));
+        $file = $this->Model_files->getOneFile('id', $this->uri->segment(3));
 
         $data['file'] = $file;
         $data['file']['path'] = $this->getPath($data['file']['src']);
@@ -96,7 +108,7 @@ Deny from all";
 
         $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
 
-        if ($this->isOwner($this->uri->segment(3), $user['id'])!==true) {
+        if ($this->isOwner('id', $this->uri->segment(3), $user['id'])!==true) {
             die('rrrrr');
         }
 
@@ -105,10 +117,10 @@ Deny from all";
         echo '<meta http-equiv="refresh" content="0;URL=/">';
     }
 
-    public function isOwner ($id, $user_id) {
+    public function isOwner ($type, $search, $user_id) {
         $this->load->model('Model_files');
 
-        $file = $this->Model_files->getOneFile($id);
+        $file = $this->Model_files->getOneFile($type, $search);
 
         if ($file['user_id']==$user_id) {
             return true;
@@ -142,8 +154,9 @@ Deny from all";
 
         $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
 
-        if ($this->isOwner($_POST['id'], $user['id'])!==true) {
-            die('rrrrr');
+        if ($this->isOwner('id', $_POST['id'], $user['id'])!==true) {
+            header('HTTP/1.0 403 Forbidden');
+            die();
         }
 
         $this->Model_files->updateName($_POST['id'], $_POST['value']);
