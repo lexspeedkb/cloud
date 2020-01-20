@@ -11,6 +11,8 @@
     right: 20px; }
   #index .actions .icon {
     color: #000 !important; }
+  #index table input, #index table label {
+    font-size: 0.7em; }
 
 #view {
   width: 100%;

@@ -52,24 +52,29 @@ class Files extends CI_Controller {
         
 
         if (move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile_o)) {
-            
-            $new_image = new Pictures($uploadfile_o);
-            $new_image->percentimagereduce(10);
-            $new_image->imagesave($new_image->image_type, $uploadfile_s);
-            $new_image->imageout();
 
+            $type = $this->getTypeByMIME(mime_content_type($uploadfile_o));
 
             $htaccess_data =
 "Order allow,deny\n
 Deny from all";
 
+            if ($type=='image') {
+                $new_image = new Pictures($uploadfile_o);
+                $new_image->percentimagereduce(10);
+                $new_image->imagesave($new_image->image_type, $uploadfile_s);
+                $new_image->imageout();
+
+                $htaccess_s = fopen($dirs_s.".htaccess", "w");
+                fwrite($htaccess_s, $htaccess_data);
+            }
+
             $htaccess_o = fopen($dirs_o.".htaccess", "w");
-            $htaccess_s = fopen($dirs_s.".htaccess", "w");
             fwrite($htaccess_o, $htaccess_data);
-            fwrite($htaccess_s, $htaccess_data);
 
 
-            $this->Model_files->uploadFile($basename, $user['id']);
+
+            $this->Model_files->uploadFile($basename, $user['id'], $type);
 
             echo '<meta http-equiv="refresh" content="0;URL=/">';
         } else {
@@ -162,6 +167,23 @@ Deny from all";
         $this->Model_files->updateName($_POST['id'], $_POST['value']);
 
         echo '<meta http-equiv="refresh" content="0;URL=/">';
+    }
+
+    public function getTypeByMIME ($mime) {
+        $type = explode('/', $mime);
+
+        switch ($type[0]) {
+            case 'text':
+                return 'text';
+            case 'image':
+                return 'image';
+            case 'video':
+                return 'video';
+            case 'application':
+                return 'document';
+            default:
+                return 'document';
+        }
     }
 }
 

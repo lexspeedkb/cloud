@@ -14,6 +14,7 @@ class Model_files extends CI_Model {
             $files[$i]['id']        = $row['id'];
             $files[$i]['src']       = $row['src'];
             $files[$i]['name']      = $row['name'];
+            $files[$i]['type']      = $row['type'];
             $files[$i]['user_id']   = $row['user_id'];
             $i++;
 
@@ -38,6 +39,7 @@ class Model_files extends CI_Model {
             $file['id']        = $row['id'];
             $file['src']       = $row['src'];
             $file['name']      = $row['name'];
+            $file['type']      = $row['type'];
             $file['user_id']   = $row['user_id'];
         }
         return $file;
@@ -62,10 +64,10 @@ class Model_files extends CI_Model {
     }
 
 
-    public function uploadFile($src, $user_id)
+    public function uploadFile($src, $user_id, $type)
     {
         $name    = $_POST['name'];
-        $this->db->query("INSERT INTO files (src, name, user_id) VALUES ('$src', '$name', '$user_id')");
+        $this->db->query("INSERT INTO files (src, name, user_id, type) VALUES ('$src', '$name', '$user_id', '$type')");
     }
 
     public function updateName($id, $name)
