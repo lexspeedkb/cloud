@@ -43,6 +43,14 @@
   margin-top: 10px;
 }
 
+.img-menu {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.7);
+  height: 100px;
+  width: 100%;
+  z-index: 10000;
+}
+
 .mdl-layout__header {
   z-index: 1 !important;
 }

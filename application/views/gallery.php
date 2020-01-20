@@ -52,7 +52,15 @@
     </button>
 </div>
 
-<div id="view"><div class="img"></div></div>
+<!-- Вывод фото -->
+<div id="view">
+    <!-- Меню для картинки -->
+    <div class="img-menu">
+
+    </div>
+    
+    <div class="img"></div>
+</div>
 
 <dialog class="mdl-dialog">
     <form action="/files/upload" method="POST" enctype="multipart/form-data">
