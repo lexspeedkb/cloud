@@ -15,7 +15,7 @@
             </div>
         <?php endforeach; ?>
     <?php else: ?>
-        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp table-gallery">
             <thead>
                 <tr>
                     <th class="mdl-data-table__cell--non-numeric">Material</th>
@@ -52,7 +52,15 @@
     </button>
 </div>
 
-<div id="view"><div class="img"></div></div>
+<!-- Вывод фото -->
+<div id="view">
+    <!-- Меню для картинки -->
+    <div class="img-menu">
+
+    </div>
+    
+    <div class="img"></div>
+</div>
 
 <dialog class="mdl-dialog">
     <form action="/files/upload" method="POST" enctype="multipart/form-data">
