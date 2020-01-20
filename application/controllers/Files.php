@@ -3,6 +3,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Files extends CI_Controller {
 
+    public function render () {
+        $img = str_replace('/', '', $this->uri->segment(4));
+
+        $path = $this->getPath($img);
+
+
+        $file = file_get_contents($_SERVER['DOCUMENT_ROOT'].'/files/'.$this->uri->segment(3) .'/'. $path['text']. $path['name'], true);
+        echo $file;
+    }
+
     public function upload()
     {
         $this->load->library('session');
@@ -36,6 +46,17 @@ class Files extends CI_Controller {
             $new_image->percentimagereduce(10);
             $new_image->imagesave($new_image->image_type, $uploadfile_s);
             $new_image->imageout();
+
+
+            $htaccess_data =
+"Order allow,deny\n
+Deny from all";
+
+            $htaccess_o = fopen($dirs_o.".htaccess", "w");
+            $htaccess_s = fopen($dirs_s.".htaccess", "w");
+            fwrite($htaccess_o, $htaccess_data);
+            fwrite($htaccess_s, $htaccess_data);
+
 
             $this->Model_files->uploadFile($basename, $user['id']);
 
@@ -112,6 +133,22 @@ class Files extends CI_Controller {
         $return['name'] = $name;
 
         return $return;
+    }
+
+    public function changeName () {
+        $this->load->library('session');
+        $this->load->model('Model_files');
+        $this->load->model('Model_auth');
+
+        $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
+
+        if ($this->isOwner($_POST['id'], $user['id'])!==true) {
+            die('rrrrr');
+        }
+
+        $this->Model_files->updateName($_POST['id'], $_POST['value']);
+
+        echo '<meta http-equiv="refresh" content="0;URL=/">';
     }
 }
 

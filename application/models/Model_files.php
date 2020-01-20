@@ -59,6 +59,11 @@ class Model_files extends CI_Model {
         $this->db->query("INSERT INTO files (src, name, user_id) VALUES ('$src', '$name', '$user_id')");
     }
 
+    public function updateName($id, $name)
+    {
+        $this->db->query("UPDATE files SET name='$name' WHERE id='$id'");
+    }
+
     private function getPath ($name) {
         $i=0;
         $array = array();

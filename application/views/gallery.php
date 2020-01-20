@@ -3,7 +3,7 @@
 <div id="index">
     <?php if ($_GET['list']=='grid'): ?>
         <?php foreach ($files as $file): ?>
-            <div class="demo-card-image mdl-card mdl-shadow--2dp item" data-type="image" src="/files/o/<?=$file['path']['text'].$file['path']['name'];?>" style="background: url('/files/s/<?=$file['path']['text'].$file['path']['name'];?>') center / cover">
+            <div class="demo-card-image mdl-card mdl-shadow--2dp item" data-type="image" data-src="/files/render/o/<?=$file['path']['name'];?>" style="background: url('/files/render/s/<?=$file['path']['name'];?>') center / cover">
                 <div class="mdl-card__title mdl-card--expand"></div>
                 <div class="mdl-card__actions">
                     <span class="demo-card-image__filename"><?=$file['name']?></span>
@@ -19,7 +19,7 @@
             <thead>
                 <tr>
                     <th class="mdl-data-table__cell--non-numeric">Material</th>
-                    <th>Имя</th>
+                    <th>Название</th>
                     <th>Действия</th>
                 </tr>
             </thead>
@@ -27,7 +27,8 @@
                 <?php foreach ($files as $file): ?>
                     <tr>
                         <td>
-                            <img class="item" data-type="image" src="/files/o/<?=$file['path']['text'].$file['path']['name'];?>" style="width: 50px;">
+<!--                            <img src="" alt="">-->
+                            <img class="item" data-type="image" data-src="/files/render/o/<?=$file['path']['name'];?>" src="/files/render/s/<?=$file['path']['name'];?>" style="width: 50px;">
                         </td>
                         <td class="mdl-data-table__cell--non-numeric">
                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -86,6 +87,11 @@
     </form>
 </dialog>
 
+<div id="demo-toast-example" class="mdl-js-snackbar mdl-snackbar">
+    <div class="mdl-snackbar__text"></div>
+    <button class="mdl-snackbar__action" type="button"></button>
+</div>
+
 <script>
     var dialog = document.querySelector('dialog');
     var showDialogButton = document.querySelector('#show-dialog');
@@ -102,15 +108,17 @@
 
 <script>
     $(document).ready(function () {
+        var snackbarContainer = document.querySelector('#demo-toast-example');
+
         var imgOpened = false;
         $('body').on('click', '.item', function () {
             if ($(this).attr('data-type')=='image') {
-                $('#view .img').css('background-image', 'url('+$(this).attr('src')+')');
+                $('#view .img').css('background-image', 'url('+$(this).attr('data-src')+')');
                 $('#view').css('display', 'block');
                 $('#view .img').css('display', 'block');
                 imgOpened = true;
             }
-        })
+        });
 
         $(document).on('click', '#view', function () {
             if (imgOpened) {
@@ -118,6 +126,25 @@
                 $('#view .img').css('display', 'none');
                 imgOpened = false;
             }
+        })
+
+        $(document).on('change', '.file-name', function () {
+            var id = $(this).attr('data-id');
+            var value = $(this).val();
+
+            $.ajax({
+                url: '/files/changeName/',
+                type: 'POST',
+                data: {id: id, value: value},
+            })
+                .done(function() {
+                    var data = {message: 'Имя изменено!' };
+                    snackbarContainer.MaterialSnackbar.showSnackbar(data);
+                })
+                .fail(function() {
+                    var data = {message: 'Ошибка' };
+                    snackbarContainer.MaterialSnackbar.showSnackbar(data);
+                })
         })
     })
 </script>
