@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData">
+  <component name="PublishConfigData" serverName="cloud" uploadOnCheckin="44555db8-330b-4813-8421-be2c76470c29">
     <serverData>
       <paths name="cloud">
         <serverdata>
@@ -10,5 +10,6 @@
         </serverdata>
       </paths>
     </serverData>
+    <option name="myUploadOnCheckinName" value="cloud" />
   </component>
 </project>

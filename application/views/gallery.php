@@ -3,7 +3,7 @@
 <div id="index">
     <?php if ($_GET['list']=='grid'): ?>
         <?php foreach ($files as $file): ?>
-            <?php if ($file['type']=='image'): ?>
+            <?php if ($file['type']['primary']=='image'): ?>
                 <div class="demo-card-image mdl-card mdl-shadow--2dp item" data-type="image" data-src="/files/render/o/<?=$file['path']['name'];?>" style="background: url('/files/render/s/<?=$file['path']['name'];?>') center / cover">
                     <div class="mdl-card__title mdl-card--expand"></div>
                     <div class="mdl-card__actions">
@@ -15,7 +15,7 @@
                     </div>
                 </div>
             <?php else: ?>
-                <div class="demo-card-image mdl-card mdl-shadow--2dp" style="background: url('/assets/img/default_<?=$file['type']?>.png') center / cover">
+                <div class="demo-card-image mdl-card mdl-shadow--2dp" style="background: url('/assets/img/default_<?=$file['type']['primary']?>.png') center / cover">
                     <div class="mdl-card__title mdl-card--expand"></div>
                     <div class="mdl-card__actions">
                         <span class="demo-card-image__filename"><?=$file['name']?></span>
@@ -28,17 +28,18 @@
             <?php endif; ?>
         <?php endforeach; ?>
     <?php else: ?>
-        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp table-gallery">
+        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp table-gallery">
             <thead>
                 <tr>
                     <th class="mdl-data-table__cell--non-numeric">Material</th>
-                    <th>Название</th>
-                    <th>Действия</th>
+                    <th class="mdl-data-table__cell--non-numeric">Название</th>
+                    <th class="mdl-data-table__cell--non-numeric">Тип</th>
+                    <th class="mdl-data-table__cell--non-numeric"></th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($files as $file): ?>
-                    <?php if ($file['type']=='image'): ?>
+                    <?php if ($file['type']['primary']=='image'): ?>
                         <tr>
                             <td>
                                 <img class="item" data-type="image" data-src="/files/render/o/<?=$file['path']['name'];?>" src="/files/render/s/<?=$file['path']['name'];?>" style="width: 50px;">
@@ -49,20 +50,35 @@
                                     <label class="mdl-textfield__label" for="name">Название...</label>
                                 </div>
                             </td>
+                            <td class="mdl-data-table__cell--non-numeric">
+                                <?php
+                                $ext = explode('.', $file['src']);
+                                $extension = $ext[1];
+                                echo $extension;
+                                ?>
+                            </td>
                             <td class="actions">
+                                <div class="actions">
+                                    <div id="tt3" class="icon material-icons">more_vert</div>
+                                </a>
+
+                                <!-- <a href="/files/render/o/<?=$file['path']['name'];?>" class="icon">
+                                    <div id="tt3" class="icon material-icons">open_in_new</div>
+                                </a>
+                                &nbsp;&nbsp;&nbsp;
                                 <a href="/files/render/o/<?=$file['path']['name'];?>" class="icon" download>
                                     <div id="tt3" class="icon material-icons">cloud_download</div>
                                 </a>
                                 &nbsp;&nbsp;&nbsp;
                                 <a href="/files/delete/<?=$file['id']?>" class="icon">
                                     <div id="tt3" class="icon material-icons">delete</div>
-                                </a>
+                                </a> -->
                             </td>
                         </tr>
                     <?php else: ?>
                         <tr>
                             <td>
-                                <img src="/assets/img/default_<?=$file['type']?>.png" style="width: 50px;">
+                                <img src="/assets/img/default_<?=$file['type']['primary']?>.png" style="width: 50px;">
                             </td>
                             <td class="mdl-data-table__cell--non-numeric">
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -70,14 +86,25 @@
                                     <label class="mdl-textfield__label" for="name">Название...</label>
                                 </div>
                             </td>
+                            <td class="mdl-data-table__cell--non-numeric">
+                                <?php
+                                $ext = explode('.', $file['src']);
+                                $extension = $ext[1];
+                                echo $extension;
+                                ?>
+                            </td>
                             <td class="actions">
+                                <!-- <a href="/files/render/o/<?=$file['path']['name'];?>" class="icon">
+                                    <div id="tt3" class="icon material-icons">open_in_new</div>
+                                </a>
+                                &nbsp;&nbsp;&nbsp;
                                 <a href="/files/render/o/<?=$file['path']['name'];?>" class="icon" download>
                                     <div id="tt3" class="icon material-icons">cloud_download</div>
                                 </a>
                                 &nbsp;&nbsp;&nbsp;
                                 <a href="/files/delete/<?=$file['id']?>" class="icon">
                                     <div id="tt3" class="icon material-icons">delete</div>
-                                </a>
+                                </a> -->
                             </td>
                         </tr>
                     <?php endif; ?>
@@ -90,6 +117,22 @@
         <i class="material-icons">add</i>
     </button>
 </div>
+
+<!-- доп. опции -->
+<div id="options">
+    <div class="wrapper">
+        <span class="">Открыть</span>
+        <hr>
+        <span class="">Предоставить доступ</span>
+        <br><br>
+        <span class="">Сохранить</span>
+        <br><br>
+        <span class="">Поделиться</span>
+        <hr><br>
+        <span class="delete">УДАЛИТЬ</span>
+    </div>
+</div>
+
 
 <!-- Вывод фото -->
 <div id="view">
@@ -110,7 +153,7 @@
                 <label class="mdl-textfield__label" for="name">Название...</label>
             </div>
 
-            <input type="file" name="file">
+            <input type="file" name="file[]" multiple>
 
         </div>
         <div class="mdl-dialog__actions">
