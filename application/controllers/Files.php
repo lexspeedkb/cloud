@@ -19,6 +19,9 @@ class Files extends CI_Controller {
 
         $path = $this->getPath($img);
 
+        $fileInfo = $this->Model_files->getOneFile('name', $this->uri->segment(4));
+
+        header( 'Content-Type: '.$fileInfo['type'] );
 
         $file = file_get_contents($_SERVER['DOCUMENT_ROOT'].'/files/'.$this->uri->segment(3) .'/'. $path['text']. $path['name'], true);
         echo $file;
@@ -59,7 +62,7 @@ class Files extends CI_Controller {
 "Order allow,deny\n
 Deny from all";
 
-            if ($type=='image') {
+            if ($type['primary']=='image') {
                 $new_image = new Pictures($uploadfile_o);
                 $new_image->percentimagereduce(10);
                 $new_image->imagesave($new_image->image_type, $uploadfile_s);
@@ -74,7 +77,7 @@ Deny from all";
 
 
 
-            $this->Model_files->uploadFile($basename, $user['id'], $type);
+            $this->Model_files->uploadFile($basename, $user['id'], $type['full']);
 
             echo '<meta http-equiv="refresh" content="0;URL=/">';
         } else {
@@ -172,18 +175,24 @@ Deny from all";
     public function getTypeByMIME ($mime) {
         $type = explode('/', $mime);
 
-        switch ($type[0]) {
-            case 'text':
-                return 'text';
-            case 'image':
-                return 'image';
-            case 'video':
-                return 'video';
-            case 'application':
-                return 'document';
-            default:
-                return 'document';
-        }
+        // switch ($type[0]) {
+        //     case 'text':
+        //         return 'text';
+        //     case 'image':
+        //         return 'image';
+        //     case 'video':
+        //         return 'video';
+        //     case 'application':
+        //         return 'document';
+        //     default:
+        //         return 'document';
+        // }
+
+        $ret['primary'] = $type[0];
+        $ret['sub']     = $type[1];
+        $ret['full']    = $mime;
+
+        return $ret;
     }
 }
 
