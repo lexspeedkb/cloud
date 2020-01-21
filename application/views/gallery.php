@@ -3,7 +3,7 @@
 <div id="index">
     <?php if ($_GET['list']=='grid'): ?>
         <?php foreach ($files as $file): ?>
-            <?php if ($file['type']=='image'): ?>
+            <?php if ($file['type']['primary']=='image'): ?>
                 <div class="demo-card-image mdl-card mdl-shadow--2dp item" data-type="image" data-src="/files/render/o/<?=$file['path']['name'];?>" style="background: url('/files/render/s/<?=$file['path']['name'];?>') center / cover">
                     <div class="mdl-card__title mdl-card--expand"></div>
                     <div class="mdl-card__actions">
@@ -15,7 +15,7 @@
                     </div>
                 </div>
             <?php else: ?>
-                <div class="demo-card-image mdl-card mdl-shadow--2dp" style="background: url('/assets/img/default_<?=$file['type']?>.png') center / cover">
+                <div class="demo-card-image mdl-card mdl-shadow--2dp" style="background: url('/assets/img/default_<?=$file['type']['primary']?>.png') center / cover">
                     <div class="mdl-card__title mdl-card--expand"></div>
                     <div class="mdl-card__actions">
                         <span class="demo-card-image__filename"><?=$file['name']?></span>
@@ -38,7 +38,7 @@
             </thead>
             <tbody>
                 <?php foreach ($files as $file): ?>
-                    <?php if ($file['type']=='image'): ?>
+                    <?php if ($file['type']['primary']=='image'): ?>
                         <tr>
                             <td>
                                 <img class="item" data-type="image" data-src="/files/render/o/<?=$file['path']['name'];?>" src="/files/render/s/<?=$file['path']['name'];?>" style="width: 50px;">
@@ -62,7 +62,7 @@
                     <?php else: ?>
                         <tr>
                             <td>
-                                <img src="/assets/img/default_<?=$file['type']?>.png" style="width: 50px;">
+                                <img src="/assets/img/default_<?=$file['type']['primary']?>.png" style="width: 50px;">
                             </td>
                             <td class="mdl-data-table__cell--non-numeric">
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -110,7 +110,7 @@
                 <label class="mdl-textfield__label" for="name">Название...</label>
             </div>
 
-            <input type="file" name="file">
+            <input type="file" name="file" multiple>
 
         </div>
         <div class="mdl-dialog__actions">
