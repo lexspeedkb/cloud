@@ -19,11 +19,38 @@ class Wheel extends CI_Controller {
         foreach ($data['files'] as $key => $value) {
             $data['files'][$key]['path'] = $this->getPath($value['src']);
         }
+
+        foreach ($data['files'] as $key => $value) {
+            $data['files'][$key]['type'] = $this->getTypeByMIME($value['type']);
+        }
         
         $this->load->view('include/nav', $data);
         $this->load->view('include/header', $data);
         $this->load->view('gallery', $data);
         $this->load->view('include/footer', $data);
+    }
+
+    public function getTypeByMIME ($mime) {
+        $type = explode('/', $mime);
+
+        // switch ($type[0]) {
+        //     case 'text':
+        //         return 'text';
+        //     case 'image':
+        //         return 'image';
+        //     case 'video':
+        //         return 'video';
+        //     case 'application':
+        //         return 'document';
+        //     default:
+        //         return 'document';
+        // }
+
+        $ret['primary'] = $type[0];
+        $ret['sub']     = $type[1];
+        $ret['full']    = $mime;
+
+        return $ret;
     }
 
     private function getPath ($name) {

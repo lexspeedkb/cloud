@@ -14,6 +14,7 @@ class Model_files extends CI_Model {
             $files[$i]['id']        = $row['id'];
             $files[$i]['src']       = $row['src'];
             $files[$i]['name']      = $row['name'];
+            $files[$i]['type']      = $row['type'];
             $files[$i]['user_id']   = $row['user_id'];
             $i++;
 
@@ -21,21 +22,31 @@ class Model_files extends CI_Model {
         return $files;
     }
 
-    public function getOneFile($id)
+    public function getOneFile($type, $search)
     {
-        $query = $this->db->query("SELECT * FROM files WHERE id='$id'");
+        switch ($type) {
+            case 'id':
+                $query = $this->db->query("SELECT * FROM files WHERE id='$search'");
+                break;
+            case 'name':
+                $query = $this->db->query("SELECT * FROM files WHERE src='$search'");
+                break;
+            default:
+                $query = $this->db->query("SELECT * FROM files WHERE id='$search'");
+        }
 
         foreach ($query->result_array() as $row) {
             $file['id']        = $row['id'];
             $file['src']       = $row['src'];
             $file['name']      = $row['name'];
+            $file['type']      = $row['type'];
             $file['user_id']   = $row['user_id'];
         }
         return $file;
     }
 
     public function delete ($id) {
-        $file = $this->getOneFile($id);
+        $file = $this->getOneFile('id', $id);
 
         $file['path'] = $this->getPath($file['src']);
 
@@ -53,10 +64,15 @@ class Model_files extends CI_Model {
     }
 
 
-    public function uploadFile($src, $user_id)
+    public function uploadFile($src, $user_id, $type)
     {
         $name    = $_POST['name'];
-        $this->db->query("INSERT INTO files (src, name, user_id) VALUES ('$src', '$name', '$user_id')");
+        $this->db->query("INSERT INTO files (src, name, user_id, type) VALUES ('$src', '$name', '$user_id', '$type')");
+    }
+
+    public function updateName($id, $name)
+    {
+        $this->db->query("UPDATE files SET name='$name' WHERE id='$id'");
     }
 
     private function getPath ($name) {

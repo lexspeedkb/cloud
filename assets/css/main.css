@@ -15,6 +15,9 @@
 #index .actions .icon {
   color: #000 !important;
 }
+#index table input, #index table label {
+  font-size: 0.7em;
+}
 
 #view {
   width: 100%;
@@ -55,6 +58,10 @@
   z-index: 1 !important;
 }
 
+td {
+  text-align: center !important;
+}
+
 .demo-card-image.mdl-card {
   width: 10vw;
   height: 10vw;
@@ -77,6 +84,10 @@
 .download-icon {
   color: #fff;
   float: right;
+}
+
+.mdl-textfield {
+  width: unset !important;
 }
 
 ::-webkit-scrollbar {

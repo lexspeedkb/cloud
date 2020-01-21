@@ -3,45 +3,107 @@
 <div id="index">
     <?php if ($_GET['list']=='grid'): ?>
         <?php foreach ($files as $file): ?>
-            <div class="demo-card-image mdl-card mdl-shadow--2dp item" data-type="image" src="/files/o/<?=$file['path']['text'].$file['path']['name'];?>" style="background: url('/files/s/<?=$file['path']['text'].$file['path']['name'];?>') center / cover">
-                <div class="mdl-card__title mdl-card--expand"></div>
-                <div class="mdl-card__actions">
-                    <span class="demo-card-image__filename"><?=$file['name']?></span>
+            <?php if ($file['type']['primary']=='image'): ?>
+                <div class="demo-card-image mdl-card mdl-shadow--2dp item" data-type="image" data-src="/files/render/o/<?=$file['path']['name'];?>" style="background: url('/files/render/s/<?=$file['path']['name'];?>') center / cover">
+                    <div class="mdl-card__title mdl-card--expand"></div>
+                    <div class="mdl-card__actions">
+                        <span class="demo-card-image__filename"><?=$file['name']?></span>
 
-                    <a href="/files/o/<?=$file['path']['text'].$file['path']['name'];?>" class="download-icon" download>
-                        <div id="tt3" class="icon material-icons">cloud_download</div>
-                    </a>
+                        <a href="/files/o/<?=$file['path']['text'].$file['path']['name'];?>" class="download-icon" download>
+                            <div id="tt3" class="icon material-icons">cloud_download</div>
+                        </a>
+                    </div>
                 </div>
-            </div>
+            <?php else: ?>
+                <div class="demo-card-image mdl-card mdl-shadow--2dp" style="background: url('/assets/img/default_<?=$file['type']['primary']?>.png') center / cover">
+                    <div class="mdl-card__title mdl-card--expand"></div>
+                    <div class="mdl-card__actions">
+                        <span class="demo-card-image__filename"><?=$file['name']?></span>
+
+                        <a href="/files/render/o/<?=$file['path']['name'];?>" class="download-icon" download>
+                            <div id="tt3" class="icon material-icons">cloud_download</div>
+                        </a>
+                    </div>
+                </div>
+            <?php endif; ?>
         <?php endforeach; ?>
     <?php else: ?>
         <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp table-gallery">
             <thead>
                 <tr>
                     <th class="mdl-data-table__cell--non-numeric">Material</th>
-                    <th>Имя</th>
+                    <th>Название</th>
+                    <th>Тип</th>
                     <th>Действия</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($files as $file): ?>
-                    <tr>
-                        <td>
-                            <img src="/files/s/<?=$file['path']['text'].$file['path']['name'];?>" style="width: 50px;">
-                        </td>
-                        <td class="mdl-data-table__cell--non-numeric">
-                            <?=$file['name']?>
-                        </td>
-                        <td class="actions">
-                            <a href="/files/o/<?=$file['path']['text'].$file['path']['name'];?>" class="icon" download>
-                                <div id="tt3" class="icon material-icons">cloud_download</div>
-                            </a>
-                            &nbsp;&nbsp;&nbsp;
-                            <a href="/files/delete/<?=$file['id']?>" class="icon">
-                                <div id="tt3" class="icon material-icons">delete</div>
-                            </a>
-                        </td>
-                    </tr>
+                    <?php if ($file['type']['primary']=='image'): ?>
+                        <tr>
+                            <td>
+                                <img class="item" data-type="image" data-src="/files/render/o/<?=$file['path']['name'];?>" src="/files/render/s/<?=$file['path']['name'];?>" style="width: 50px;">
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric">
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                    <input class="mdl-textfield__input file-name" type="text" value="<?=$file['name']?>" data-id="<?=$file['id']?>">
+                                    <label class="mdl-textfield__label" for="name">Название...</label>
+                                </div>
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric">
+                                <?php
+                                $ext = explode('.', $file['src']);
+                                $extension = $ext[1];
+                                echo $extension;
+                                ?>
+                            </td>
+                            <td class="actions">
+                                <a href="/files/render/o/<?=$file['path']['name'];?>" class="icon">
+                                    <div id="tt3" class="icon material-icons">open_in_new</div>
+                                </a>
+                                &nbsp;&nbsp;&nbsp;
+                                <a href="/files/render/o/<?=$file['path']['name'];?>" class="icon" download>
+                                    <div id="tt3" class="icon material-icons">cloud_download</div>
+                                </a>
+                                &nbsp;&nbsp;&nbsp;
+                                <a href="/files/delete/<?=$file['id']?>" class="icon">
+                                    <div id="tt3" class="icon material-icons">delete</div>
+                                </a>
+                            </td>
+                        </tr>
+                    <?php else: ?>
+                        <tr>
+                            <td>
+                                <img src="/assets/img/default_<?=$file['type']['primary']?>.png" style="width: 50px;">
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric">
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                    <input class="mdl-textfield__input file-name" type="text" value="<?=$file['name']?>" data-id="<?=$file['id']?>">
+                                    <label class="mdl-textfield__label" for="name">Название...</label>
+                                </div>
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric">
+                                <?php
+                                $ext = explode('.', $file['src']);
+                                $extension = $ext[1];
+                                echo $extension;
+                                ?>
+                            </td>
+                            <td class="actions">
+                                <a href="/files/render/o/<?=$file['path']['name'];?>" class="icon">
+                                    <div id="tt3" class="icon material-icons">open_in_new</div>
+                                </a>
+                                &nbsp;&nbsp;&nbsp;
+                                <a href="/files/render/o/<?=$file['path']['name'];?>" class="icon" download>
+                                    <div id="tt3" class="icon material-icons">cloud_download</div>
+                                </a>
+                                &nbsp;&nbsp;&nbsp;
+                                <a href="/files/delete/<?=$file['id']?>" class="icon">
+                                    <div id="tt3" class="icon material-icons">delete</div>
+                                </a>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
                 <?php endforeach; ?>
             </tbody>
         </table>
@@ -71,7 +133,7 @@
                 <label class="mdl-textfield__label" for="name">Название...</label>
             </div>
 
-            <input type="file" name="file">
+            <input type="file" name="file[]" multiple>
 
         </div>
         <div class="mdl-dialog__actions">
@@ -82,6 +144,11 @@
         </div>
     </form>
 </dialog>
+
+<div id="demo-toast-example" class="mdl-js-snackbar mdl-snackbar">
+    <div class="mdl-snackbar__text"></div>
+    <button class="mdl-snackbar__action" type="button"></button>
+</div>
 
 <script>
     var dialog = document.querySelector('dialog');
@@ -99,15 +166,17 @@
 
 <script>
     $(document).ready(function () {
+        var snackbarContainer = document.querySelector('#demo-toast-example');
+
         var imgOpened = false;
         $('body').on('click', '.item', function () {
             if ($(this).attr('data-type')=='image') {
-                $('#view .img').css('background-image', 'url('+$(this).attr('src')+')');
+                $('#view .img').css('background-image', 'url('+$(this).attr('data-src')+')');
                 $('#view').css('display', 'block');
                 $('#view .img').css('display', 'block');
                 imgOpened = true;
             }
-        })
+        });
 
         $(document).on('click', '#view', function () {
             if (imgOpened) {
@@ -115,6 +184,25 @@
                 $('#view .img').css('display', 'none');
                 imgOpened = false;
             }
+        })
+
+        $(document).on('change', '.file-name', function () {
+            var id = $(this).attr('data-id');
+            var value = $(this).val();
+
+            $.ajax({
+                url: '/files/changeName/',
+                type: 'POST',
+                data: {id: id, value: value},
+            })
+                .done(function() {
+                    var data = {message: 'Имя изменено!' };
+                    snackbarContainer.MaterialSnackbar.showSnackbar(data);
+                })
+                .fail(function() {
+                    var data = {message: 'Ошибка' };
+                    snackbarContainer.MaterialSnackbar.showSnackbar(data);
+                })
         })
     })
 </script>

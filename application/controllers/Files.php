@@ -3,6 +3,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Files extends CI_Controller {
 
+    public function render () {
+        $this->load->library('session');
+        $this->load->model('Model_files');
+        $this->load->model('Model_auth');
+
+        $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
+
+        if ($this->isOwner('name', $this->uri->segment(4), $user['id'])!==true) {
+            header('HTTP/1.0 403 Forbidden');
+            die();
+        }
+
+        $img = str_replace('/', '', $this->uri->segment(4));
+
+        $path = $this->getPath($img);
+
+        $fileInfo = $this->Model_files->getOneFile('name', $this->uri->segment(4));
+
+        header( 'Content-Type: '.$fileInfo['type'] );
+
+        $file = file_get_contents($_SERVER['DOCUMENT_ROOT'].'/files/'.$this->uri->segment(3) .'/'. $path['text']. $path['name'], true);
+        echo $file;
+    }
+
     public function upload()
     {
         $this->load->library('session');
@@ -11,38 +35,71 @@ class Files extends CI_Controller {
 
         $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
 
-        $uploaddir = $_SERVER['DOCUMENT_ROOT'].'/files/';
-        // $basename = basename($_FILES['file']['name']);
-        $ext = explode('.', $_FILES['file']['name']);
-        $dateTime = date('Y_m_d__h_i_s');
-        $basename = md5_file($_FILES['file']['tmp_name']).'_'.$dateTime.'.'.$ext[count($ext)-1];
-        $path = $this->getPath($basename);
-        
-        $dirs_o = $uploaddir.'o/';
-        $dirs_s = $uploaddir.'s/';
-        foreach ($path['array'] as $key) {
-            mkdir($dirs_o.$key);
-            mkdir($dirs_s.$key);
-            $dirs_o .= $key.'/';
-            $dirs_s .= $key.'/';
-        }
-        $uploadfile_o = $dirs_o . $basename;
-        $uploadfile_s = $dirs_s . $basename;
-        
+        $reArrayFiles = $this->rearrange($_FILES['file']);
 
-        if (move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile_o)) {
-            
-            $new_image = new Pictures($uploadfile_o);
-            $new_image->percentimagereduce(10);
-            $new_image->imagesave($new_image->image_type, $uploadfile_s);
-            $new_image->imageout();
+        foreach ($reArrayFiles as $file) {
+            $uploaddir = $_SERVER['DOCUMENT_ROOT'].'/files/';
+            // $basename = basename($_FILES['file']['name']);
+            $ext = explode('.', $file['name']);
+            $dateTime = date('Y_m_d__h_i_s');
+            $basename = md5_file($file['tmp_name']).'_'.$dateTime.'.'.$ext[count($ext)-1];
+            $path = $this->getPath($basename);
 
-            $this->Model_files->uploadFile($basename, $user['id']);
+            $dirs_o = $uploaddir.'o/';
+            $dirs_s = $uploaddir.'s/';
+            foreach ($path['array'] as $key) {
+                mkdir($dirs_o.$key);
+                mkdir($dirs_s.$key);
+                $dirs_o .= $key.'/';
+                $dirs_s .= $key.'/';
+            }
+            $uploadfile_o = $dirs_o . $basename;
+            $uploadfile_s = $dirs_s . $basename;
+
+
+            if (move_uploaded_file($file['tmp_name'], $uploadfile_o)) {
+
+                $type = $this->getTypeByMIME(mime_content_type($uploadfile_o));
+
+                $htaccess_data =
+                    "Order allow,deny\n
+Deny from all";
+
+                if ($type['primary']=='image') {
+                    $new_image = new Pictures($uploadfile_o);
+                    $new_image->percentimagereduce(10);
+                    $new_image->imagesave($new_image->image_type, $uploadfile_s);
+                    $new_image->imageout();
+
+                    $htaccess_s = fopen($dirs_s.".htaccess", "w");
+                    fwrite($htaccess_s, $htaccess_data);
+                }
+
+                $htaccess_o = fopen($dirs_o.".htaccess", "w");
+                fwrite($htaccess_o, $htaccess_data);
+
+
+
+                $this->Model_files->uploadFile($basename, $user['id'], $type['full']);
+
+
+            } else {
+                echo "<br>Возможная атака с помощью файловой загрузки!\n";
+            }
 
             echo '<meta http-equiv="refresh" content="0;URL=/">';
-        } else {
-            echo "<br>Возможная атака с помощью файловой загрузки!\n";
         }
+
+
+    }
+
+    public function rearrange( $arr ){
+        foreach( $arr as $key => $all ){
+            foreach( $all as $i => $val ){
+                $new[$i][$key] = $val;
+            }
+        }
+        return $new;
     }
 
     public function delete () {
@@ -52,11 +109,12 @@ class Files extends CI_Controller {
 
         $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
 
-        if ($this->isOwner($this->uri->segment(3), $user['id'])!==true) {
-            die('rrrrr');
+        if ($this->isOwner('id', $this->uri->segment(3), $user['id'])!==true) {
+            header('HTTP/1.0 403 Forbidden');
+            die();
         }
 
-        $file = $this->Model_files->getOneFile($this->uri->segment(3));
+        $file = $this->Model_files->getOneFile('id', $this->uri->segment(3));
 
         $data['file'] = $file;
         $data['file']['path'] = $this->getPath($data['file']['src']);
@@ -75,7 +133,7 @@ class Files extends CI_Controller {
 
         $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
 
-        if ($this->isOwner($this->uri->segment(3), $user['id'])!==true) {
+        if ($this->isOwner('id', $this->uri->segment(3), $user['id'])!==true) {
             die('rrrrr');
         }
 
@@ -84,10 +142,10 @@ class Files extends CI_Controller {
         echo '<meta http-equiv="refresh" content="0;URL=/">';
     }
 
-    public function isOwner ($id, $user_id) {
+    public function isOwner ($type, $search, $user_id) {
         $this->load->model('Model_files');
 
-        $file = $this->Model_files->getOneFile($id);
+        $file = $this->Model_files->getOneFile($type, $search);
 
         if ($file['user_id']==$user_id) {
             return true;
@@ -112,6 +170,46 @@ class Files extends CI_Controller {
         $return['name'] = $name;
 
         return $return;
+    }
+
+    public function changeName () {
+        $this->load->library('session');
+        $this->load->model('Model_files');
+        $this->load->model('Model_auth');
+
+        $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
+
+        if ($this->isOwner('id', $_POST['id'], $user['id'])!==true) {
+            header('HTTP/1.0 403 Forbidden');
+            die();
+        }
+
+        $this->Model_files->updateName($_POST['id'], $_POST['value']);
+
+        echo '<meta http-equiv="refresh" content="0;URL=/">';
+    }
+
+    public function getTypeByMIME ($mime) {
+        $type = explode('/', $mime);
+
+        // switch ($type[0]) {
+        //     case 'text':
+        //         return 'text';
+        //     case 'image':
+        //         return 'image';
+        //     case 'video':
+        //         return 'video';
+        //     case 'application':
+        //         return 'document';
+        //     default:
+        //         return 'document';
+        // }
+
+        $ret['primary'] = $type[0];
+        $ret['sub']     = $type[1];
+        $ret['full']    = $mime;
+
+        return $ret;
     }
 }
 
