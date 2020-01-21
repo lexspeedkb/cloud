@@ -28,13 +28,13 @@
             <?php endif; ?>
         <?php endforeach; ?>
     <?php else: ?>
-        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp table-gallery">
+        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp table-gallery">
             <thead>
                 <tr>
                     <th class="mdl-data-table__cell--non-numeric">Material</th>
                     <th class="mdl-data-table__cell--non-numeric">Название</th>
                     <th class="mdl-data-table__cell--non-numeric">Тип</th>
-                    <th class="mdl-data-table__cell--non-numeric">Действия</th>
+                    <th class="mdl-data-table__cell--non-numeric"></th>
                 </tr>
             </thead>
             <tbody>
@@ -58,7 +58,11 @@
                                 ?>
                             </td>
                             <td class="actions">
-                                <a href="/files/render/o/<?=$file['path']['name'];?>" class="icon">
+                                <div class="actions">
+                                    <div id="tt3" class="icon material-icons">more_vert</div>
+                                </a>
+
+                                <!-- <a href="/files/render/o/<?=$file['path']['name'];?>" class="icon">
                                     <div id="tt3" class="icon material-icons">open_in_new</div>
                                 </a>
                                 &nbsp;&nbsp;&nbsp;
@@ -68,7 +72,7 @@
                                 &nbsp;&nbsp;&nbsp;
                                 <a href="/files/delete/<?=$file['id']?>" class="icon">
                                     <div id="tt3" class="icon material-icons">delete</div>
-                                </a>
+                                </a> -->
                             </td>
                         </tr>
                     <?php else: ?>
@@ -90,7 +94,7 @@
                                 ?>
                             </td>
                             <td class="actions">
-                                <a href="/files/render/o/<?=$file['path']['name'];?>" class="icon">
+                                <!-- <a href="/files/render/o/<?=$file['path']['name'];?>" class="icon">
                                     <div id="tt3" class="icon material-icons">open_in_new</div>
                                 </a>
                                 &nbsp;&nbsp;&nbsp;
@@ -100,7 +104,7 @@
                                 &nbsp;&nbsp;&nbsp;
                                 <a href="/files/delete/<?=$file['id']?>" class="icon">
                                     <div id="tt3" class="icon material-icons">delete</div>
-                                </a>
+                                </a> -->
                             </td>
                         </tr>
                     <?php endif; ?>
@@ -113,6 +117,22 @@
         <i class="material-icons">add</i>
     </button>
 </div>
+
+<!-- доп. опции -->
+<div id="options">
+    <div class="wrapper">
+        <span class="">Открыть</span>
+        <hr>
+        <span class="">Предоставить доступ</span>
+        <br><br>
+        <span class="">Сохранить</span>
+        <br><br>
+        <span class="">Поделиться</span>
+        <hr><br>
+        <span class="delete">УДАЛИТЬ</span>
+    </div>
+</div>
+
 
 <!-- Вывод фото -->
 <div id="view">
