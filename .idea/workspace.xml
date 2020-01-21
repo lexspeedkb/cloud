@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="eab31c8e-58a3-45cd-9ede-0a39918785a0" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" afterPath="$PROJECT_DIR$/.idea/deployment.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/Files.php" afterPath="$PROJECT_DIR$/application/controllers/Files.php" />
       <change beforePath="$PROJECT_DIR$/application/views/gallery.php" afterPath="$PROJECT_DIR$/application/views/gallery.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -34,8 +32,8 @@
       <file leaf-file-name="gallery.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/application/views/gallery.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="310">
-              <caret line="112" column="41" lean-forward="true" selection-start-line="112" selection-start-column="41" selection-end-line="112" selection-end-column="41" />
+            <state relative-caret-position="667">
+              <caret line="86" column="33" lean-forward="false" selection-start-line="86" selection-start-column="33" selection-end-line="86" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -189,8 +187,8 @@
         <option value="$PROJECT_DIR$/assets/scss/index.scss" />
         <option value="$PROJECT_DIR$/application/models/Model_files.php" />
         <option value="$PROJECT_DIR$/application/controllers/Wheel.php" />
-        <option value="$PROJECT_DIR$/application/views/gallery.php" />
         <option value="$PROJECT_DIR$/application/controllers/Files.php" />
+        <option value="$PROJECT_DIR$/application/views/gallery.php" />
       </list>
     </option>
   </component>
@@ -307,7 +305,7 @@
       <updated>1579358406428</updated>
       <workItem from="1579358408726" duration="19776000" />
       <workItem from="1579544210744" duration="8955000" />
-      <workItem from="1579611458988" duration="2719000" />
+      <workItem from="1579611458988" duration="2950000" />
     </task>
     <task id="LOCAL-00001" summary="file types">
       <created>1579611778115</created>
@@ -323,11 +321,18 @@
       <option name="project" value="LOCAL" />
       <updated>1579617133545</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="multi upload">
+      <created>1579617931791</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1579617931791</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="31450000" />
+    <option name="totallyTimeSpent" value="31681000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -391,7 +396,8 @@
     <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="file types" />
     <MESSAGE value="Files view" />
-    <option name="LAST_COMMIT_MESSAGE" value="Files view" />
+    <MESSAGE value="multi upload" />
+    <option name="LAST_COMMIT_MESSAGE" value="multi upload" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -726,8 +732,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/application/views/gallery.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="112" column="41" lean-forward="true" selection-start-line="112" selection-start-column="41" selection-end-line="112" selection-end-column="41" />
+        <state relative-caret-position="667">
+          <caret line="86" column="33" lean-forward="false" selection-start-line="86" selection-start-column="33" selection-end-line="86" selection-end-column="33" />
           <folding />
         </state>
       </provider>

@@ -33,6 +33,7 @@
                 <tr>
                     <th class="mdl-data-table__cell--non-numeric">Material</th>
                     <th>Название</th>
+                    <th>Тип</th>
                     <th>Действия</th>
                 </tr>
             </thead>
@@ -48,6 +49,13 @@
                                     <input class="mdl-textfield__input file-name" type="text" value="<?=$file['name']?>" data-id="<?=$file['id']?>">
                                     <label class="mdl-textfield__label" for="name">Название...</label>
                                 </div>
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric">
+                                <?php
+                                $ext = explode('.', $file['src']);
+                                $extension = $ext[1];
+                                echo $extension;
+                                ?>
                             </td>
                             <td class="actions">
                                 <a href="/files/render/o/<?=$file['path']['name'];?>" class="icon" download>
@@ -69,6 +77,13 @@
                                     <input class="mdl-textfield__input file-name" type="text" value="<?=$file['name']?>" data-id="<?=$file['id']?>">
                                     <label class="mdl-textfield__label" for="name">Название...</label>
                                 </div>
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric">
+                                <?php
+                                $ext = explode('.', $file['src']);
+                                $extension = $ext[1];
+                                echo $extension;
+                                ?>
                             </td>
                             <td class="actions">
                                 <a href="/files/render/o/<?=$file['path']['name'];?>" class="icon" download>
