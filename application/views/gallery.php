@@ -57,10 +57,10 @@
                                 echo $extension;
                                 ?>
                             </td>
-                            <td class="actions">
-                                <div class="actions">
+                            <td>
+                                <div class="actions" path="/files/render/o/<?=$file['path']['name'];?>" data-id="<?=$file['id']?>">
                                     <div id="tt3" class="icon material-icons">more_vert</div>
-                                </a>
+                                </div>
 
                                 <!-- <a href="/files/render/o/<?=$file['path']['name'];?>" class="icon">
                                     <div id="tt3" class="icon material-icons">open_in_new</div>
@@ -121,15 +121,15 @@
 <!-- доп. опции -->
 <div id="options">
     <div class="wrapper">
-        <span class="">Открыть</span>
+        <a class="open" href=""><span class="">Открыть</span></a>
         <hr>
         <span class="">Предоставить доступ</span>
         <br><br>
-        <span class="">Сохранить</span>
+        <a class="save" href="" download><span class="">Сохранить</span></a>
         <br><br>
         <span class="">Поделиться</span>
         <hr><br>
-        <span class="delete">УДАЛИТЬ</span>
+        <a class="delete" href=""><span>УДАЛИТЬ</span></a>
     </div>
 </div>
 
@@ -204,7 +204,19 @@
                 $('#view .img').css('display', 'none');
                 imgOpened = false;
             }
-        })
+        });
+
+        $(document).on('click', '.actions', function () {
+            var data_id = $(this).attr('data-id');
+            var path = $(this).attr('path');
+
+            $('#options .wrapper').addClass('open');
+            $('#options .open').attr('href', path);
+            $('#options .save').attr('href', path);
+            $('#options .delete').attr('href', '/files/delete/'+data_id);
+        });
+
+
 
         $(document).on('change', '.file-name', function () {
             var id = $(this).attr('data-id');
