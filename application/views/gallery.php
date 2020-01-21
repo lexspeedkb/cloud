@@ -32,9 +32,9 @@
             <thead>
                 <tr>
                     <th class="mdl-data-table__cell--non-numeric">Material</th>
-                    <th>Название</th>
-                    <th>Тип</th>
-                    <th>Действия</th>
+                    <th class="mdl-data-table__cell--non-numeric">Название</th>
+                    <th class="mdl-data-table__cell--non-numeric">Тип</th>
+                    <th class="mdl-data-table__cell--non-numeric">Действия</th>
                 </tr>
             </thead>
             <tbody>
