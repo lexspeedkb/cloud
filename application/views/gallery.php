@@ -58,6 +58,10 @@
                                 ?>
                             </td>
                             <td class="actions">
+                                <a href="/files/render/o/<?=$file['path']['name'];?>" class="icon">
+                                    <div id="tt3" class="icon material-icons">open_in_new</div>
+                                </a>
+                                &nbsp;&nbsp;&nbsp;
                                 <a href="/files/render/o/<?=$file['path']['name'];?>" class="icon" download>
                                     <div id="tt3" class="icon material-icons">cloud_download</div>
                                 </a>
