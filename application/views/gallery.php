@@ -110,7 +110,7 @@
                 <label class="mdl-textfield__label" for="name">Название...</label>
             </div>
 
-            <input type="file" name="file" multiple>
+            <input type="file" name="file[]" multiple>
 
         </div>
         <div class="mdl-dialog__actions">

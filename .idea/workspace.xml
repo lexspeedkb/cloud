@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="eab31c8e-58a3-45cd-9ede-0a39918785a0" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" afterPath="$PROJECT_DIR$/.idea/deployment.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/Wheel.php" afterPath="$PROJECT_DIR$/application/controllers/Wheel.php" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/Files.php" afterPath="$PROJECT_DIR$/application/controllers/Files.php" />
       <change beforePath="$PROJECT_DIR$/application/views/gallery.php" afterPath="$PROJECT_DIR$/application/views/gallery.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -34,7 +35,7 @@
         <entry file="file://$PROJECT_DIR$/application/views/gallery.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="310">
-              <caret line="112" column="51" lean-forward="false" selection-start-line="112" selection-start-column="51" selection-end-line="112" selection-end-column="51" />
+              <caret line="112" column="41" lean-forward="true" selection-start-line="112" selection-start-column="41" selection-end-line="112" selection-end-column="41" />
               <folding />
             </state>
           </provider>
@@ -91,8 +92,8 @@
       <file leaf-file-name="Files.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application/controllers/Files.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="753">
-              <caret line="195" column="5" lean-forward="true" selection-start-line="174" selection-start-column="4" selection-end-line="195" selection-end-column="5" />
+            <state relative-caret-position="249">
+              <caret line="59" column="40" lean-forward="false" selection-start-line="59" selection-start-column="40" selection-end-line="59" selection-end-column="40" />
               <folding />
             </state>
           </provider>
@@ -155,6 +156,7 @@
       <find>type'</find>
       <find>file</find>
       <find>file&quot;</find>
+      <find>reArrayFiles</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -186,9 +188,9 @@
         <option value="$PROJECT_DIR$/index.php" />
         <option value="$PROJECT_DIR$/assets/scss/index.scss" />
         <option value="$PROJECT_DIR$/application/models/Model_files.php" />
-        <option value="$PROJECT_DIR$/application/controllers/Files.php" />
         <option value="$PROJECT_DIR$/application/controllers/Wheel.php" />
         <option value="$PROJECT_DIR$/application/views/gallery.php" />
+        <option value="$PROJECT_DIR$/application/controllers/Files.php" />
       </list>
     </option>
   </component>
@@ -305,7 +307,7 @@
       <updated>1579358406428</updated>
       <workItem from="1579358408726" duration="19776000" />
       <workItem from="1579544210744" duration="8955000" />
-      <workItem from="1579611458988" duration="1918000" />
+      <workItem from="1579611458988" duration="2719000" />
     </task>
     <task id="LOCAL-00001" summary="file types">
       <created>1579611778115</created>
@@ -314,11 +316,18 @@
       <option name="project" value="LOCAL" />
       <updated>1579611778115</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Files view">
+      <created>1579617133545</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1579617133545</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="30649000" />
+    <option name="totallyTimeSpent" value="31450000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -378,8 +387,11 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="file types" />
-    <option name="LAST_COMMIT_MESSAGE" value="file types" />
+    <MESSAGE value="Files view" />
+    <option name="LAST_COMMIT_MESSAGE" value="Files view" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -672,10 +684,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/Files.php">
+    <entry file="file://$PROJECT_DIR$/assets/scss/material.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="753">
-          <caret line="195" column="5" lean-forward="true" selection-start-line="174" selection-start-column="4" selection-end-line="195" selection-end-column="5" />
+        <state relative-caret-position="648">
+          <caret line="27" column="26" lean-forward="false" selection-start-line="27" selection-start-column="26" selection-end-line="27" selection-end-column="26" />
           <folding />
         </state>
       </provider>
@@ -696,14 +708,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/assets/scss/material.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="648">
-          <caret line="27" column="26" lean-forward="false" selection-start-line="27" selection-start-column="26" selection-end-line="27" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/controllers/Wheel.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -712,10 +716,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/Files.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="249">
+          <caret line="59" column="40" lean-forward="false" selection-start-line="59" selection-start-column="40" selection-end-line="59" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/application/views/gallery.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="310">
-          <caret line="112" column="51" lean-forward="false" selection-start-line="112" selection-start-column="51" selection-end-line="112" selection-end-column="51" />
+          <caret line="112" column="41" lean-forward="true" selection-start-line="112" selection-start-column="41" selection-end-line="112" selection-end-column="41" />
           <folding />
         </state>
       </provider>

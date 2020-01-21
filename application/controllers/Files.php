@@ -35,54 +35,71 @@ class Files extends CI_Controller {
 
         $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
 
-        $uploaddir = $_SERVER['DOCUMENT_ROOT'].'/files/';
-        // $basename = basename($_FILES['file']['name']);
-        $ext = explode('.', $_FILES['file']['name']);
-        $dateTime = date('Y_m_d__h_i_s');
-        $basename = md5_file($_FILES['file']['tmp_name']).'_'.$dateTime.'.'.$ext[count($ext)-1];
-        $path = $this->getPath($basename);
-        
-        $dirs_o = $uploaddir.'o/';
-        $dirs_s = $uploaddir.'s/';
-        foreach ($path['array'] as $key) {
-            mkdir($dirs_o.$key);
-            mkdir($dirs_s.$key);
-            $dirs_o .= $key.'/';
-            $dirs_s .= $key.'/';
-        }
-        $uploadfile_o = $dirs_o . $basename;
-        $uploadfile_s = $dirs_s . $basename;
-        
+        $reArrayFiles = $this->rearrange($_FILES['file']);
 
-        if (move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile_o)) {
+        foreach ($reArrayFiles as $file) {
+            $uploaddir = $_SERVER['DOCUMENT_ROOT'].'/files/';
+            // $basename = basename($_FILES['file']['name']);
+            $ext = explode('.', $file['name']);
+            $dateTime = date('Y_m_d__h_i_s');
+            $basename = md5_file($file['tmp_name']).'_'.$dateTime.'.'.$ext[count($ext)-1];
+            $path = $this->getPath($basename);
 
-            $type = $this->getTypeByMIME(mime_content_type($uploadfile_o));
+            $dirs_o = $uploaddir.'o/';
+            $dirs_s = $uploaddir.'s/';
+            foreach ($path['array'] as $key) {
+                mkdir($dirs_o.$key);
+                mkdir($dirs_s.$key);
+                $dirs_o .= $key.'/';
+                $dirs_s .= $key.'/';
+            }
+            $uploadfile_o = $dirs_o . $basename;
+            $uploadfile_s = $dirs_s . $basename;
 
-            $htaccess_data =
-"Order allow,deny\n
+
+            if (move_uploaded_file($file['tmp_name'], $uploadfile_o)) {
+
+                $type = $this->getTypeByMIME(mime_content_type($uploadfile_o));
+
+                $htaccess_data =
+                    "Order allow,deny\n
 Deny from all";
 
-            if ($type['primary']=='image') {
-                $new_image = new Pictures($uploadfile_o);
-                $new_image->percentimagereduce(10);
-                $new_image->imagesave($new_image->image_type, $uploadfile_s);
-                $new_image->imageout();
+                if ($type['primary']=='image') {
+                    $new_image = new Pictures($uploadfile_o);
+                    $new_image->percentimagereduce(10);
+                    $new_image->imagesave($new_image->image_type, $uploadfile_s);
+                    $new_image->imageout();
 
-                $htaccess_s = fopen($dirs_s.".htaccess", "w");
-                fwrite($htaccess_s, $htaccess_data);
+                    $htaccess_s = fopen($dirs_s.".htaccess", "w");
+                    fwrite($htaccess_s, $htaccess_data);
+                }
+
+                $htaccess_o = fopen($dirs_o.".htaccess", "w");
+                fwrite($htaccess_o, $htaccess_data);
+
+
+
+                $this->Model_files->uploadFile($basename, $user['id'], $type['full']);
+
+
+            } else {
+                echo "<br>Возможная атака с помощью файловой загрузки!\n";
             }
 
-            $htaccess_o = fopen($dirs_o.".htaccess", "w");
-            fwrite($htaccess_o, $htaccess_data);
-
-
-
-            $this->Model_files->uploadFile($basename, $user['id'], $type['full']);
-
             echo '<meta http-equiv="refresh" content="0;URL=/">';
-        } else {
-            echo "<br>Возможная атака с помощью файловой загрузки!\n";
         }
+
+
+    }
+
+    public function rearrange( $arr ){
+        foreach( $arr as $key => $all ){
+            foreach( $all as $i => $val ){
+                $new[$i][$key] = $val;
+            }
+        }
+        return $new;
     }
 
     public function delete () {
