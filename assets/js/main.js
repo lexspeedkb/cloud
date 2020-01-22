@@ -1,26 +1,15 @@
 $(document).ready(function () {
     var dialog = document.querySelector('#dialog-load');
-    var showDialogButton = document.querySelector('#show-dialog');
-    if (! dialog.showModal) {
-        dialogPolyfill.registerDialog(dialog);
-    }
-    showDialogButton.addEventListener('click', function() {
+
+    $('body').on('click', '#show-dialog', function () {
         $( '.wheel-load' ).addClass( 'blur' );
         dialog.showModal();
     });
-    dialog.querySelector('.close').addEventListener('click', function() {
+
+    $('body').on('click', '.close', function () {
         $( '.wheel-load' ).removeClass( 'blur' );
         dialog.close();
     });
-
-
-    // if (! dialogOptions.showModal) {
-    //     dialogPolyfill.registerDialog(dialogOptions);
-    // }
-    // dialogOptions.querySelector('.close').addEventListener('click', function() {
-    //     $( '.wheel-load' ).removeClass( 'blur' );
-    //     dialogOptions.close();
-    // });
 
 
 
@@ -112,6 +101,6 @@ $(document).ready(function () {
         $('#preloader').css('opacity', 0);
         setTimeout(function () {
             $('#preloader').css('display', 'none');
-        }, 200)
+        }, 1000)
     }
 });
