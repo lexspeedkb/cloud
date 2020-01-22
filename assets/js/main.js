@@ -88,6 +88,9 @@ $(document).ready(function () {
     preloaderClose();
 
     function preloaderClose () {
-
+        $('#preloader').css('opacity', 0);
+        setTimeout(function () {
+            $('#preloader').css('display', 'none');
+        }, 200)
     }
 });

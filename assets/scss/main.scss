@@ -9,6 +9,10 @@
   background: white;
   opacity: 0.99;
   z-index: 999999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  transition: opacity 0.2s ease-in;
 }
 
 ::-webkit-scrollbar {
