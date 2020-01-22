@@ -46,9 +46,11 @@ class Model_files extends CI_Model {
     }
 
     public function delete ($id) {
+        $this->load->helper('files');
+
         $file = $this->getOneFile('id', $id);
 
-        $file['path'] = $this->getPath($file['src']);
+        $file['path'] = getPath($file['src']);
 
         $this->db->query("DELETE FROM files WHERE id='$id'");
 
@@ -73,24 +75,6 @@ class Model_files extends CI_Model {
     public function updateName($id, $name)
     {
         $this->db->query("UPDATE files SET name='$name' WHERE id='$id'");
-    }
-
-    private function getPath ($name) {
-        $i=0;
-        $array = array();
-
-        while ($i <= 10) {
-            $push = substr($name, $i, 2);
-            $text .= $push."/";
-            array_push($array, $push);
-            $i+=2;
-        }
-
-        $return['text'] = $text;
-        $return['array'] = $array;
-        $return['name'] = $name;
-
-        return $return;
     }
 
 }
