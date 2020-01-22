@@ -1,8 +1,7 @@
-@import "index";
 @import "config";
+@import "mixins";
 @import "material";
-
-
+@import "index";
 
 ::-webkit-scrollbar {
   width: 3px;
