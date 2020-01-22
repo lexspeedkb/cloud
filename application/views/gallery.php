@@ -120,6 +120,7 @@
 
 <!-- доп. опции -->
 <div id="options">
+    <div class="bg"></div>
     <div class="wrapper">
         <a class="open" href=""><span class="">Открыть</span></a>
         <hr>
@@ -211,9 +212,18 @@
             var path = $(this).attr('path');
 
             $('#options .wrapper').addClass('open');
+            $('#options .bg').css('display', 'block');
             $('#options .open').attr('href', path);
             $('#options .save').attr('href', path);
             $('#options .delete').attr('href', '/files/delete/'+data_id);
+        });
+
+        $(document).on('click', '#options .bg', function () {
+            $('#options .wrapper').removeClass('open');
+            setTimeout(function () {
+                $('#options .bg').css('display', 'none');
+            }, 300)
+
         });
 
 
