@@ -1,3 +1,15 @@
+var dialog = document.querySelector('dialog');
+var showDialogButton = document.querySelector('#show-dialog');
+if (! dialog.showModal) {
+    dialogPolyfill.registerDialog(dialog);
+}
+showDialogButton.addEventListener('click', function() {
+    dialog.showModal();
+});
+dialog.querySelector('.close').addEventListener('click', function() {
+    dialog.close();
+});
+
 $(document).ready(function () {
     var snackbarContainer = document.querySelector('#demo-toast-example');
 
@@ -18,6 +30,20 @@ $(document).ready(function () {
             imgOpened = false;
         }
     });
+
+
+
+
+
+    setOptionsToDefaultPlace();
+
+    function setOptionsToDefaultPlace () {
+        var optionsHeight = $('#options .wrapper').height();
+
+        optionsHeight +=25;
+
+        $('#options .wrapper').css('bottom', '-'+optionsHeight+'px');
+    }
 
     $(document).on('click', '.actions', function () {
         var data_id = $(this).attr('data-id');
@@ -57,5 +83,11 @@ $(document).ready(function () {
                 var data = {message: 'Ошибка' };
                 snackbarContainer.MaterialSnackbar.showSnackbar(data);
             })
-    })
-})
+    });
+
+    preloaderClose();
+
+    function preloaderClose () {
+
+    }
+});

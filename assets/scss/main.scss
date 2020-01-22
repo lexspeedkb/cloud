@@ -3,6 +3,14 @@
 @import "material";
 @import "index";
 
+#preloader {
+  width: 100vw;
+  height: 100vh;
+  background: white;
+  opacity: 0.99;
+  z-index: 999999;
+}
+
 ::-webkit-scrollbar {
   width: 3px;
   height: 10px;

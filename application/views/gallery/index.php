@@ -61,18 +61,6 @@
                             <div class="actions" path="/files/render/o/<?=$file['path']['name'];?>" data-id="<?=$file['id']?>">
                                 <div id="tt3" class="icon material-icons">more_vert</div>
                             </div>
-
-                            <!-- <a href="/files/render/o/<?=$file['path']['name'];?>" class="icon">
-                                    <div id="tt3" class="icon material-icons">open_in_new</div>
-                                </a>
-                                &nbsp;&nbsp;&nbsp;
-                                <a href="/files/render/o/<?=$file['path']['name'];?>" class="icon" download>
-                                    <div id="tt3" class="icon material-icons">cloud_download</div>
-                                </a>
-                                &nbsp;&nbsp;&nbsp;
-                                <a href="/files/delete/<?=$file['id']?>" class="icon">
-                                    <div id="tt3" class="icon material-icons">delete</div>
-                                </a> -->
                         </td>
                     </tr>
                 <?php else: ?>
@@ -93,18 +81,10 @@
                             echo $extension;
                             ?>
                         </td>
-                        <td class="actions">
-                            <!-- <a href="/files/render/o/<?=$file['path']['name'];?>" class="icon">
-                                    <div id="tt3" class="icon material-icons">open_in_new</div>
-                                </a>
-                                &nbsp;&nbsp;&nbsp;
-                                <a href="/files/render/o/<?=$file['path']['name'];?>" class="icon" download>
-                                    <div id="tt3" class="icon material-icons">cloud_download</div>
-                                </a>
-                                &nbsp;&nbsp;&nbsp;
-                                <a href="/files/delete/<?=$file['id']?>" class="icon">
-                                    <div id="tt3" class="icon material-icons">delete</div>
-                                </a> -->
+                        <td>
+                            <div class="actions" path="/files/render/o/<?=$file['path']['name'];?>" data-id="<?=$file['id']?>">
+                                <div id="tt3" class="icon material-icons">more_vert</div>
+                            </div>
                         </td>
                     </tr>
                 <?php endif; ?>
