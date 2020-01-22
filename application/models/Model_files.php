@@ -6,9 +6,9 @@ class Model_files extends CI_Model {
         $this->load->database();
     }
 
-    public function getFiles($user_id)
+    public function getFiles($dir_id)
     {
-        $query = $this->db->query("SELECT * FROM files WHERE user_id='$user_id' ORDER BY id DESC");
+        $query = $this->db->query("SELECT * FROM files WHERE dir='$dir_id' ORDER BY id DESC");
 
         foreach ($query->result_array() as $row) {
             $files[$i]['id']        = $row['id'];
@@ -20,6 +20,23 @@ class Model_files extends CI_Model {
 
         }
         return $files;
+    }
+
+    public function getFolders($parent_id)
+    {
+        $query = $this->db->query("SELECT * FROM dirs WHERE parent_id='$parent_id' ORDER BY id DESC");
+
+        foreach ($query->result_array() as $row) {
+            $folders[$i]['id']        = $row['id'];
+            $folders[$i]['free']      = $row['free'];
+            $folders[$i]['name']      = $row['name'];
+            $folders[$i]['owners']    = $row['owners'];
+            $folders[$i]['owner_id']  = $row['owner_id'];
+            $folders[$i]['parent_id'] = $row['user_id'];
+            $i++;
+
+        }
+        return $folders;
     }
 
     public function getOneFile($type, $search)
@@ -43,6 +60,21 @@ class Model_files extends CI_Model {
             $file['user_id']   = $row['user_id'];
         }
         return $file;
+    }
+
+    public function getOneFolder($id)
+    {
+        $query = $this->db->query("SELECT * FROM dirs WHERE id='$id'");
+
+        foreach ($query->result_array() as $row) {
+            $folder['id']        = $row['id'];
+            $folder['free']      = $row['free'];
+            $folder['name']      = $row['name'];
+            $folder['owners']    = $row['owners'];
+            $folder['owner_id']  = $row['owner_id'];
+            $folder['parent_id'] = $row['user_id'];
+        }
+        return $folder;
     }
 
     public function delete ($id) {

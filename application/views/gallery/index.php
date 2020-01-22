@@ -31,6 +31,7 @@
         <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp table-gallery">
             <thead>
             <tr>
+                <th class="mdl-data-table__cell--non-numeric"><input type="checkbox"></th>
                 <th class="mdl-data-table__cell--non-numeric">Material</th>
                 <th class="mdl-data-table__cell--non-numeric">Название</th>
                 <th class="mdl-data-table__cell--non-numeric">Тип</th>
@@ -38,57 +39,90 @@
             </tr>
             </thead>
             <tbody>
-            <?php foreach ($files as $file): ?>
-                <?php if ($file['type']['primary']=='image'): ?>
+            <form action="/files/check" method="POST">
+                <?php foreach ($folders as $folder): ?>
                     <tr>
-                        <td>
-                            <img class="item" data-type="image" data-src="/files/render/o/<?=$file['path']['name'];?>" src="/files/render/s/<?=$file['path']['name'];?>" style="width: 50px;">
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <input type="checkbox" name="checked[<?=$folder['id']?>]">
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <a href="/gallery/index/<?=$folder['id']?>">
+                                <img src="/assets/img/folder.png" style="width: 50px;">
+                            </a>
                         </td>
                         <td class="mdl-data-table__cell--non-numeric">
                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                <input class="mdl-textfield__input file-name" type="text" value="<?=$file['name']?>" data-id="<?=$file['id']?>">
+                                <input class="mdl-textfield__input file-name" type="text" value="<?=$folder['name']?>" data-id="<?=$folder['id']?>">
                                 <label class="mdl-textfield__label" for="name">Название...</label>
                             </div>
                         </td>
-                        <td class="mdl-data-table__cell--non-numeric">
-                            <?php
-                            $ext = explode('.', $file['src']);
-                            $extension = $ext[1];
-                            echo $extension;
-                            ?>
+                        <td>
+                            Папка
                         </td>
                         <td>
-                            <div class="actions" path="/files/render/o/<?=$file['path']['name'];?>" data-id="<?=$file['id']?>">
+                            <div class="actions" type="dir" data-id="<?=$folder['id']?>">
                                 <div id="tt3" class="icon material-icons">more_vert</div>
                             </div>
                         </td>
                     </tr>
-                <?php else: ?>
-                    <tr>
-                        <td>
-                            <img src="/assets/img/default_<?=$file['type']['primary']?>.png" style="width: 50px;">
-                        </td>
-                        <td class="mdl-data-table__cell--non-numeric">
-                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                <input class="mdl-textfield__input file-name" type="text" value="<?=$file['name']?>" data-id="<?=$file['id']?>">
-                                <label class="mdl-textfield__label" for="name">Название...</label>
-                            </div>
-                        </td>
-                        <td class="mdl-data-table__cell--non-numeric">
-                            <?php
-                            $ext = explode('.', $file['src']);
-                            $extension = $ext[1];
-                            echo $extension;
-                            ?>
-                        </td>
-                        <td>
-                            <div class="actions" path="/files/render/o/<?=$file['path']['name'];?>" data-id="<?=$file['id']?>">
-                                <div id="tt3" class="icon material-icons">more_vert</div>
-                            </div>
-                        </td>
-                    </tr>
-                <?php endif; ?>
-            <?php endforeach; ?>
+                <?php endforeach; ?>
+
+                <?php foreach ($files as $file): ?>
+                    <?php if ($file['type']['primary']=='image'): ?>
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="checked[<?=$file['id']?>]">
+                            </td>
+                            <td>
+                                <img class="item" data-type="image" data-src="/files/render/o/<?=$file['path']['name'];?>" src="/files/render/s/<?=$file['path']['name'];?>" style="width: 50px;">
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric">
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                    <input class="mdl-textfield__input file-name" type="text" value="<?=$file['name']?>" data-id="<?=$file['id']?>">
+                                    <label class="mdl-textfield__label" for="name">Название...</label>
+                                </div>
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric">
+                                <?php
+                                $ext = explode('.', $file['src']);
+                                $extension = $ext[1];
+                                echo $extension;
+                                ?>
+                            </td>
+                            <td>
+                                <div class="actions" path="/files/render/o/<?=$file['path']['name'];?>" data-id="<?=$file['id']?>">
+                                    <div id="tt3" class="icon material-icons">more_vert</div>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php else: ?>
+                        <tr>
+                            <td>
+                                <img src="/assets/img/default_<?=$file['type']['primary']?>.png" style="width: 50px;">
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric">
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                    <input class="mdl-textfield__input file-name" type="text" value="<?=$file['name']?>" data-id="<?=$file['id']?>">
+                                    <label class="mdl-textfield__label" for="name">Название...</label>
+                                </div>
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric">
+                                <?php
+                                $ext = explode('.', $file['src']);
+                                $extension = $ext[1];
+                                echo $extension;
+                                ?>
+                            </td>
+                            <td>
+                                <div class="actions" path="/files/render/o/<?=$file['path']['name'];?>" data-id="<?=$file['id']?>">
+                                    <div id="tt3" class="icon material-icons">more_vert</div>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+                <input type="submit">
+            </form>
             </tbody>
         </table>
     <?php endif; ?>

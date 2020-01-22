@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Янв 21 2020 г., 02:15
+-- Время создания: Янв 23 2020 г., 01:39
 -- Версия сервера: 10.3.13-MariaDB-log
 -- Версия PHP: 7.3.9
 
@@ -25,6 +25,21 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `dirs`
+--
+
+CREATE TABLE `dirs` (
+  `id` int(255) NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `free` tinyint(1) NOT NULL DEFAULT 0,
+  `owners` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `owner_id` int(255) NOT NULL,
+  `parent_id` int(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `files`
 --
 
@@ -33,43 +48,23 @@ CREATE TABLE `files` (
   `user_id` int(255) DEFAULT NULL,
   `name` varchar(999) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `src` varchar(999) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `type` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `type` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `basket` tinyint(1) DEFAULT 0,
+  `owners` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `free` tinyint(1) NOT NULL DEFAULT 0,
+  `dir` int(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- --------------------------------------------------------
+
 --
--- Дамп данных таблицы `files`
+-- Структура таблицы `groups`
 --
 
-INSERT INTO `files` (`id`, `user_id`, `name`, `src`, `type`) VALUES
-(27, 0, 'Наименование объекта', '5770a2fd8ed93d2a59c96c386fa159ac_2020_01_19__10_25_59.jpg', ''),
-(28, 0, 'Наименование объекта', '5770a2fd8ed93d2a59c96c386fa159ac_2020_01_19__10_26_51.jpg', ''),
-(29, 0, 'Наименование объекта', '5770a2fd8ed93d2a59c96c386fa159ac_2020_01_19__10_27_04.jpg', ''),
-(30, 0, 'Наименование объекта', '5770a2fd8ed93d2a59c96c386fa159ac_2020_01_19__10_27_31.jpg', ''),
-(31, 0, 'Наименование объекта', '5770a2fd8ed93d2a59c96c386fa159ac_2020_01_19__10_28_16.jpg', ''),
-(32, 0, 'Наименование объекта', '5770a2fd8ed93d2a59c96c386fa159ac_2020_01_19__10_28_48.jpg', ''),
-(33, 0, 'Наименование объекта', '5770a2fd8ed93d2a59c96c386fa159ac_2020_01_19__10_28_56.jpg', ''),
-(34, 0, 'Наименование объекта', '5770a2fd8ed93d2a59c96c386fa159ac_2020_01_19__10_29_48.jpg', ''),
-(35, 0, 'Наименование объекта', '5770a2fd8ed93d2a59c96c386fa159ac_2020_01_19__10_29_57.jpg', ''),
-(36, 0, 'Наименование объекта', '5770a2fd8ed93d2a59c96c386fa159ac_2020_01_19__10_30_37.jpg', ''),
-(37, 0, 'Наименование объекта', '5770a2fd8ed93d2a59c96c386fa159ac_2020_01_19__10_30_51.jpg', ''),
-(38, 0, 'Наименование объекта', '5770a2fd8ed93d2a59c96c386fa159ac_2020_01_19__10_32_01.jpg', ''),
-(39, 0, 'Наименование объекта', '5770a2fd8ed93d2a59c96c386fa159ac_2020_01_19__10_32_28.jpg', ''),
-(40, 0, 'Наименование объекта', '5770a2fd8ed93d2a59c96c386fa159ac_2020_01_19__10_33_17.jpg', ''),
-(41, 0, 'Наименование объекта', 'c01cb154ffaf7082a666376abf657c70_2020_01_19__10_34_34.jpg', ''),
-(42, 0, 'Наименование объекта', '5a1685a518bb51bde7073e09ff752a13_2020_01_19__10_35_51.jpg', ''),
-(43, 1, 'фыв', '5770a2fd8ed93d2a59c96c386fa159ac_2020_01_19__10_57_29.jpg', ''),
-(44, 1, 'qwe', 'c01cb154ffaf7082a666376abf657c70_2020_01_19__10_57_54.jpg', ''),
-(45, 1, 'asd', '0c820771ff495ed6414d02ad79cbb0e3_2020_01_19__11_12_49.jpg', ''),
-(57, 3, 'asd', '0a62ff3e4aca73c3dbbb6dcccf714d6a_2020_01_21__01_14_02.jpg', ''),
-(58, 3, 'Наименование объекта', '339b6f01fd0e6b31c7aadf596d4e6828_2020_01_21__01_14_09.jpg', ''),
-(59, 3, 'Наименование объекта', '9287d269a81c663536019bb3597449ec_2020_01_21__01_14_15.jpg', ''),
-(60, 3, 'Наименование объекта', '9287d269a81c663536019bb3597449ec_2020_01_21__01_14_20.jpg', ''),
-(62, 3, 'jkn', '7324248c2170ab0e54e1edbf18256d5d_2020_01_21__01_14_34.jpg', ''),
-(63, 3, '', 'd5993529c43923d40cc1ac6a7aca677e_2020_01_21__01_14_51.jpg', ''),
-(64, 3, 'asd', '428c9a2fde452ed056782eac703211a0_2020_01_21__01_15_00.jpg', ''),
-(65, 3, '', '428c9a2fde452ed056782eac703211a0_2020_01_21__01_47_41.jpg', ''),
-(66, 3, '', '428c9a2fde452ed056782eac703211a0_2020_01_21__01_54_17.jpg', ''),
-(67, 3, '', '428c9a2fde452ed056782eac703211a0_2020_01_21__01_59_59.jpg', 'image');
+CREATE TABLE `groups` (
+  `id` int(255) NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -87,21 +82,27 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Дамп данных таблицы `users`
---
-
-INSERT INTO `users` (`id`, `login`, `token`, `name`, `balance`, `password`) VALUES
-(1, 'lexspeedkb', 'GNyHWkkPbqCFvNe5TjN2Oh0P4tlJcq5UlXs3yIQOBrNRNKcKBxhg0uX3TF91YOBwSgbSJBk7QyNX7SbTZCXLH4OEB9Z6LHTn5bWf', 'Алексей Пилипенко', 0, 'lexus2001'),
-(3, 'lexspeedkb1', '4GN3DXN8s4YMadBpDMFUFo6BAGig3J91O4DdVZYVUzxkGHEBhdhhWx7JfDyhwj7B8h2YvSXpOW77gqsvv6OtTzrts30fwHxPmDRU', 'Алексей Пилипенко', 0, 'qwe');
-
---
 -- Индексы сохранённых таблиц
 --
+
+--
+-- Индексы таблицы `dirs`
+--
+ALTER TABLE `dirs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `owner_id` (`owner_id`),
+  ADD KEY `parent_id` (`parent_id`);
 
 --
 -- Индексы таблицы `files`
 --
 ALTER TABLE `files`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `groups`
+--
+ALTER TABLE `groups`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -115,16 +116,39 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT для таблицы `dirs`
+--
+ALTER TABLE `dirs`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT для таблицы `files`
 --
 ALTER TABLE `files`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT для таблицы `groups`
+--
+ALTER TABLE `groups`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+
+--
+-- Ограничения внешнего ключа сохраненных таблиц
+--
+
+--
+-- Ограничения внешнего ключа таблицы `dirs`
+--
+ALTER TABLE `dirs`
+  ADD CONSTRAINT `dirs_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `dirs_ibfk_2` FOREIGN KEY (`parent_id`) REFERENCES `dirs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

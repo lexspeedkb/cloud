@@ -33,33 +33,32 @@ $(document).ready(function () {
         }
     });
 
-
-
-
-
-    // setOptionsToDefaultPlace();
-
-    // function setOptionsToDefaultPlace () {
-    //     var optionsHeight = $('#options .wrapper').height();
-    //
-    //     optionsHeight +=25;
-    //
-    //     $('#options .wrapper').css('bottom', '-'+optionsHeight+'px');
-    // }
-
     $(document).on('click', '.actions', function () {
         var data_id = $(this).attr('data-id');
         var path = $(this).attr('path');
+        var type = $(this).attr('type');
 
-        var dialogOptions = document.querySelector('#options');
-        $( '.wheel-load' ).addClass( 'blur' );
-        dialogOptions.showModal();
+        if (type=='dir') {
+            var dialogOptions = document.querySelector('#options-folder');
+            dialogOptions.showModal();
+            $('#options-folder .wrapper').addClass('open');
+            $('#options-folder .bg').css('display', 'block');
 
-        $('#options .wrapper').addClass('open');
-        $('#options .bg').css('display', 'block');
-        $('#options .open').attr('href', path);
-        $('#options .save').attr('href', path);
-        $('#options .delete').attr('href', '/files/delete/'+data_id);
+            $('#options-folder .open').attr('href', '/gallery/index/'+data_id);
+            $('#options-folder .delete').attr('href', '/files/deleteFolder/'+data_id);
+        } else {
+            var dialogOptions = document.querySelector('#options');
+            dialogOptions.showModal();
+            $('#options .wrapper').addClass('open');
+            $('#options .bg').css('display', 'block');
+
+
+            $('#options .open').attr('href', path);
+            $('#options .save').attr('href', path);
+            $('#options .delete').attr('href', '/files/delete/'+data_id);
+        }
+
+        $('.wheel-load').addClass( 'blur' );
     });
 
     $(document).on('click', '#options .bg', function () {
@@ -69,6 +68,18 @@ $(document).ready(function () {
         setTimeout(function () {
             $('#options .bg').css('display', 'none');
             var dialogOptions = document.querySelector('#options');
+            dialogOptions.close();
+        }, 300)
+
+    });
+
+    $(document).on('click', '#options-folder .bg', function () {
+        $('#options-folder .wrapper').removeClass('open');
+        $('.wheel-load').removeClass( 'blur' );
+
+        setTimeout(function () {
+            $('#options-folder .bg').css('display', 'none');
+            var dialogOptions = document.querySelector('#options-folder');
             dialogOptions.close();
         }, 300)
 

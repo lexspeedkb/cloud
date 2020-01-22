@@ -95,7 +95,9 @@ class Files extends CI_Controller {
 
     }
 
-
+    public function multi () {
+        var_dump($_POST);
+    }
 
     public function delete () {
         $this->load->library('session');
@@ -106,6 +108,31 @@ class Files extends CI_Controller {
         $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
 
         if ($this->isOwner('id', $this->uri->segment(3), $user['id'])!==true) {
+            header('HTTP/1.0 403 Forbidden');
+            die();
+        }
+
+        $file = $this->Model_files->getOneFile('id', $this->uri->segment(3));
+
+        $data['file'] = $file;
+        $data['file']['path'] = getPath($data['file']['src']);
+
+
+        $this->load->view('include/nav', $data);
+        $this->load->view('include/header', $data);
+        $this->load->view('delete', $data);
+        $this->load->view('include/footer', $data);
+    }
+
+    public function deleteFolder () {
+        $this->load->library('session');
+        $this->load->model('Model_files');
+        $this->load->model('Model_auth');
+        $this->load->helper('files');
+
+        $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
+
+        if ($this->isOwner('dir', $this->uri->segment(3), $user['id'])!==true) {
             header('HTTP/1.0 403 Forbidden');
             die();
         }
@@ -138,15 +165,40 @@ class Files extends CI_Controller {
         echo '<meta http-equiv="refresh" content="0;URL=/">';
     }
 
+    public function deleteFolderAction () {
+        $this->load->library('session');
+        $this->load->model('Model_files');
+        $this->load->model('Model_auth');
+
+        $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
+
+        if ($this->isOwner('dir', $this->uri->segment(3), $user['id'])!==true) {
+            die('rrrrr');
+        }
+
+        $this->Model_files->deleteFolder($this->uri->segment(3)); //TODO this func
+
+        echo '<meta http-equiv="refresh" content="0;URL=/">';
+    }
+
     public function isOwner ($type, $search, $user_id) {
         $this->load->model('Model_files');
 
-        $file = $this->Model_files->getOneFile($type, $search);
-
-        if ($file['user_id']==$user_id) {
-            return true;
+        if ($type == 'dir') {
+            $folder = $this->Model_files->getOneFolder($search);
+            if ($folder['owner_id']==$user_id) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
-            return false;
+            $file = $this->Model_files->getOneFile($type, $search);
+
+            if ($file['user_id']==$user_id) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 

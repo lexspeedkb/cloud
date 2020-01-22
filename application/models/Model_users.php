@@ -14,5 +14,7 @@ class Model_users extends CI_Model {
      
         $this->db->query("UPDATE users SET balance='$newBalance' WHERE id='$id'");
     }
+
+
 }
 ?>
