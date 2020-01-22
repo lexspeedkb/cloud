@@ -25,4 +25,27 @@ function getPath ($name) {
 
     return $return;
 }
+
+function getTypeByMIME ($mime) {
+    $type = explode('/', $mime);
+
+    // switch ($type[0]) {
+    //     case 'text':
+    //         return 'text';
+    //     case 'image':
+    //         return 'image';
+    //     case 'video':
+    //         return 'video';
+    //     case 'application':
+    //         return 'document';
+    //     default:
+    //         return 'document';
+    // }
+
+    $ret['primary'] = $type[0];
+    $ret['sub']     = $type[1];
+    $ret['full']    = $mime;
+
+    return $ret;
+}
 ?>
