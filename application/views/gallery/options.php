@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 <!-- доп. опции -->
-<div id="options">
+<dialog class="mdl-dialogp-options" id="options">
     <div class="bg"></div>
     <div class="wrapper">
         <a class="open" href=""><span class="">Открыть</span></a>
@@ -14,4 +14,6 @@
         <hr><br>
         <a class="delete" href=""><span>УДАЛИТЬ</span></a>
     </div>
-</div>
+
+    <button type="button" class="mdl-button close">Закрыть</button>
+</dialog>

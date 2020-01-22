@@ -15,6 +15,15 @@
   transition: opacity 0.2s ease-in;
 }
 
+.wheel-load {
+  //filter: blur(0px);
+  transition: filter 0.2s ease-in;
+}
+
+.blur {
+  filter: blur(5px);
+}
+
 ::-webkit-scrollbar {
   width: 3px;
   height: 10px;

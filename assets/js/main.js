@@ -1,16 +1,29 @@
-var dialog = document.querySelector('dialog');
-var showDialogButton = document.querySelector('#show-dialog');
-if (! dialog.showModal) {
-    dialogPolyfill.registerDialog(dialog);
-}
-showDialogButton.addEventListener('click', function() {
-    dialog.showModal();
-});
-dialog.querySelector('.close').addEventListener('click', function() {
-    dialog.close();
-});
-
 $(document).ready(function () {
+    var dialog = document.querySelector('#dialog-load');
+    var showDialogButton = document.querySelector('#show-dialog');
+    if (! dialog.showModal) {
+        dialogPolyfill.registerDialog(dialog);
+    }
+    showDialogButton.addEventListener('click', function() {
+        $( '.wheel-load' ).addClass( 'blur' );
+        dialog.showModal();
+    });
+    dialog.querySelector('.close').addEventListener('click', function() {
+        $( '.wheel-load' ).removeClass( 'blur' );
+        dialog.close();
+    });
+
+
+    // if (! dialogOptions.showModal) {
+    //     dialogPolyfill.registerDialog(dialogOptions);
+    // }
+    // dialogOptions.querySelector('.close').addEventListener('click', function() {
+    //     $( '.wheel-load' ).removeClass( 'blur' );
+    //     dialogOptions.close();
+    // });
+
+
+
     var snackbarContainer = document.querySelector('#demo-toast-example');
 
     var imgOpened = false;
@@ -35,19 +48,23 @@ $(document).ready(function () {
 
 
 
-    setOptionsToDefaultPlace();
+    // setOptionsToDefaultPlace();
 
-    function setOptionsToDefaultPlace () {
-        var optionsHeight = $('#options .wrapper').height();
-
-        optionsHeight +=25;
-
-        $('#options .wrapper').css('bottom', '-'+optionsHeight+'px');
-    }
+    // function setOptionsToDefaultPlace () {
+    //     var optionsHeight = $('#options .wrapper').height();
+    //
+    //     optionsHeight +=25;
+    //
+    //     $('#options .wrapper').css('bottom', '-'+optionsHeight+'px');
+    // }
 
     $(document).on('click', '.actions', function () {
         var data_id = $(this).attr('data-id');
         var path = $(this).attr('path');
+
+        var dialogOptions = document.querySelector('#options');
+        $( '.wheel-load' ).addClass( 'blur' );
+        dialogOptions.showModal();
 
         $('#options .wrapper').addClass('open');
         $('#options .bg').css('display', 'block');
@@ -58,8 +75,12 @@ $(document).ready(function () {
 
     $(document).on('click', '#options .bg', function () {
         $('#options .wrapper').removeClass('open');
+        $('.wheel-load').removeClass( 'blur' );
+
         setTimeout(function () {
             $('#options .bg').css('display', 'none');
+            var dialogOptions = document.querySelector('#options');
+            dialogOptions.close();
         }, 300)
 
     });

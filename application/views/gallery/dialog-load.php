@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-<dialog class="mdl-dialog">
+<dialog class="mdl-dialog" id="dialog-load">
     <form action="/files/upload" method="POST" enctype="multipart/form-data">
         <h4 class="mdl-dialog__title">Загрузка файлов</h4>
         <div class="mdl-dialog__content">

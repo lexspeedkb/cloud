@@ -28,9 +28,10 @@ class Gallery extends CI_Controller {
         $this->load->view('include/nav', $data);
         $this->load->view('include/header', $data);
         $this->load->view('gallery/index', $data);
-        $this->load->view('gallery/options', $data);
+
         $this->load->view('gallery/dialog-load', $data);
         $this->load->view('gallery/preview', $data);
+        $this->load->view('gallery/options', $data);
         $this->load->view('include/snackbar', $data);
         $this->load->view('include/footer', $data);
     }
