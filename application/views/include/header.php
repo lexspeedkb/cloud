@@ -17,5 +17,6 @@
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
     <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 </head>
+<div id="preloader"></div>
 <body>
     <div class="wheel-load">

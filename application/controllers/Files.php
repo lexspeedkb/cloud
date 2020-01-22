@@ -7,6 +7,7 @@ class Files extends CI_Controller {
         $this->load->library('session');
         $this->load->model('Model_files');
         $this->load->model('Model_auth');
+        $this->load->helper('files');
 
         $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
 
@@ -17,7 +18,7 @@ class Files extends CI_Controller {
 
         $img = str_replace('/', '', $this->uri->segment(4));
 
-        $path = $this->getPath($img);
+        $path = getPath($img);
 
         $fileInfo = $this->Model_files->getOneFile('name', $this->uri->segment(4));
 
@@ -32,10 +33,11 @@ class Files extends CI_Controller {
         $this->load->library('session');
         $this->load->model('Model_files');
         $this->load->model('Model_auth');
+        $this->load->helper('files');
 
         $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
 
-        $reArrayFiles = $this->rearrange($_FILES['file']);
+        $reArrayFiles = rearrange($_FILES['file']);
 
         foreach ($reArrayFiles as $file) {
             $uploaddir = $_SERVER['DOCUMENT_ROOT'].'/files/';
@@ -43,13 +45,14 @@ class Files extends CI_Controller {
             $ext = explode('.', $file['name']);
             $dateTime = date('Y_m_d__h_i_s');
             $basename = md5_file($file['tmp_name']).'_'.$dateTime.'.'.$ext[count($ext)-1];
-            $path = $this->getPath($basename);
+            $path = getPath($basename);
 
             $dirs_o = $uploaddir.'o/';
             $dirs_s = $uploaddir.'s/';
             foreach ($path['array'] as $key) {
-                mkdir($dirs_o.$key);
+                mkdir($dirs_o.$key); //TODO check dir exists
                 mkdir($dirs_s.$key);
+
                 $dirs_o .= $key.'/';
                 $dirs_s .= $key.'/';
             }
@@ -62,8 +65,7 @@ class Files extends CI_Controller {
                 $type = $this->getTypeByMIME(mime_content_type($uploadfile_o));
 
                 $htaccess_data =
-                    "Order allow,deny\n
-Deny from all";
+                    "Order allow,deny\nDeny from all";
 
                 if ($type['primary']=='image') {
                     $new_image = new Pictures($uploadfile_o);
@@ -93,19 +95,13 @@ Deny from all";
 
     }
 
-    public function rearrange( $arr ){
-        foreach( $arr as $key => $all ){
-            foreach( $all as $i => $val ){
-                $new[$i][$key] = $val;
-            }
-        }
-        return $new;
-    }
+
 
     public function delete () {
         $this->load->library('session');
         $this->load->model('Model_files');
         $this->load->model('Model_auth');
+        $this->load->helper('files');
 
         $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
 
@@ -117,7 +113,7 @@ Deny from all";
         $file = $this->Model_files->getOneFile('id', $this->uri->segment(3));
 
         $data['file'] = $file;
-        $data['file']['path'] = $this->getPath($data['file']['src']);
+        $data['file']['path'] = getPath($data['file']['src']);
 
 
         $this->load->view('include/nav', $data);
@@ -152,24 +148,6 @@ Deny from all";
         } else {
             return false;
         }
-    }
-
-    private function getPath ($name) {
-        $i=0;
-        $array = array();
-
-        while ($i <= 10) {
-            $push = substr($name, $i, 2);
-            $text .= $push."/";
-            array_push($array, $push);
-            $i+=2;
-        }
-
-        $return['text'] = $text;
-        $return['array'] = $array;
-        $return['name'] = $name;
-
-        return $return;
     }
 
     public function changeName () {

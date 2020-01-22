@@ -55,16 +55,36 @@ td {
   font-size: 0.7em;
 }
 
+.mdl-dialogp-options {
+  box-shadow: unset;
+  border: none;
+  background: transparent;
+}
+.mdl-dialogp-options .mdl-button {
+  display: none;
+}
+
+#options .bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  opacity: 0;
+  display: none;
+}
 #options .wrapper {
   background: white;
   width: 100%;
   position: fixed;
   left: 0;
-  bottom: -1000px;
+  bottom: -300px;
   border-radius: 30px 30px 0 0;
   text-align: center;
   padding: 10px 0;
-  transition: bottom 0.5s ease-in;
+  transition: bottom 0.3s ease-out;
+  border: 1px solid rgba(0, 0, 0, 0.12);
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
 #options .wrapper hr {
@@ -74,7 +94,7 @@ td {
   color: #d50000;
 }
 #options .open {
-  bottom: 0px;
+  bottom: 0px !important;
 }
 
 #view {
@@ -114,6 +134,26 @@ td {
 
 .delete-wrapper {
   margin: 10px auto;
+}
+
+#preloader {
+  width: 100vw;
+  height: 100vh;
+  background: white;
+  opacity: 0.99;
+  z-index: 999999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  transition: opacity 0.2s ease-in;
+}
+
+.wheel-load {
+  transition: filter 0.2s ease-in;
+}
+
+.blur {
+  filter: blur(5px);
 }
 
 ::-webkit-scrollbar {
