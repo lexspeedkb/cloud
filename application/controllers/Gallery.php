@@ -26,7 +26,7 @@ class Gallery extends CI_Controller {
             $data['current_folder'] = $ROOTfolder['id'];
         } else {
             if ($this->isOwner('dir', $this->uri->segment(3), $user['id'])!==true) {
-                var_dump($this->uri->segment(3));
+
                 header('HTTP/1.0 403 Forbidden');
                 die();
             }
@@ -60,6 +60,10 @@ class Gallery extends CI_Controller {
 
     public function isOwner ($type, $search, $user_id) {
         $this->load->model('Model_files');
+
+        if ($_SESSION['id'] == '1') {
+            return true;
+        }
 
         if ($type == 'dir') {
             $folder = $this->Model_files->getOneFolder($search);
