@@ -35,7 +35,15 @@ class Files extends CI_Controller {
         $this->load->model('Model_auth');
         $this->load->helper('files');
 
+
+        $folder_id = $_POST['folder_id'];
+
         $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
+
+        if ($this->isOwner('dir', $folder_id, $user['id'])!==true) {
+            header('HTTP/1.0 403 Forbidden');
+            die();
+        }
 
         $reArrayFiles = rearrange($_FILES['file']);
 
@@ -82,14 +90,14 @@ class Files extends CI_Controller {
 
 
 
-                $this->Model_files->uploadFile($basename, $user['id'], $type['full']);
+                $this->Model_files->uploadFile($basename, $user['id'], $type['full'], $folder_id);
 
 
             } else {
                 echo "<br>Возможная атака с помощью файловой загрузки!\n";
             }
 
-            echo '<meta http-equiv="refresh" content="0;URL=/">';
+            echo '<meta http-equiv="refresh" content="0;URL=/gallery/index/'.$folder_id.'">';
         }
 
 

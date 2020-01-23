@@ -10,6 +10,7 @@
             </div>
 
             <input type="file" name="file[]" multiple>
+            <input type="hidden" name="folder_id" value="<?=$current_folder?>">
 
         </div>
         <div class="mdl-dialog__actions">

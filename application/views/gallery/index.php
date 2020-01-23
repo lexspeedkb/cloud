@@ -102,6 +102,9 @@
                     <?php else: ?>
                         <tr>
                             <td>
+                                <input type="checkbox" name="checked[<?=$file['id']?>]">
+                            </td>
+                            <td>
                                 <img src="/assets/img/default_<?=$file['type']['primary']?>.png" style="width: 50px;">
                             </td>
                             <td class="mdl-data-table__cell--non-numeric">

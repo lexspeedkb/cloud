@@ -22,6 +22,8 @@ class Gallery extends CI_Controller {
             $data['folders'] = $this->Model_files->getFolders($ROOTfolder['id']);
 
             $data['breadcrumbs'] = $this->breadcrumbs($ROOTfolder['id']);
+
+            $data['current_folder'] = $ROOTfolder['id'];
         } else {
             if ($this->isOwner('dir', $this->uri->segment(3), $user['id'])!==true) {
                 var_dump($this->uri->segment(3));
@@ -32,6 +34,8 @@ class Gallery extends CI_Controller {
             $data['folders'] = $this->Model_files->getFolders($this->uri->segment(3));
 
             $data['breadcrumbs'] = $this->breadcrumbs($this->uri->segment(3));
+
+            $data['current_folder'] = $this->uri->segment(3);
         }
 
         foreach ($data['files'] as $key => $value) {

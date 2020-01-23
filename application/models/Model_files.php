@@ -100,10 +100,10 @@ class Model_files extends CI_Model {
     }
 
 
-    public function uploadFile($src, $user_id, $type)
+    public function uploadFile($src, $user_id, $type, $folder_id)
     {
         $name    = $_POST['name'];
-        $this->db->query("INSERT INTO files (src, name, user_id, type) VALUES ('$src', '$name', '$user_id', '$type')");
+        $this->db->query("INSERT INTO files (src, name, user_id, type, dir) VALUES ('$src', '$name', '$user_id', '$type', '$folder_id')");
     }
 
     public function updateName($id, $name)
