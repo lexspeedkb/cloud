@@ -109,6 +109,8 @@ class Model_files extends CI_Model {
     public function addFolder($name, $owner_id, $parent_id)
     {
         $this->db->query("INSERT INTO dirs (name, owner_id, parent_id) VALUES ('$name', '$owner_id', '$parent_id')");
+        $id = $this->db->insert_id();
+        return $id;
     }
 
     public function updateName($id, $name)

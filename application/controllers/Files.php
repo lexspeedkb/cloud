@@ -120,7 +120,9 @@ class Files extends CI_Controller {
             die();
         }
 
-        $this->Model_files->addFolder($_POST['name'], $user['id'], $parent_id);
+        $new_folder_id = $this->Model_files->addFolder($_POST['name'], $user['id'], $parent_id);
+
+        echo '<meta http-equiv="refresh" content="0;URL=/gallery/index/'.$new_folder_id.'">';
     }
 
     public function multi ()
