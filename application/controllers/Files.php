@@ -45,7 +45,12 @@ class Files extends CI_Controller {
             die();
         }
 
-        $reArrayFiles = rearrange($_FILES['file']);
+
+        if (empty($_FILES['Filedata']['name'])) {
+            $reArrayFiles = rearrange($_FILES['file']);
+        } else {
+            $reArrayFiles = $_FILES;
+        }
 
         foreach ($reArrayFiles as $file) {
             $uploaddir = $_SERVER['DOCUMENT_ROOT'].'/files/';

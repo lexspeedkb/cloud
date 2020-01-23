@@ -10,6 +10,7 @@
       integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
       crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/assets/css/main.css">
+    <script src="/assets/js/jquery.uploadifive.js" type="text/javascript"></script>
 
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
 
