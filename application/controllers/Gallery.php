@@ -20,14 +20,18 @@ class Gallery extends CI_Controller {
 
             $data['files']   = $this->Model_files->getFiles($ROOTfolder['id']);
             $data['folders'] = $this->Model_files->getFolders($ROOTfolder['id']);
+
+            $data['breadcrumbs'] = $this->breadcrumbs($ROOTfolder['id']);
         } else {
             if ($this->isOwner('dir', $this->uri->segment(3), $user['id'])!==true) {
                 var_dump($this->uri->segment(3));
                 header('HTTP/1.0 403 Forbidden');
                 die();
             }
-            $data['files']   = $this->Model_files->getFiles($this->uri->segment(3)); //TODO check owner
+            $data['files']   = $this->Model_files->getFiles($this->uri->segment(3));
             $data['folders'] = $this->Model_files->getFolders($this->uri->segment(3));
+
+            $data['breadcrumbs'] = $this->breadcrumbs($this->uri->segment(3));
         }
 
         foreach ($data['files'] as $key => $value) {
@@ -76,8 +80,29 @@ class Gallery extends CI_Controller {
         $this->load->library('session');
         $this->load->model('Model_files');
 
-        $folder_id = 4;
-        $breadcrumbs[$i] = $this->Model_files->getOneFolder
+        $i = 0;
+
+        $breadcrumbs[$i] = $this->Model_files->getOneFolder($folder_id);
+        if ($breadcrumbs[$i]['parent_id']==0) {
+            return $breadcrumbs;
+        }
+
+        $i++;
+
+        while ($i < 10) {
+            $breadcrumbs[$i] = $this->Model_files->getOneFolder($breadcrumbs[$i-1]['parent_id']);
+
+            if ($breadcrumbs[$i]['parent_id']==0) {
+                break;
+            }
+
+            $i++;
+        }
+
+        $return = array_reverse($breadcrumbs);
+
+        return $return;
+
     }
 
 }

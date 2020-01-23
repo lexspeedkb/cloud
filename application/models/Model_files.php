@@ -73,7 +73,7 @@ class Model_files extends CI_Model {
             $folder['name']      = $row['name'];
             $folder['owners']    = $row['owners'];
             $folder['owner_id']  = $row['owner_id'];
-            $folder['parent_id'] = $row['user_id'];
+            $folder['parent_id'] = $row['parent_id'];
         }
         return $folder;
     }

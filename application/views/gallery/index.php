@@ -1,5 +1,9 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
+<?php foreach ($breadcrumbs as $crumb): ?>
+    <a href="/gallery/index/<?=$crumb['id']?>"> <?=$crumb['name']?></a>/
+<?php endforeach; ?>
+
 <div id="index">
     <?php if ($_GET['list']=='grid'): ?>
         <?php foreach ($files as $file): ?>
