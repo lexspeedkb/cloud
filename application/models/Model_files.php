@@ -52,7 +52,8 @@ class Model_files extends CI_Model {
                 $query = $this->db->query("SELECT * FROM files WHERE id='$search'");
         }
 
-        foreach ($query->result_array() as $row) {
+        foreach ($query->result_array() as $row)
+        {
             $file['id']        = $row['id'];
             $file['src']       = $row['src'];
             $file['name']      = $row['name'];
@@ -77,7 +78,8 @@ class Model_files extends CI_Model {
         return $folder;
     }
 
-    public function delete ($id) {
+    public function delete ($id)
+    {
         $this->load->helper('files');
 
         $file = $this->getOneFile('id', $id);
@@ -108,6 +110,12 @@ class Model_files extends CI_Model {
     {
         $this->db->query("UPDATE files SET name='$name' WHERE id='$id'");
     }
+
+    public function updateDirName($id, $name)
+    {
+        $this->db->query("UPDATE dirs SET name='$name' WHERE id='$id'");
+    }
+
 
 }
 ?>

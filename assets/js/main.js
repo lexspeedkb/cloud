@@ -88,20 +88,27 @@ $(document).ready(function () {
 
 
     $(document).on('change', '.file-name', function () {
-        var id = $(this).attr('data-id');
-        var value = $(this).val();
+        var id      = $(this).attr('data-id');
+        var type    = $(this).attr('data-type');
+        var value   = $(this).val();
+
+        if (type == 'folder') {
+            var url_rename = '/files/changeDirName/';
+        } else {
+            var url_rename = '/files/changeName/'
+        }
 
         $.ajax({
-            url: '/files/changeName/',
+            url: url_rename,
             type: 'POST',
             data: {id: id, value: value},
         })
             .done(function() {
-                var data = {message: 'Имя изменено!' };
+                var data = {message: 'Имя папки изменено!' };
                 snackbarContainer.MaterialSnackbar.showSnackbar(data);
             })
             .fail(function() {
-                var data = {message: 'Ошибка' };
+                var data = {message: 'Ошибка изменения имени папки' };
                 snackbarContainer.MaterialSnackbar.showSnackbar(data);
             })
     });

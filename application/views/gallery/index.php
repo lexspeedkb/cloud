@@ -52,7 +52,7 @@
                         </td>
                         <td class="mdl-data-table__cell--non-numeric">
                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                <input class="mdl-textfield__input file-name" type="text" value="<?=$folder['name']?>" data-id="<?=$folder['id']?>">
+                                <input class="mdl-textfield__input file-name" type="text" data-type="folder" value="<?=$folder['name']?>" data-id="<?=$folder['id']?>">
                                 <label class="mdl-textfield__label" for="name">Название...</label>
                             </div>
                         </td>

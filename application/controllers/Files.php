@@ -219,6 +219,23 @@ class Files extends CI_Controller {
         echo '<meta http-equiv="refresh" content="0;URL=/">';
     }
 
+    public function changeDirName () {
+        $this->load->library('session');
+        $this->load->model('Model_files');
+        $this->load->model('Model_auth');
+
+        $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
+
+        if ($this->isOwner('dir', $_POST['id'], $user['id'])!==true) {
+            header('HTTP/1.0 403 Forbidden');
+            die();
+        }
+
+        $this->Model_files->updateDirName($_POST['id'], $_POST['value']);
+
+        echo '<meta http-equiv="refresh" content="0;URL=/">';
+    }
+
     public function getTypeByMIME ($mime) {
         $type = explode('/', $mime);
 
