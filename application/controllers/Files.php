@@ -103,11 +103,33 @@ class Files extends CI_Controller {
 
     }
 
-    public function multi () {
+    public function addFolder ()
+    {
+        $this->load->library('session');
+        $this->load->model('Model_files');
+        $this->load->model('Model_auth');
+        $this->load->helper('files');
+
+
+        $parent_id = $_POST['folder_id'];
+
+        $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
+
+        if ($this->isOwner('dir', $parent_id, $user['id'])!==true) {
+            header('HTTP/1.0 403 Forbidden');
+            die();
+        }
+
+        $this->Model_files->addFolder($_POST['name'], $user['id'], $parent_id);
+    }
+
+    public function multi ()
+    {
         var_dump($_POST);
     }
 
-    public function delete () {
+    public function delete ()
+    {
         $this->load->library('session');
         $this->load->model('Model_files');
         $this->load->model('Model_auth');
@@ -132,7 +154,8 @@ class Files extends CI_Controller {
         $this->load->view('include/footer', $data);
     }
 
-    public function deleteFolder () {
+    public function deleteFolder ()
+    {
         $this->load->library('session');
         $this->load->model('Model_files');
         $this->load->model('Model_auth');
@@ -157,7 +180,8 @@ class Files extends CI_Controller {
         $this->load->view('include/footer', $data);
     }
 
-    public function deleteAction () {
+    public function deleteAction ()
+    {
         $this->load->library('session');
         $this->load->model('Model_files');
         $this->load->model('Model_auth');
@@ -173,7 +197,8 @@ class Files extends CI_Controller {
         echo '<meta http-equiv="refresh" content="0;URL=/">';
     }
 
-    public function deleteFolderAction () {
+    public function deleteFolderAction ()
+    {
         $this->load->library('session');
         $this->load->model('Model_files');
         $this->load->model('Model_auth');
@@ -189,7 +214,8 @@ class Files extends CI_Controller {
         echo '<meta http-equiv="refresh" content="0;URL=/">';
     }
 
-    public function isOwner ($type, $search, $user_id) {
+    public function isOwner ($type, $search, $user_id)
+    {
         $this->load->model('Model_files');
 
         if ($type == 'dir') {
@@ -210,7 +236,8 @@ class Files extends CI_Controller {
         }
     }
 
-    public function changeName () {
+    public function changeName ()
+    {
         $this->load->library('session');
         $this->load->model('Model_files');
         $this->load->model('Model_auth');
@@ -227,7 +254,8 @@ class Files extends CI_Controller {
         echo '<meta http-equiv="refresh" content="0;URL=/">';
     }
 
-    public function changeDirName () {
+    public function changeDirName ()
+    {
         $this->load->library('session');
         $this->load->model('Model_files');
         $this->load->model('Model_auth');
@@ -244,7 +272,8 @@ class Files extends CI_Controller {
         echo '<meta http-equiv="refresh" content="0;URL=/">';
     }
 
-    public function getTypeByMIME ($mime) {
+    public function getTypeByMIME ($mime)
+    {
         $type = explode('/', $mime);
 
         // switch ($type[0]) {

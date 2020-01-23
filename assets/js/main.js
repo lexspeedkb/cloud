@@ -86,6 +86,15 @@ $(document).ready(function () {
     });
 
 
+    $(document).on('click', '#load-tabs .tab', function () {
+        var name = $(this).attr('name');
+        $('#load-tabs .tab').removeClass('active');
+        $(this).addClass('active');
+
+        $('#load-tabs-content .tab').css('display', 'none');
+        $('#load-tabs-content .tab[name="'+name+'"]').css('display', 'block');
+    });
+
 
     $(document).on('change', '.file-name', function () {
         var id      = $(this).attr('data-id');

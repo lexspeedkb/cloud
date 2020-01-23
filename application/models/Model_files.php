@@ -106,6 +106,11 @@ class Model_files extends CI_Model {
         $this->db->query("INSERT INTO files (src, name, user_id, type, dir) VALUES ('$src', '$name', '$user_id', '$type', '$folder_id')");
     }
 
+    public function addFolder($name, $owner_id, $parent_id)
+    {
+        $this->db->query("INSERT INTO dirs (name, owner_id, parent_id) VALUES ('$name', '$owner_id', '$parent_id')");
+    }
+
     public function updateName($id, $name)
     {
         $this->db->query("UPDATE files SET name='$name' WHERE id='$id'");
