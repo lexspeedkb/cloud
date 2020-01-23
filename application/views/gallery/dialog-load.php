@@ -40,7 +40,7 @@
                 $(function() {
                     $('#file_upload').uploadifive({
                         'auto'             : false,
-                        'checkScript'      : '/files/upload',
+                        'checkScript'      : false,
                         'fileType'         : '*',
                         'formData'         : {
                                                 'timestamp' : '<?php echo $timestamp;?>',

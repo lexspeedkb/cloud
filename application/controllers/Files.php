@@ -54,7 +54,7 @@ class Files extends CI_Controller {
 
         foreach ($reArrayFiles as $file) {
             $uploaddir = $_SERVER['DOCUMENT_ROOT'].'/files/';
-            // $basename = basename($_FILES['file']['name']);
+
             $ext = explode('.', $file['name']);
             $dateTime = date('Y_m_d__h_i_s');
             $basename = md5_file($file['tmp_name']).'_'.$dateTime.'.'.$ext[count($ext)-1];
@@ -94,8 +94,9 @@ class Files extends CI_Controller {
                 fwrite($htaccess_o, $htaccess_data);
 
 
+                $name = $_POST['name'] ?? basename($_FILES['Filedata']['name']);
 
-                $this->Model_files->uploadFile($basename, $user['id'], $type['full'], $folder_id);
+                $this->Model_files->uploadFile($basename, $user['id'], $type['full'], $folder_id, $name);
 
 
             } else {
