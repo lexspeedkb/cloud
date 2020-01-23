@@ -104,6 +104,14 @@ class Model_files extends CI_Model {
         $this->db->query("DELETE FROM dirs WHERE id='$id'");
     }
 
+    public function toggleFolderFree ($id, $toggle=true)
+    {
+        if ($toggle) {
+            $this->db->query("UPDATE dirs SET free='1' WHERE id='$id'");
+        } else {
+            $this->db->query("UPDATE dirs SET free='0' WHERE id='$id'");
+        }
+    }
 
     public function uploadFile($src, $user_id, $type, $folder_id, $name)
     {

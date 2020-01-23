@@ -214,7 +214,8 @@ class Files extends CI_Controller {
             $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
 
             if ($this->isOwner('id', $this->uri->segment(3), $user['id'])!==true) {
-                die('rrrrr');
+                header('HTTP/1.0 403 Forbidden');
+                die();
             }
 
             $this->Model_files->delete($this->uri->segment(3));
@@ -224,7 +225,8 @@ class Files extends CI_Controller {
             $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
 
             if ($this->isOwner('id', $file_id, $user['id'])!==true) {
-                die('rrrrr');
+                header('HTTP/1.0 403 Forbidden');
+                die();
             }
 
             $this->Model_files->delete($file_id);
@@ -242,7 +244,8 @@ class Files extends CI_Controller {
             $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
 
             if ($this->isOwner('dir', $this->uri->segment(3), $user['id'])!==true) {
-                die('rrrrr');
+                header('HTTP/1.0 403 Forbidden');
+                die();
             }
 
             $this->Model_files->deleteFolder($this->uri->segment(3));
@@ -252,12 +255,29 @@ class Files extends CI_Controller {
             $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
 
             if ($this->isOwner('dir', $folder_id, $user['id'])!==true) {
-                die('rrrrr');
+                header('HTTP/1.0 403 Forbidden');
+                die();
             }
 
             $this->Model_files->deleteFolder($folder_id);
         }
 
+    }
+
+    public function toggleFolderFree ()
+    {
+        $this->load->library('session');
+        $this->load->model('Model_files');
+        $this->load->model('Model_auth');
+
+        $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
+
+        if ($this->isOwner('dir', $this->uri->segment(3), $user['id'])!==true) {
+            header('HTTP/1.0 403 Forbidden');
+            die();
+        }
+
+        $folder = $this->Model_files->getOneFolder($this->uri->segment(3));
     }
 
     public function isOwner ($type, $search, $user_id)
