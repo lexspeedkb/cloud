@@ -127,7 +127,23 @@ class Files extends CI_Controller {
 
     public function multi ()
     {
-        var_dump($_POST);
+
+        switch ($this->uri->segment(3)) {
+            case "delete":
+
+                foreach ($_POST['checked'] as $key => $value){
+                    if ($_POST['type'][$key]=='file') {
+                        $this->deleteAction($key);
+                    }
+                    if ($_POST['type'][$key]=='folder') {
+                        $this->deleteFolderAction($key);
+                    }
+                }
+
+                echo '<meta http-equiv="refresh" content="0;URL=/">';
+                break;
+        }
+
     }
 
     public function delete ()
@@ -182,38 +198,60 @@ class Files extends CI_Controller {
         $this->load->view('include/footer', $data);
     }
 
-    public function deleteAction ()
+    public function deleteAction ($file_id='')
     {
         $this->load->library('session');
         $this->load->model('Model_files');
         $this->load->model('Model_auth');
 
-        $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
+        if ($file_id=='') {
+            $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
 
-        if ($this->isOwner('id', $this->uri->segment(3), $user['id'])!==true) {
-            die('rrrrr');
+            if ($this->isOwner('id', $this->uri->segment(3), $user['id'])!==true) {
+                die('rrrrr');
+            }
+
+            $this->Model_files->delete($this->uri->segment(3));
+
+            echo '<meta http-equiv="refresh" content="0;URL=/">';
+        } else {
+            $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
+
+            if ($this->isOwner('id', $file_id, $user['id'])!==true) {
+                die('rrrrr');
+            }
+
+            $this->Model_files->delete($file_id);
         }
 
-        $this->Model_files->delete($this->uri->segment(3));
-
-        echo '<meta http-equiv="refresh" content="0;URL=/">';
     }
 
-    public function deleteFolderAction ()
+    public function deleteFolderAction ($folder_id)
     {
         $this->load->library('session');
         $this->load->model('Model_files');
         $this->load->model('Model_auth');
 
-        $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
+        if ($folder_id=='') {
+            $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
 
-        if ($this->isOwner('dir', $this->uri->segment(3), $user['id'])!==true) {
-            die('rrrrr');
+            if ($this->isOwner('dir', $this->uri->segment(3), $user['id'])!==true) {
+                die('rrrrr');
+            }
+
+            $this->Model_files->deleteFolder($this->uri->segment(3));
+
+            echo '<meta http-equiv="refresh" content="0;URL=/">';
+        } else {
+            $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
+
+            if ($this->isOwner('dir', $folder_id, $user['id'])!==true) {
+                die('rrrrr');
+            }
+
+            $this->Model_files->deleteFolder($folder_id);
         }
 
-        $this->Model_files->deleteFolder($this->uri->segment(3)); //TODO this func
-
-        echo '<meta http-equiv="refresh" content="0;URL=/">';
     }
 
     public function isOwner ($type, $search, $user_id)

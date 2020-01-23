@@ -43,11 +43,12 @@
             </tr>
             </thead>
             <tbody>
-            <form action="/files/check" method="POST">
+            <form action="/files/multi/delete" method="POST">
                 <?php foreach ($folders as $folder): ?>
                     <tr>
                         <td class="mdl-data-table__cell--non-numeric">
                             <input type="checkbox" name="checked[<?=$folder['id']?>]">
+                            <input type="hidden" name="type[<?=$folder['id']?>]" value="folder">
                         </td>
                         <td class="mdl-data-table__cell--non-numeric">
                             <a href="/gallery/index/<?=$folder['id']?>">
@@ -76,6 +77,7 @@
                         <tr>
                             <td>
                                 <input type="checkbox" name="checked[<?=$file['id']?>]">
+                                <input type="hidden" name="type[<?=$file['id']?>]" value="file">
                             </td>
                             <td>
                                 <img class="item" data-type="image" data-src="/files/render/o/<?=$file['path']['name'];?>" src="/files/render/s/<?=$file['path']['name'];?>" style="width: 50px;">
@@ -103,6 +105,7 @@
                         <tr>
                             <td>
                                 <input type="checkbox" name="checked[<?=$file['id']?>]">
+                                <input type="hidden" name="type[<?=$file['id']?>]" value="file">
                             </td>
                             <td>
                                 <img src="/assets/img/default_<?=$file['type']['primary']?>.png" style="width: 50px;">

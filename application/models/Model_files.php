@@ -99,6 +99,11 @@ class Model_files extends CI_Model {
         unlink($file_s);
     }
 
+    public function deleteFolder ($id)
+    {
+        $this->db->query("DELETE FROM dirs WHERE id='$id'");
+    }
+
 
     public function uploadFile($src, $user_id, $type, $folder_id)
     {
