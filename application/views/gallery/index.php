@@ -35,7 +35,7 @@
         <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp table-gallery">
             <thead>
             <tr>
-                <th class="mdl-data-table__cell--non-numeric"><input type="checkbox"></th>
+                <th class="mdl-data-table__cell--non-numeric"><input type="checkbox" id="check-all"></th>
                 <th class="mdl-data-table__cell--non-numeric">Material</th>
                 <th class="mdl-data-table__cell--non-numeric">Название</th>
                 <th class="mdl-data-table__cell--non-numeric">Тип</th>
@@ -47,7 +47,7 @@
                 <?php foreach ($folders as $folder): ?>
                     <tr>
                         <td class="mdl-data-table__cell--non-numeric">
-                            <input type="checkbox" name="checked[<?=$folder['id']?>]">
+                            <input type="checkbox" name="checked[<?=$folder['id']?>]" class="checkbox-action">
                             <input type="hidden" name="type[<?=$folder['id']?>]" value="folder">
                         </td>
                         <td class="mdl-data-table__cell--non-numeric">
@@ -76,7 +76,7 @@
                     <?php if ($file['type']['primary']=='image'): ?>
                         <tr>
                             <td>
-                                <input type="checkbox" name="checked[<?=$file['id']?>]">
+                                <input type="checkbox" name="checked[<?=$file['id']?>]" class="checkbox-action">
                                 <input type="hidden" name="type[<?=$file['id']?>]" value="file">
                             </td>
                             <td>
@@ -104,7 +104,7 @@
                     <?php else: ?>
                         <tr>
                             <td>
-                                <input type="checkbox" name="checked[<?=$file['id']?>]">
+                                <input type="checkbox" name="checked[<?=$file['id']?>]" class="checkbox-action">
                                 <input type="hidden" name="type[<?=$file['id']?>]" value="file">
                             </td>
                             <td>

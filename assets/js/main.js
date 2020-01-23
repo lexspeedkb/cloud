@@ -95,6 +95,14 @@ $(document).ready(function () {
         $('#load-tabs-content .tab[name="'+name+'"]').css('display', 'block');
     });
 
+    $("#check-all").change(function() {
+        if(this.checked) {
+            $(".checkbox-action").prop('checked', true);
+        } else {
+            $(".checkbox-action").prop('checked', false);
+        }
+    });
+
 
     $(document).on('change', '.file-name', function () {
         var id      = $(this).attr('data-id');
