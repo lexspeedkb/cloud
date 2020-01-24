@@ -21,15 +21,19 @@
 <dialog class="mdl-dialogp-options options-modal" id="options-folder">
     <div class="bg"></div>
     <div class="wrapper">
-        <a class="open" href=""><span class="">Открыть папку</span></a>
+        <a class="open" href="">
+            <span class="">Открыть папку</span>
+        </a>
         <hr>
-<!--        <span class="">Предоставить доступ к папке</span>-->
+        <a class="free" href="">
+            <span class="">Предоставить доступ к папке</span>
+        </a>
+<!--        <a class="save" href="" download><span class="">Сохранить папку</span></a>-->
 <!--        <br><br>-->
-        <a class="save" href="" download><span class="">Сохранить папку</span></a>
-<!--        <br><br>-->
-<!--        <span class="">Поделиться папкой</span>-->
         <hr><br>
-        <a class="delete" href=""><span>УДАЛИТЬ ПАПКУ</span></a>
+        <a class="delete" href="">
+            <span>УДАЛИТЬ ПАПКУ</span>
+        </a>
     </div>
 
     <button type="button" class="mdl-button close">Закрыть</button>

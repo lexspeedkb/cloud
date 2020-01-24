@@ -37,6 +37,7 @@ $(document).ready(function () {
         var data_id = $(this).attr('data-id');
         var path = $(this).attr('path');
         var type = $(this).attr('type');
+        var free = $(this).attr('free');
 
         if (type=='dir') {
             var dialogOptions = document.querySelector('#options-folder');
@@ -45,7 +46,14 @@ $(document).ready(function () {
             $('#options-folder .bg').css('display', 'block');
 
             $('#options-folder .open').attr('href', '/gallery/index/'+data_id);
+            $('#options-folder .free').attr('href', '/files/toggleFolderFree/'+data_id);
             $('#options-folder .delete').attr('href', '/files/deleteFolder/'+data_id);
+
+            if (free==0) {
+                $('#options-folder .free span').text('Предоставить доступ к папке');
+            } else {
+                $('#options-folder .free span').text('Закрыть доступ к папке');
+            }
         } else {
             var dialogOptions = document.querySelector('#options');
             dialogOptions.showModal();

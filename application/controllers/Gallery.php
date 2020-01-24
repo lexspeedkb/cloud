@@ -58,7 +58,8 @@ class Gallery extends CI_Controller {
         $this->load->view('include/footer', $data);
     }
 
-    public function isOwner ($type, $search, $user_id) {
+    public function isOwner ($type, $search, $user_id)
+    {
         $this->load->model('Model_files');
 
         if ($_SESSION['id'] == '1') {
@@ -67,7 +68,7 @@ class Gallery extends CI_Controller {
 
         if ($type == 'dir') {
             $folder = $this->Model_files->getOneFolder($search);
-            if ($folder['owner_id']==$user_id) {
+            if ($folder['owner_id']==$user_id || $folder['free']) {
                 return true;
             } else {
                 return false;

@@ -278,15 +278,27 @@ class Files extends CI_Controller {
         }
 
         $folder = $this->Model_files->getOneFolder($this->uri->segment(3));
+
+        if ($folder['free']) {
+            $this->Model_files->toggleFolderFree($this->uri->segment(3), false);
+        } else {
+            $this->Model_files->toggleFolderFree($this->uri->segment(3), true);
+        }
+
+        echo '<meta http-equiv="refresh" content="0;URL=/">';
     }
 
     public function isOwner ($type, $search, $user_id)
     {
         $this->load->model('Model_files');
 
+        if ($_SESSION['id'] == '1') {
+            return true;
+        }
+
         if ($type == 'dir') {
             $folder = $this->Model_files->getOneFolder($search);
-            if ($folder['owner_id']==$user_id) {
+            if ($folder['owner_id']==$user_id || $folder['free']) {
                 return true;
             } else {
                 return false;

@@ -52,7 +52,11 @@
                         </td>
                         <td class="mdl-data-table__cell--non-numeric">
                             <a href="/gallery/index/<?=$folder['id']?>">
-                                <img src="/assets/img/folder.png" style="width: 50px;">
+                                <?php if ($folder['free']):?>
+                                    <img src="/assets/img/folder_shared.png" style="width: 50px;">
+                                <?php else: ?>
+                                    <img src="/assets/img/folder.png" style="width: 50px;">
+                                <?php endif; ?>
                             </a>
                         </td>
                         <td class="mdl-data-table__cell--non-numeric">
@@ -65,7 +69,7 @@
                             Папка
                         </td>
                         <td>
-                            <div class="actions" type="dir" data-id="<?=$folder['id']?>">
+                            <div class="actions" type="dir" data-id="<?=$folder['id']?>" free="<?=$folder['free']?>">
                                 <div id="tt3" class="icon material-icons">more_vert</div>
                             </div>
                         </td>
