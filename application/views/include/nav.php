@@ -9,7 +9,7 @@
             <div class="mdl-layout-spacer"></div>
             <!-- Navigation. We hide it in small screens. -->
             <nav class="mdl-navigation mdl-layout--large-screen-only">
-                <a class="mdl-navigation__link" href=""><?=$user['login']?></a>
+                <a class="mdl-navigation__link" href="/dashboard"><?=$user['login']?></a>
                 <a class="mdl-navigation__link" href="/">List</a>
                 <a class="mdl-navigation__link" href="/?list=grid">Grid</a>
                 <a class="mdl-navigation__link" href="/auth/exit">Выход</a>
@@ -19,7 +19,7 @@
     <div class="mdl-layout__drawer">
         <span class="mdl-layout-title">Title</span>
         <nav class="mdl-navigation">
-            <a class="mdl-navigation__link" href=""><?=$user['login']?></a>
+            <a class="mdl-navigation__link" href="/dashboard"><?=$user['login']?></a>
             <a class="mdl-navigation__link" href="/">List</a>
             <a class="mdl-navigation__link" href="/?list=grid">Grid</a>
             <a class="mdl-navigation__link" href="/auth/exit">Выход</a>
