@@ -105,8 +105,6 @@ class Files extends CI_Controller {
 
             echo '<meta http-equiv="refresh" content="0;URL=/gallery/index/'.$folder_id.'">';
         }
-
-
     }
 
     public function addFolder ()
@@ -286,32 +284,6 @@ class Files extends CI_Controller {
         }
 
         echo '<meta http-equiv="refresh" content="0;URL=/">';
-    }
-
-    public function isOwner ($type, $search, $user_id)
-    {
-        $this->load->model('Model_files');
-
-        if ($_SESSION['id'] == '1') {
-            return true;
-        }
-
-        if ($type == 'dir') {
-            $folder = $this->Model_files->getOneFolder($search);
-            if ($folder['owner_id']==$user_id || $folder['free']) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            $file = $this->Model_files->getOneFile($type, $search);
-
-            if ($file['user_id']==$user_id) {
-                return true;
-            } else {
-                return false;
-            }
-        }
     }
 
     public function changeName ()

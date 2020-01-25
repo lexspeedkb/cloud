@@ -87,6 +87,71 @@ class CI_Controller {
 		log_message('info', 'Controller Class Initialized');
 	}
 
+    public function isOwner ($type, $search, $user_id)
+    {
+        $this->load->model('Model_files');
+
+        if ($_SESSION['id'] == '1') {
+            return true;
+        }
+
+        if ($type == 'dir') {
+            $folder = $this->Model_files->getOneFolder($search);
+
+            if ($folder['owner_id']==$user_id || $folder['free']) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            $file = $this->Model_files->getOneFile($type, $search);
+
+            // If folder is free to use
+            $breadcrumbs = $this->breadcrumbs($file['dir']);
+            foreach ($breadcrumbs as $item) {
+                if ($item['free']) {
+                    return true;
+                }
+            }
+
+            if ($file['user_id']==$user_id) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    public function breadcrumbs ($folder_id)
+    {
+        $this->load->library('session');
+        $this->load->model('Model_files');
+
+        $i = 0;
+
+        $breadcrumbs[$i] = $this->Model_files->getOneFolder($folder_id);
+        if ($breadcrumbs[$i]['parent_id']==0) {
+            return $breadcrumbs;
+        }
+
+        $i++;
+
+        while ($i < 10) {
+            $breadcrumbs[$i] = $this->Model_files->getOneFolder($breadcrumbs[$i-1]['parent_id']);
+
+            if ($breadcrumbs[$i]['parent_id']==0) {
+                break;
+            }
+
+            $i++;
+        }
+
+        $return = array_reverse($breadcrumbs);
+
+        return $return;
+
+    }
+
 	// --------------------------------------------------------------------
 
 	/**

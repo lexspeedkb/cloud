@@ -56,8 +56,10 @@ class Model_files extends CI_Model {
         {
             $file['id']        = $row['id'];
             $file['src']       = $row['src'];
+            $file['dir']       = $row['dir'];
             $file['name']      = $row['name'];
             $file['type']      = $row['type'];
+            $file['free']      = $row['free'];
             $file['user_id']   = $row['user_id'];
         }
         return $file;

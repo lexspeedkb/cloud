@@ -53,6 +53,7 @@ $(document).ready(function () {
                 $('#options-folder .free span').text('Предоставить доступ к папке');
             } else {
                 $('#options-folder .free span').text('Закрыть доступ к папке');
+                $('#options-folder #link').val('/gallery/index/'+data_id);
             }
         } else {
             var dialogOptions = document.querySelector('#options');
@@ -69,6 +70,20 @@ $(document).ready(function () {
         $('.wheel-load').addClass( 'blur' );
     });
 
+    $(document).on('click', '#options-folder .get-link', function () {
+        var copyText = document.getElementById("link");
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        document.execCommand("copy");
+
+        var data = {message: 'Ссылка скопирована в буфер обмена' };
+        snackbarContainer.MaterialSnackbar.showSnackbar(data);
+
+        optionsFolder_close();
+    });
+
+
+
     $(document).on('click', '#options .bg', function () {
         $('#options .wrapper').removeClass('open');
         $('.wheel-load').removeClass( 'blur' );
@@ -82,6 +97,10 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '#options-folder .bg', function () {
+        optionsFolder_close();
+    });
+
+    function optionsFolder_close () {
         $('#options-folder .wrapper').removeClass('open');
         $('.wheel-load').removeClass( 'blur' );
 
@@ -90,8 +109,7 @@ $(document).ready(function () {
             var dialogOptions = document.querySelector('#options-folder');
             dialogOptions.close();
         }, 300)
-
-    });
+    }
 
 
     $(document).on('click', '#load-tabs .tab', function () {

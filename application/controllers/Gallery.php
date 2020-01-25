@@ -14,6 +14,7 @@ class Gallery extends CI_Controller {
 
         $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
 
+        $data['user'] = $user;
 
         if (empty($this->uri->segment(3))) {
             $ROOTfolder = $this->Model_auth->getRootFolder($user['id']);
@@ -57,61 +58,4 @@ class Gallery extends CI_Controller {
         $this->load->view('include/snackbar', $data);
         $this->load->view('include/footer', $data);
     }
-
-    public function isOwner ($type, $search, $user_id)
-    {
-        $this->load->model('Model_files');
-
-        if ($_SESSION['id'] == '1') {
-            return true;
-        }
-
-        if ($type == 'dir') {
-            $folder = $this->Model_files->getOneFolder($search);
-            if ($folder['owner_id']==$user_id || $folder['free']) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            $file = $this->Model_files->getOneFile($type, $search);
-
-            if ($file['user_id']==$user_id) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-    }
-
-    public function breadcrumbs ($folder_id)
-    {
-        $this->load->library('session');
-        $this->load->model('Model_files');
-
-        $i = 0;
-
-        $breadcrumbs[$i] = $this->Model_files->getOneFolder($folder_id);
-        if ($breadcrumbs[$i]['parent_id']==0) {
-            return $breadcrumbs;
-        }
-
-        $i++;
-
-        while ($i < 10) {
-            $breadcrumbs[$i] = $this->Model_files->getOneFolder($breadcrumbs[$i-1]['parent_id']);
-
-            if ($breadcrumbs[$i]['parent_id']==0) {
-                break;
-            }
-
-            $i++;
-        }
-
-        $return = array_reverse($breadcrumbs);
-
-        return $return;
-
-    }
-
 }

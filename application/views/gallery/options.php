@@ -25,10 +25,22 @@
             <span class="">Открыть папку</span>
         </a>
         <hr>
+        <br>
         <a class="free" href="">
             <span class="">Предоставить доступ к папке</span>
         </a>
-<!--        <a class="save" href="" download><span class="">Сохранить папку</span></a>-->
+        <br>
+        <br>
+
+        <a class="get-link" href="#">
+            <span class="">Скопировать ссылку</span>
+        </a>
+        <input id="link" type="text" style="position: fixed; bottom: -100px;">
+
+        <br>
+        <br>
+
+        <!--        <a class="save" href="" download><span class="">Сохранить папку</span></a>-->
 <!--        <br><br>-->
         <hr><br>
         <a class="delete" href="">
