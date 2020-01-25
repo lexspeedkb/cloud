@@ -133,6 +133,15 @@ td {
 .delete-wrapper {
   margin: 10px auto; }
 
+.card {
+  width: 18rem;
+  margin: 0 auto;
+}
+
+.error-message {
+  color: red;
+}
+
 #preloader {
   width: 100vw;
   height: 100vh;

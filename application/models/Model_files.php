@@ -24,6 +24,24 @@ class Model_files extends CI_Model {
         return $files;
     }
 
+    public function getFilesOfUser($user_id)
+    {
+        $query = $this->db->query("SELECT * FROM files WHERE user_id='$user_id'");
+
+        foreach ($query->result_array() as $row) {
+            $files[$i]['id']         = $row['id'];
+            $files[$i]['src']        = $row['src'];
+            $files[$i]['name']       = $row['name'];
+            $files[$i]['type']       = $row['type'];
+            $files[$i]['user_id']    = $row['user_id'];
+            $files[$i]['filesize_o'] = $row['filesize_o'];
+            $files[$i]['filesize_s'] = $row['filesize_s'];
+            $i++;
+
+        }
+        return $files;
+    }
+
     public function getFolders($parent_id)
     {
         $query = $this->db->query("SELECT * FROM dirs WHERE parent_id='$parent_id' ORDER BY id DESC");
