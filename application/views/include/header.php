@@ -20,4 +20,5 @@
 </head>
 <div id="preloader"></div>
 <body>
+    <input type="hidden" id="PARAMS_Domain" value="<?=$_SERVER['HTTP_HOST']?>">
     <div class="wheel-load">

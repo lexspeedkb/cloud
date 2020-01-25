@@ -1,4 +1,7 @@
 $(document).ready(function () {
+    var DOMAIN   = $('#PARAMS_Domain').val();
+    var PROTOCOL = 'http://';
+
     var dialog = document.querySelector('#dialog-load');
 
     $('body').on('click', '#show-dialog', function () {
@@ -53,7 +56,7 @@ $(document).ready(function () {
                 $('#options-folder .free span').text('Предоставить доступ к папке');
             } else {
                 $('#options-folder .free span').text('Закрыть доступ к папке');
-                $('#options-folder #link').val('/gallery/index/'+data_id);
+                $('#options-folder #link').val(PROTOCOL+DOMAIN+'/gallery/index/'+data_id);
             }
         } else {
             var dialogOptions = document.querySelector('#options');

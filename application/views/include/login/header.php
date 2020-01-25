@@ -7,6 +7,9 @@
         src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
         crossorigin="anonymous"></script>
+
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
         <link rel="stylesheet" href="/assets/css/main.css">
     <title>Document</title>
 </head>
