@@ -9,11 +9,11 @@ class Files extends CI_Controller {
         $this->load->model('Model_auth');
         $this->load->helper('files');
 
-        $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
-        if ($user['id']!=0) {
-            header('HTTP/1.0 403 Forbidden');
-            die();
-        }
+//        $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
+//        if ($user['id']!=0) {
+//            header('HTTP/1.0 403 Forbidden');
+//            die();
+//        }
 
         $files = $this->Model_files->getAllFiles();
 
