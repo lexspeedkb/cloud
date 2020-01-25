@@ -48,4 +48,8 @@ function getTypeByMIME ($mime) {
 
     return $ret;
 }
+
+function bytesConvert ($bytes) {
+    number_format($allFilesSize / 1048576, 2); //TODO This f-tion
+}
 ?>

@@ -24,6 +24,24 @@ class Model_files extends CI_Model {
         return $files;
     }
 
+    public function getAllFiles()
+    {
+        $query = $this->db->query("SELECT * FROM files ORDER BY id DESC");
+
+        foreach ($query->result_array() as $row) {
+            $files[$i]['id']         = $row['id'];
+            $files[$i]['src']        = $row['src'];
+            $files[$i]['name']       = $row['name'];
+            $files[$i]['type']       = $row['type'];
+            $files[$i]['user_id']    = $row['user_id'];
+            $files[$i]['filesize_o'] = $row['filesize_o'];
+            $files[$i]['filesize_s'] = $row['filesize_s'];
+            $i++;
+
+        }
+        return $files;
+    }
+
     public function getFilesOfUser($user_id)
     {
         $query = $this->db->query("SELECT * FROM files WHERE user_id='$user_id'");
@@ -157,6 +175,11 @@ class Model_files extends CI_Model {
     public function updateDirName($id, $name)
     {
         $this->db->query("UPDATE dirs SET name='$name' WHERE id='$id'");
+    }
+
+    public function updateFileSize ($id, $size_o, $size_s) {
+        $this->db->query("UPDATE files SET filesize_o='$size_o' WHERE id='$id'");
+        $this->db->query("UPDATE files SET filesize_s='$size_s' WHERE id='$id'");
     }
 
 

@@ -135,12 +135,10 @@ td {
 
 .card {
   width: 18rem;
-  margin: 0 auto;
-}
+  margin: 0 auto; }
 
 .error-message {
-  color: red;
-}
+  color: red; }
 
 #preloader {
   width: 100vw;
