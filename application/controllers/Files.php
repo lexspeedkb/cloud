@@ -35,13 +35,26 @@ class Files extends CI_Controller {
         $this->load->model('Model_auth');
         $this->load->helper('files');
 
+
+        $folder_id = $_POST['folder_id'];
+
         $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
 
-        $reArrayFiles = rearrange($_FILES['file']);
+        if ($this->isOwner('dir', $folder_id, $user['id'])!==true) {
+            header('HTTP/1.0 403 Forbidden');
+            die();
+        }
+
+
+        if (empty($_FILES['Filedata']['name'])) {
+            $reArrayFiles = rearrange($_FILES['file']);
+        } else {
+            $reArrayFiles = $_FILES;
+        }
 
         foreach ($reArrayFiles as $file) {
             $uploaddir = $_SERVER['DOCUMENT_ROOT'].'/files/';
-            // $basename = basename($_FILES['file']['name']);
+
             $ext = explode('.', $file['name']);
             $dateTime = date('Y_m_d__h_i_s');
             $basename = md5_file($file['tmp_name']).'_'.$dateTime.'.'.$ext[count($ext)-1];
@@ -80,24 +93,70 @@ class Files extends CI_Controller {
                 $htaccess_o = fopen($dirs_o.".htaccess", "w");
                 fwrite($htaccess_o, $htaccess_data);
 
+                $filesize_o = filesize($uploadfile_o);
+                $filesize_s = filesize($uploadfile_s);
 
+                if (!$filesize_s) {
+                    $filesize_s = NULL;
+                }
+                $name = $_POST['name'] ?? basename($_FILES['Filedata']['name']);
 
-                $this->Model_files->uploadFile($basename, $user['id'], $type['full']);
+                $this->Model_files->uploadFile($basename, $user['id'], $type['full'], $folder_id, $name, $filesize_o, $filesize_s);
 
 
             } else {
                 echo "<br>Возможная атака с помощью файловой загрузки!\n";
             }
 
-            echo '<meta http-equiv="refresh" content="0;URL=/">';
+            echo '<meta http-equiv="refresh" content="0;URL=/gallery/index/'.$folder_id.'">';
+        }
+    }
+
+    public function addFolder ()
+    {
+        $this->load->library('session');
+        $this->load->model('Model_files');
+        $this->load->model('Model_auth');
+        $this->load->helper('files');
+
+
+        $parent_id = $_POST['folder_id'];
+
+        $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
+
+        if ($this->isOwner('dir', $parent_id, $user['id'])!==true) {
+            header('HTTP/1.0 403 Forbidden');
+            die();
         }
 
+        $new_folder_id = $this->Model_files->addFolder($_POST['name'], $user['id'], $parent_id);
+
+        echo '<meta http-equiv="refresh" content="0;URL=/gallery/index/'.$new_folder_id.'">';
+    }
+
+    public function multi ()
+    {
+
+        switch ($this->uri->segment(3)) {
+            case "delete":
+
+                foreach ($_POST['checked'] as $key => $value){
+                    if ($_POST['type'][$key]=='file') {
+                        $this->deleteAction($key);
+                    }
+                    if ($_POST['type'][$key]=='folder') {
+                        $this->deleteFolderAction($key);
+                    }
+                }
+
+                echo '<meta http-equiv="refresh" content="0;URL=/">';
+                break;
+        }
 
     }
 
-
-
-    public function delete () {
+    public function delete ()
+    {
         $this->load->library('session');
         $this->load->model('Model_files');
         $this->load->model('Model_auth');
@@ -122,35 +181,118 @@ class Files extends CI_Controller {
         $this->load->view('include/footer', $data);
     }
 
-    public function deleteAction () {
+    public function deleteFolder ()
+    {
+        $this->load->library('session');
+        $this->load->model('Model_files');
+        $this->load->model('Model_auth');
+        $this->load->helper('files');
+
+        $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
+
+        if ($this->isOwner('dir', $this->uri->segment(3), $user['id'])!==true) {
+            header('HTTP/1.0 403 Forbidden');
+            die();
+        }
+
+        $file = $this->Model_files->getOneFile('id', $this->uri->segment(3));
+
+        $data['file'] = $file;
+        $data['file']['path'] = getPath($data['file']['src']);
+
+
+        $this->load->view('include/nav', $data);
+        $this->load->view('include/header', $data);
+        $this->load->view('delete', $data);
+        $this->load->view('include/footer', $data);
+    }
+
+    public function deleteAction ($file_id='')
+    {
+        $this->load->library('session');
+        $this->load->model('Model_files');
+        $this->load->model('Model_auth');
+
+        if ($file_id=='') {
+            $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
+
+            if ($this->isOwner('id', $this->uri->segment(3), $user['id'])!==true) {
+                header('HTTP/1.0 403 Forbidden');
+                die();
+            }
+
+            $this->Model_files->delete($this->uri->segment(3));
+
+            echo '<meta http-equiv="refresh" content="0;URL=/">';
+        } else {
+            $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
+
+            if ($this->isOwner('id', $file_id, $user['id'])!==true) {
+                header('HTTP/1.0 403 Forbidden');
+                die();
+            }
+
+            $this->Model_files->delete($file_id);
+        }
+
+    }
+
+    public function deleteFolderAction ($folder_id)
+    {
+        $this->load->library('session');
+        $this->load->model('Model_files');
+        $this->load->model('Model_auth');
+
+        if ($folder_id=='') {
+            $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
+
+            if ($this->isOwner('dir', $this->uri->segment(3), $user['id'])!==true) {
+                header('HTTP/1.0 403 Forbidden');
+                die();
+            }
+
+            $this->Model_files->deleteFolder($this->uri->segment(3));
+
+            echo '<meta http-equiv="refresh" content="0;URL=/">';
+        } else {
+            $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
+
+            if ($this->isOwner('dir', $folder_id, $user['id'])!==true) {
+                header('HTTP/1.0 403 Forbidden');
+                die();
+            }
+
+            $this->Model_files->deleteFolder($folder_id);
+        }
+
+    }
+
+    public function toggleFolderFree ()
+    {
         $this->load->library('session');
         $this->load->model('Model_files');
         $this->load->model('Model_auth');
 
         $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
 
-        if ($this->isOwner('id', $this->uri->segment(3), $user['id'])!==true) {
-            die('rrrrr');
+        if ($this->isOwner('dir', $this->uri->segment(3), $user['id'])!==true) {
+            header('HTTP/1.0 403 Forbidden');
+            die();
         }
 
-        $this->Model_files->delete($this->uri->segment(3));
+        $folder = $this->Model_files->getOneFolder($this->uri->segment(3));
+
+        if ($folder['free']) {
+            $this->Model_files->toggleFolderFree($this->uri->segment(3), false);
+        } else {
+            $this->Model_files->toggleFolderFree($this->uri->segment(3), true);
+        }
 
         echo '<meta http-equiv="refresh" content="0;URL=/">';
     }
 
-    public function isOwner ($type, $search, $user_id) {
-        $this->load->model('Model_files');
-
-        $file = $this->Model_files->getOneFile($type, $search);
-
-        if ($file['user_id']==$user_id) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public function changeName () {
+    public function changeName ()
+    {
         $this->load->library('session');
         $this->load->model('Model_files');
         $this->load->model('Model_auth');
@@ -167,7 +309,26 @@ class Files extends CI_Controller {
         echo '<meta http-equiv="refresh" content="0;URL=/">';
     }
 
-    public function getTypeByMIME ($mime) {
+    public function changeDirName ()
+    {
+        $this->load->library('session');
+        $this->load->model('Model_files');
+        $this->load->model('Model_auth');
+
+        $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
+
+        if ($this->isOwner('dir', $_POST['id'], $user['id'])!==true) {
+            header('HTTP/1.0 403 Forbidden');
+            die();
+        }
+
+        $this->Model_files->updateDirName($_POST['id'], $_POST['value']);
+
+        echo '<meta http-equiv="refresh" content="0;URL=/">';
+    }
+
+    public function getTypeByMIME ($mime)
+    {
         $type = explode('/', $mime);
 
         // switch ($type[0]) {

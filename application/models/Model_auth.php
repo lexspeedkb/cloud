@@ -80,6 +80,21 @@ class Model_auth extends CI_Model {
         $login    = $data['login'];
         $password = $data['password'];
         $this->db->query("INSERT INTO users (login, password, name) VALUES ('$login', '$password', '$name')");
+        $id = $this->db->insert_id();
+        $this->db->query("INSERT INTO dirs (name, owner_id, parent_id) VALUES ('$login', '$id', '0')");
+    }
+
+    public function getRootFolder($user_id)
+    {
+        $query = $this->db->query("SELECT * FROM dirs WHERE owner_id='$user_id' AND parent_id='0'");
+        foreach ($query->result_array() as $row) {
+            $folder['id']       = $row['id'];
+            $folder['name']     = $row['name'];
+            $folder['owner_id'] = $row['owner_id'];
+            $folder['free']     = $row['free'];
+        }
+
+        return $folder;
     }
 }
 ?>

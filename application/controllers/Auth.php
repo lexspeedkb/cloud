@@ -30,9 +30,9 @@ class Auth extends CI_Controller {
                 }
             }
         }
-        $this->load->view('include/login/header', $data);
+        $this->load->view('include/header', $data);
         $this->load->view('login', $data);
-        $this->load->view('include/login/footer', $data);
+        $this->load->view('include/footer', $data);
     }
 
     public function logup()
@@ -70,9 +70,9 @@ class Auth extends CI_Controller {
             }
         }
         
-        $this->load->view('include/login/header', $data);
+        $this->load->view('include/header', $data);
         $this->load->view('logup', $data);
-        $this->load->view('include/login/footer', $data);
+        $this->load->view('include/footer', $data);
     }
 
     public function Register($data)

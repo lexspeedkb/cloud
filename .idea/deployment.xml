@@ -9,7 +9,14 @@
           </mappings>
         </serverdata>
       </paths>
+      <paths name="cloud (project level)">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
     </serverData>
-    <option name="myUploadOnCheckinName" value="cloud" />
+    <option name="myUploadOnCheckinName" value="cloud (project level)" />
   </component>
 </project>

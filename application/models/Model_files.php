@@ -6,20 +6,39 @@ class Model_files extends CI_Model {
         $this->load->database();
     }
 
-    public function getFiles($user_id)
+    public function getFiles($dir_id)
     {
-        $query = $this->db->query("SELECT * FROM files WHERE user_id='$user_id' ORDER BY id DESC");
+        $query = $this->db->query("SELECT * FROM files WHERE dir='$dir_id' ORDER BY id DESC");
 
         foreach ($query->result_array() as $row) {
-            $files[$i]['id']        = $row['id'];
-            $files[$i]['src']       = $row['src'];
-            $files[$i]['name']      = $row['name'];
-            $files[$i]['type']      = $row['type'];
-            $files[$i]['user_id']   = $row['user_id'];
+            $files[$i]['id']         = $row['id'];
+            $files[$i]['src']        = $row['src'];
+            $files[$i]['name']       = $row['name'];
+            $files[$i]['type']       = $row['type'];
+            $files[$i]['user_id']    = $row['user_id'];
+            $files[$i]['filesize_o'] = $row['filesize_o'];
+            $files[$i]['filesize_s'] = $row['filesize_s'];
             $i++;
 
         }
         return $files;
+    }
+
+    public function getFolders($parent_id)
+    {
+        $query = $this->db->query("SELECT * FROM dirs WHERE parent_id='$parent_id' ORDER BY id DESC");
+
+        foreach ($query->result_array() as $row) {
+            $folders[$i]['id']        = $row['id'];
+            $folders[$i]['free']      = $row['free'];
+            $folders[$i]['name']      = $row['name'];
+            $folders[$i]['owners']    = $row['owners'];
+            $folders[$i]['owner_id']  = $row['owner_id'];
+            $folders[$i]['parent_id'] = $row['user_id'];
+            $i++;
+
+        }
+        return $folders;
     }
 
     public function getOneFile($type, $search)
@@ -35,17 +54,38 @@ class Model_files extends CI_Model {
                 $query = $this->db->query("SELECT * FROM files WHERE id='$search'");
         }
 
-        foreach ($query->result_array() as $row) {
-            $file['id']        = $row['id'];
-            $file['src']       = $row['src'];
-            $file['name']      = $row['name'];
-            $file['type']      = $row['type'];
-            $file['user_id']   = $row['user_id'];
+        foreach ($query->result_array() as $row)
+        {
+            $file['id']         = $row['id'];
+            $file['src']        = $row['src'];
+            $file['dir']        = $row['dir'];
+            $file['name']       = $row['name'];
+            $file['type']       = $row['type'];
+            $file['free']       = $row['free'];
+            $file['user_id']    = $row['user_id'];
+            $file['filesize_o'] = $row['filesize_o'];
+            $file['filesize_s'] = $row['filesize_s'];
         }
         return $file;
     }
 
-    public function delete ($id) {
+    public function getOneFolder($id)
+    {
+        $query = $this->db->query("SELECT * FROM dirs WHERE id='$id'");
+
+        foreach ($query->result_array() as $row) {
+            $folder['id']        = $row['id'];
+            $folder['free']      = $row['free'];
+            $folder['name']      = $row['name'];
+            $folder['owners']    = $row['owners'];
+            $folder['owner_id']  = $row['owner_id'];
+            $folder['parent_id'] = $row['parent_id'];
+        }
+        return $folder;
+    }
+
+    public function delete ($id)
+    {
         $this->load->helper('files');
 
         $file = $this->getOneFile('id', $id);
@@ -65,17 +105,42 @@ class Model_files extends CI_Model {
         unlink($file_s);
     }
 
-
-    public function uploadFile($src, $user_id, $type)
+    public function deleteFolder ($id)
     {
-        $name    = $_POST['name'];
-        $this->db->query("INSERT INTO files (src, name, user_id, type) VALUES ('$src', '$name', '$user_id', '$type')");
+        $this->db->query("DELETE FROM dirs WHERE id='$id'");
+    }
+
+    public function toggleFolderFree ($id, $toggle=true)
+    {
+        if ($toggle) {
+            $this->db->query("UPDATE dirs SET free='1' WHERE id='$id'");
+        } else {
+            $this->db->query("UPDATE dirs SET free='0' WHERE id='$id'");
+        }
+    }
+
+    public function uploadFile($src, $user_id, $type, $folder_id, $name, $filesize_o, $filesize_s)
+    {
+        $this->db->query("INSERT INTO files (src, name, user_id, type, dir, filesize_o, filesize_s) VALUES ('$src', '$name', '$user_id', '$type', '$folder_id', '$filesize_o', '$filesize_s')");
+    }
+
+    public function addFolder($name, $owner_id, $parent_id)
+    {
+        $this->db->query("INSERT INTO dirs (name, owner_id, parent_id) VALUES ('$name', '$owner_id', '$parent_id')");
+        $id = $this->db->insert_id();
+        return $id;
     }
 
     public function updateName($id, $name)
     {
         $this->db->query("UPDATE files SET name='$name' WHERE id='$id'");
     }
+
+    public function updateDirName($id, $name)
+    {
+        $this->db->query("UPDATE dirs SET name='$name' WHERE id='$id'");
+    }
+
 
 }
 ?>

@@ -32,7 +32,8 @@
     display: none;
   }
 }
-#options {
+
+.options-modal  {
   .bg {
     position: fixed;
     top: 0;
@@ -68,6 +69,34 @@
 
   .open {
     bottom: 0px !important;
+  }
+}
+
+#dialog-load {
+
+  #load-tabs-content {
+    width: 100%;
+  }
+
+  .tabs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 50px;
+
+    .tab {
+      width: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgb(255,64,129);
+      border-bottom: 2px transparent solid;
+    }
+
+    .active {
+      border-bottom: 2px rgb(255,64,129) solid;
+    }
   }
 }
 

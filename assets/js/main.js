@@ -1,4 +1,7 @@
 $(document).ready(function () {
+    var DOMAIN   = $('#PARAMS_Domain').val();
+    var PROTOCOL = 'http://';
+
     var dialog = document.querySelector('#dialog-load');
 
     $('body').on('click', '#show-dialog', function () {
@@ -33,34 +36,56 @@ $(document).ready(function () {
         }
     });
 
-
-
-
-
-    // setOptionsToDefaultPlace();
-
-    // function setOptionsToDefaultPlace () {
-    //     var optionsHeight = $('#options .wrapper').height();
-    //
-    //     optionsHeight +=25;
-    //
-    //     $('#options .wrapper').css('bottom', '-'+optionsHeight+'px');
-    // }
-
     $(document).on('click', '.actions', function () {
         var data_id = $(this).attr('data-id');
         var path = $(this).attr('path');
+        var type = $(this).attr('type');
+        var free = $(this).attr('free');
 
-        var dialogOptions = document.querySelector('#options');
-        $( '.wheel-load' ).addClass( 'blur' );
-        dialogOptions.showModal();
+        if (type=='dir') {
+            var dialogOptions = document.querySelector('#options-folder');
+            dialogOptions.showModal();
+            $('#options-folder .wrapper').addClass('open');
+            $('#options-folder .bg').css('display', 'block');
 
-        $('#options .wrapper').addClass('open');
-        $('#options .bg').css('display', 'block');
-        $('#options .open').attr('href', path);
-        $('#options .save').attr('href', path);
-        $('#options .delete').attr('href', '/files/delete/'+data_id);
+            $('#options-folder .open').attr('href', '/gallery/index/'+data_id);
+            $('#options-folder .free').attr('href', '/files/toggleFolderFree/'+data_id);
+            $('#options-folder .delete').attr('href', '/files/deleteFolder/'+data_id);
+
+            if (free==0) {
+                $('#options-folder .free span').text('Предоставить доступ к папке');
+            } else {
+                $('#options-folder .free span').text('Закрыть доступ к папке');
+                $('#options-folder #link').val(PROTOCOL+DOMAIN+'/gallery/index/'+data_id);
+            }
+        } else {
+            var dialogOptions = document.querySelector('#options');
+            dialogOptions.showModal();
+            $('#options .wrapper').addClass('open');
+            $('#options .bg').css('display', 'block');
+
+
+            $('#options .open').attr('href', path);
+            $('#options .save').attr('href', path);
+            $('#options .delete').attr('href', '/files/delete/'+data_id);
+        }
+
+        $('.wheel-load').addClass( 'blur' );
     });
+
+    $(document).on('click', '#options-folder .get-link', function () {
+        var copyText = document.getElementById("link");
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        document.execCommand("copy");
+
+        var data = {message: 'Ссылка скопирована в буфер обмена' };
+        snackbarContainer.MaterialSnackbar.showSnackbar(data);
+
+        optionsFolder_close();
+    });
+
+
 
     $(document).on('click', '#options .bg', function () {
         $('#options .wrapper').removeClass('open');
@@ -74,23 +99,62 @@ $(document).ready(function () {
 
     });
 
+    $(document).on('click', '#options-folder .bg', function () {
+        optionsFolder_close();
+    });
+
+    function optionsFolder_close () {
+        $('#options-folder .wrapper').removeClass('open');
+        $('.wheel-load').removeClass( 'blur' );
+
+        setTimeout(function () {
+            $('#options-folder .bg').css('display', 'none');
+            var dialogOptions = document.querySelector('#options-folder');
+            dialogOptions.close();
+        }, 300)
+    }
+
+
+    $(document).on('click', '#load-tabs .tab', function () {
+        var name = $(this).attr('name');
+        $('#load-tabs .tab').removeClass('active');
+        $(this).addClass('active');
+
+        $('#load-tabs-content .tab').css('display', 'none');
+        $('#load-tabs-content .tab[name="'+name+'"]').css('display', 'block');
+    });
+
+    $("#check-all").change(function() {
+        if(this.checked) {
+            $(".checkbox-action").prop('checked', true);
+        } else {
+            $(".checkbox-action").prop('checked', false);
+        }
+    });
 
 
     $(document).on('change', '.file-name', function () {
-        var id = $(this).attr('data-id');
-        var value = $(this).val();
+        var id      = $(this).attr('data-id');
+        var type    = $(this).attr('data-type');
+        var value   = $(this).val();
+
+        if (type == 'folder') {
+            var url_rename = '/files/changeDirName/';
+        } else {
+            var url_rename = '/files/changeName/'
+        }
 
         $.ajax({
-            url: '/files/changeName/',
+            url: url_rename,
             type: 'POST',
             data: {id: id, value: value},
         })
             .done(function() {
-                var data = {message: 'Имя изменено!' };
+                var data = {message: 'Имя папки изменено!' };
                 snackbarContainer.MaterialSnackbar.showSnackbar(data);
             })
             .fail(function() {
-                var data = {message: 'Ошибка' };
+                var data = {message: 'Ошибка изменения имени папки' };
                 snackbarContainer.MaterialSnackbar.showSnackbar(data);
             })
     });
