@@ -3,7 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="eab31c8e-58a3-45cd-9ede-0a39918785a0" name="Default" comment="not doned">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/Auth.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/Auth.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/Files.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/Files.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/Model_files.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Model_files.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/gallery/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/gallery/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/include/header.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/include/header.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/css/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/main.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/assets/css/main.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/scss/material.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/scss/material.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cloud.sql" beforeDir="false" afterPath="$PROJECT_DIR$/cloud.sql" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -89,7 +96,7 @@
       <workItem from="1579813538028" duration="133000" />
       <workItem from="1579813694082" duration="58000" />
       <workItem from="1579813771657" duration="2723000" />
-      <workItem from="1579907071109" duration="5855000" />
+      <workItem from="1579907071109" duration="9067000" />
     </task>
     <task id="LOCAL-00001" summary="file types">
       <created>1579611778115</created>

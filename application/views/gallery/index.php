@@ -38,7 +38,7 @@
                 <th class="mdl-data-table__cell--non-numeric"><input type="checkbox" id="check-all"></th>
                 <th class="mdl-data-table__cell--non-numeric">Material</th>
                 <th class="mdl-data-table__cell--non-numeric">Название</th>
-                <th class="mdl-data-table__cell--non-numeric">Тип</th>
+                <th class="mdl-data-table__cell--non-numeric">Тип/Размер</th>
                 <th class="mdl-data-table__cell--non-numeric"></th>
             </tr>
             </thead>
@@ -98,6 +98,11 @@
                                 $extension = $ext[1];
                                 echo $extension;
                                 ?>
+                                <br>
+                                <?php
+                                $filesize = number_format(($file['filesize_o'] + $file['filesize_s']) / 1048576, 2);
+                                echo $filesize." MB";
+                                ?>
                             </td>
                             <td>
                                 <div class="actions" path="/files/render/o/<?=$file['path']['name'];?>" data-id="<?=$file['id']?>">
@@ -125,6 +130,11 @@
                                 $ext = explode('.', $file['src']);
                                 $extension = $ext[1];
                                 echo $extension;
+                                ?>
+                                <br>
+                                <?php
+                                $filesize = number_format(($file['filesize_o'] + $file['filesize_s']) / 1048576, 2);
+                                echo $filesize." MB";
                                 ?>
                             </td>
                             <td>

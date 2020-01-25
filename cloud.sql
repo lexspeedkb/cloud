@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.1
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
--- Хост: localhost
--- Время создания: Янв 23 2020 г., 17:40
--- Версия сервера: 10.3.21-MariaDB-1:10.3.21+maria~xenial-log
--- Версия PHP: 7.4.1
+-- Хост: 127.0.0.1:3306
+-- Время создания: Янв 25 2020 г., 13:53
+-- Версия сервера: 10.3.13-MariaDB-log
+-- Версия PHP: 7.3.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -37,14 +37,6 @@ CREATE TABLE `dirs` (
   `parent_id` int(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Дамп данных таблицы `dirs`
---
-
-INSERT INTO `dirs` (`id`, `name`, `free`, `owners`, `owner_id`, `parent_id`) VALUES
-(0, 'root', 0, '', 1, NULL),
-(12, 'lexspeedkb', 0, '', 2, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -60,7 +52,9 @@ CREATE TABLE `files` (
   `basket` tinyint(1) DEFAULT 0,
   `owners` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `free` tinyint(1) NOT NULL DEFAULT 0,
-  `dir` int(255) NOT NULL
+  `dir` int(255) DEFAULT NULL,
+  `filesize_o` int(255) DEFAULT NULL,
+  `filesize_s` int(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -88,14 +82,6 @@ CREATE TABLE `users` (
   `balance` int(255) DEFAULT 0,
   `password` varchar(999) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Дамп данных таблицы `users`
---
-
-INSERT INTO `users` (`id`, `login`, `token`, `name`, `balance`, `password`) VALUES
-(1, 'root', 'DPHCE08FIPOdCNNGOyOHgUmBY5AlLAvtTRrnOzSnf1g7N5PThJ5ZT4MRa5WmXRbMkwsK0TQr12UWKF3FHRDwMUkX9F0kqsOJeVUo', 'Алексей Пилипенко', 0, 'lexus2001'),
-(2, 'lexspeedkb', 'JPiQHBu7lTkGNAQfGRGk50gESxpxB2dIPrm9LMRMXEFB40CGrBx1qOduLLxfU7oiFw8XwODzymCTnqdaBQnMVHAPNz8quDGOAZCj', 'Алексей Пилипенко', 0, 'lexus2001');
 
 --
 -- Индексы сохранённых таблиц
@@ -135,13 +121,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `dirs`
 --
 ALTER TABLE `dirs`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `files`
 --
 ALTER TABLE `files`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `groups`
@@ -153,7 +139,7 @@ ALTER TABLE `groups`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц

@@ -93,10 +93,15 @@ class Files extends CI_Controller {
                 $htaccess_o = fopen($dirs_o.".htaccess", "w");
                 fwrite($htaccess_o, $htaccess_data);
 
+                $filesize_o = filesize($uploadfile_o);
+                $filesize_s = filesize($uploadfile_s);
 
+                if (!$filesize_s) {
+                    $filesize_s = NULL;
+                }
                 $name = $_POST['name'] ?? basename($_FILES['Filedata']['name']);
 
-                $this->Model_files->uploadFile($basename, $user['id'], $type['full'], $folder_id, $name);
+                $this->Model_files->uploadFile($basename, $user['id'], $type['full'], $folder_id, $name, $filesize_o, $filesize_s);
 
 
             } else {
