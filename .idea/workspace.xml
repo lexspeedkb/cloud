@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="eab31c8e-58a3-45cd-9ede-0a39918785a0" name="Default" comment="Max area limit">
+    <list default="true" id="eab31c8e-58a3-45cd-9ede-0a39918785a0" name="Default" comment="Minor">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/Dashboard.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/Dashboard.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/Files.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/Files.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/Model_auth.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Model_auth.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/Model_files.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Model_files.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/include/nav.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/include/nav.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -94,7 +91,7 @@
       <workItem from="1579813538028" duration="133000" />
       <workItem from="1579813694082" duration="58000" />
       <workItem from="1579813771657" duration="2723000" />
-      <workItem from="1579907071109" duration="21704000" />
+      <workItem from="1579907071109" duration="22486000" />
     </task>
     <task id="LOCAL-00001" summary="file types">
       <created>1579611778115</created>
@@ -208,7 +205,14 @@
       <option name="project" value="LOCAL" />
       <updated>1580046079747</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Minor">
+      <created>1580052841975</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1580052841975</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -257,6 +261,7 @@
     <MESSAGE value="Files indexing function for root" />
     <MESSAGE value="Files indexing function for all" />
     <MESSAGE value="Max area limit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Max area limit" />
+    <MESSAGE value="Minor" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor" />
   </component>
 </project>

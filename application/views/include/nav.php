@@ -24,6 +24,10 @@
             <a class="mdl-navigation__link" href="/">List</a>
             <a class="mdl-navigation__link" href="/?list=grid">Grid</a>
             <a class="mdl-navigation__link" href="/auth/exit">Выход</a>
+
+            <?php if ($_SESSION['id']==1): ?>
+
+            <?php endif; ?>
         </nav>
     </div>
     <main class="mdl-layout__content">
