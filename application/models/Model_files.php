@@ -11,13 +11,9 @@ class Model_files extends CI_Model {
         $query = $this->db->query("SELECT * FROM files WHERE dir='$dir_id' ORDER BY id DESC");
 
         foreach ($query->result_array() as $row) {
-            $files[$i]['id']         = $row['id'];
-            $files[$i]['src']        = $row['src'];
-            $files[$i]['name']       = $row['name'];
-            $files[$i]['type']       = $row['type'];
-            $files[$i]['user_id']    = $row['user_id'];
-            $files[$i]['filesize_o'] = $row['filesize_o'];
-            $files[$i]['filesize_s'] = $row['filesize_s'];
+            foreach ($row as $key => $value) {
+                $files[$i][$key] = $value;
+            }
             $i++;
 
         }
@@ -29,13 +25,9 @@ class Model_files extends CI_Model {
         $query = $this->db->query("SELECT * FROM files ORDER BY id DESC");
 
         foreach ($query->result_array() as $row) {
-            $files[$i]['id']         = $row['id'];
-            $files[$i]['src']        = $row['src'];
-            $files[$i]['name']       = $row['name'];
-            $files[$i]['type']       = $row['type'];
-            $files[$i]['user_id']    = $row['user_id'];
-            $files[$i]['filesize_o'] = $row['filesize_o'];
-            $files[$i]['filesize_s'] = $row['filesize_s'];
+            foreach ($row as $key => $value) {
+                $files[$i][$key] = $value;
+            }
             $i++;
 
         }
@@ -47,13 +39,9 @@ class Model_files extends CI_Model {
         $query = $this->db->query("SELECT * FROM files WHERE user_id='$user_id'");
 
         foreach ($query->result_array() as $row) {
-            $files[$i]['id']         = $row['id'];
-            $files[$i]['src']        = $row['src'];
-            $files[$i]['name']       = $row['name'];
-            $files[$i]['type']       = $row['type'];
-            $files[$i]['user_id']    = $row['user_id'];
-            $files[$i]['filesize_o'] = $row['filesize_o'];
-            $files[$i]['filesize_s'] = $row['filesize_s'];
+            foreach ($row as $key => $value) {
+                $files[$i][$key] = $value;
+            }
             $i++;
 
         }
@@ -65,12 +53,9 @@ class Model_files extends CI_Model {
         $query = $this->db->query("SELECT * FROM dirs WHERE parent_id='$parent_id' ORDER BY id DESC");
 
         foreach ($query->result_array() as $row) {
-            $folders[$i]['id']        = $row['id'];
-            $folders[$i]['free']      = $row['free'];
-            $folders[$i]['name']      = $row['name'];
-            $folders[$i]['owners']    = $row['owners'];
-            $folders[$i]['owner_id']  = $row['owner_id'];
-            $folders[$i]['parent_id'] = $row['user_id'];
+            foreach ($row as $key => $value) {
+                $folders[$i][$key] = $value;
+            }
             $i++;
 
         }
@@ -92,15 +77,9 @@ class Model_files extends CI_Model {
 
         foreach ($query->result_array() as $row)
         {
-            $file['id']         = $row['id'];
-            $file['src']        = $row['src'];
-            $file['dir']        = $row['dir'];
-            $file['name']       = $row['name'];
-            $file['type']       = $row['type'];
-            $file['free']       = $row['free'];
-            $file['user_id']    = $row['user_id'];
-            $file['filesize_o'] = $row['filesize_o'];
-            $file['filesize_s'] = $row['filesize_s'];
+            foreach ($row as $key => $value) {
+                $file[$key] = $value;
+            }
         }
         return $file;
     }
@@ -110,12 +89,9 @@ class Model_files extends CI_Model {
         $query = $this->db->query("SELECT * FROM dirs WHERE id='$id'");
 
         foreach ($query->result_array() as $row) {
-            $folder['id']        = $row['id'];
-            $folder['free']      = $row['free'];
-            $folder['name']      = $row['name'];
-            $folder['owners']    = $row['owners'];
-            $folder['owner_id']  = $row['owner_id'];
-            $folder['parent_id'] = $row['parent_id'];
+            foreach ($row as $key => $value) {
+                $folder[$key] = $value;
+            }
         }
         return $folder;
     }

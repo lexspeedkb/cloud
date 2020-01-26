@@ -22,7 +22,7 @@ class Dashboard extends CI_Controller {
         }
 
         $data['allData'] = bytesConvert($data['allData']);
-        $limit = bytesConvert(STORAGE_SIZE);
+        $limit = bytesConvert($user['max_upload']);
         $data['limit'] = $limit['size']." ".$limit['unit'];
         $data['user'] = $user;
 

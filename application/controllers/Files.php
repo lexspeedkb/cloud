@@ -9,11 +9,11 @@ class Files extends CI_Controller {
         $this->load->model('Model_auth');
         $this->load->helper('files');
 
-//        $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
-//        if ($user['id']!=0) {
-//            header('HTTP/1.0 403 Forbidden');
-//            die();
-//        }
+        $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
+        if ($user['id']!=1) {
+            header('HTTP/1.0 403 Forbidden');
+            die();
+        }
 
         $files = $this->Model_files->getAllFiles();
 
@@ -135,7 +135,7 @@ class Files extends CI_Controller {
                     $allData += $file['filesize_o'] + $file['filesize_s'];
                 }
 
-                if ($allData > STORAGE_SIZE && $user['id']!=0) {
+                if ($allData > $user['max_upload'] && $user['id']!=0) {
 
                     $this->Model_files->delete($insert_id);
                     $limit = bytesConvert(STORAGE_SIZE);

@@ -24,11 +24,9 @@ class Model_auth extends CI_Model {
     {
         $query = $this->db->query("SELECT * FROM users WHERE login='$login'");
         foreach ($query->result_array() as $row) {
-            $user['id']      = $row['id'];
-            $user['login']   = $row['login'];
-            $user['token']   = $row['token'];
-            $user['name']    = $row['name'];
-            $user['balance'] = $row['balance'];
+            foreach ($row as $key => $value) {
+                $user[$key] = $value;
+            }
         }
         
         return $user;
@@ -64,11 +62,9 @@ class Model_auth extends CI_Model {
     {
         $query = $this->db->query("SELECT * FROM users WHERE id='$id' AND token='$token'");
         foreach ($query->result_array() as $row) {
-            $user['id']      = $row['id'];
-            $user['login']   = $row['login'];
-            $user['token']   = $row['token'];
-            $user['name']    = $row['name'];
-            $user['balance'] = $row['balance'];
+            foreach ($row as $key => $value) {
+                $user[$key] = $value;
+            }
         }
 
         return $user;
@@ -88,10 +84,9 @@ class Model_auth extends CI_Model {
     {
         $query = $this->db->query("SELECT * FROM dirs WHERE owner_id='$user_id' AND parent_id='0'");
         foreach ($query->result_array() as $row) {
-            $folder['id']       = $row['id'];
-            $folder['name']     = $row['name'];
-            $folder['owner_id'] = $row['owner_id'];
-            $folder['free']     = $row['free'];
+            foreach ($row as $key => $value) {
+                $folder[$key] = $value;
+            }
         }
 
         return $folder;
