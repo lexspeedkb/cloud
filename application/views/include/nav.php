@@ -4,12 +4,12 @@
     <header class="mdl-layout__header">
         <div class="mdl-layout__header-row">
             <!-- Title -->
-            <span class="mdl-layout-title">Title</span>
+            <span class="mdl-layout-title">PiliCloud</span>
             <!-- Add spacer, to align navigation to the right -->
             <div class="mdl-layout-spacer"></div>
             <!-- Navigation. We hide it in small screens. -->
             <nav class="mdl-navigation mdl-layout--large-screen-only">
-                <a class="mdl-navigation__link" href="/dashboard"><?=$user['login']?></a>
+                <a class="mdl-navigation__link" href="/dashboard">Панель управления</a>
                 <a class="mdl-navigation__link" href="/">List</a>
                 <a class="mdl-navigation__link" href="/?list=grid">Grid</a>
                 <a class="mdl-navigation__link" href="/auth/exit">Выход</a>
@@ -17,9 +17,10 @@
         </div>
     </header>
     <div class="mdl-layout__drawer">
-        <span class="mdl-layout-title">Title</span>
+        <span class="mdl-layout-title">PiliCloud</span>
         <nav class="mdl-navigation">
-            <a class="mdl-navigation__link" href="/dashboard"><?=$user['login']?></a>
+            <a class="mdl-navigation__link" href="#"><?=$user['login']?></a>
+            <a class="mdl-navigation__link" href="/dashboard">Панель управления</a>
             <a class="mdl-navigation__link" href="/">List</a>
             <a class="mdl-navigation__link" href="/?list=grid">Grid</a>
             <a class="mdl-navigation__link" href="/auth/exit">Выход</a>

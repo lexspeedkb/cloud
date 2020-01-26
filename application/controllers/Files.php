@@ -125,7 +125,22 @@ class Files extends CI_Controller {
                 }
                 $name = $_POST['name'] ?? basename($_FILES['Filedata']['name']);
 
-                $this->Model_files->uploadFile($basename, $user['id'], $type['full'], $folder_id, $name, $filesize_o, $filesize_s);
+                $insert_id = $this->Model_files->uploadFile($basename, $user['id'], $type['full'], $folder_id, $name, $filesize_o, $filesize_s);
+
+
+                $files = $this->Model_files->getFilesOfUser($user['id']);
+
+                $allData=0;
+                foreach ($files as $file) {
+                    $allData += $file['filesize_o'] + $file['filesize_s'];
+                }
+
+                if ($allData > STORAGE_SIZE && $user['id']!=0) {
+
+                    $this->Model_files->delete($insert_id);
+                    $limit = bytesConvert(STORAGE_SIZE);
+                    header('HTTP/1.1 400 UPLOAD LIMIT 500MB!!!');
+                }
 
 
             } else {

@@ -10,6 +10,7 @@ class Dashboard extends CI_Controller {
         $this->load->model('Model_auth');
         $this->load->helper('files');
 
+        $this->Model_auth->checkToken($_SESSION['id'], $_SESSION['token']);
 
         $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
 
@@ -19,6 +20,11 @@ class Dashboard extends CI_Controller {
         foreach ($files as $file) {
             $data['allData'] += $file['filesize_o'] + $file['filesize_s'];
         }
+
+        $data['allData'] = bytesConvert($data['allData']);
+        $limit = bytesConvert(STORAGE_SIZE);
+        $data['limit'] = $limit['size']." ".$limit['unit'];
+        $data['user'] = $user;
 
 
         $this->load->view('include/nav', $data);

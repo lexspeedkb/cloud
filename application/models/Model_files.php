@@ -158,6 +158,7 @@ class Model_files extends CI_Model {
     public function uploadFile($src, $user_id, $type, $folder_id, $name, $filesize_o, $filesize_s)
     {
         $this->db->query("INSERT INTO files (src, name, user_id, type, dir, filesize_o, filesize_s) VALUES ('$src', '$name', '$user_id', '$type', '$folder_id', '$filesize_o', '$filesize_s')");
+        return $insert_id = $this->db->insert_id();
     }
 
     public function addFolder($name, $owner_id, $parent_id)
