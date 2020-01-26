@@ -48,4 +48,25 @@ function getTypeByMIME ($mime) {
 
     return $ret;
 }
+
+function bytesConvert ($bytes) {
+    $kb = $bytes / 1024;
+    $mb = $bytes / 1048576;
+    $gb = $bytes / 1073741824;
+
+    if ($kb > 1024) {
+        if ($mb > 1024) {
+            $return['size'] = $gb;
+            $return['unit'] = 'GB';
+        } else {
+            $return['size'] = $mb;
+            $return['unit'] = 'MB';
+        }
+    } else {
+        $return['size'] = $kb;
+        $return['unit'] = 'KB';
+    }
+
+    return $return;
+}
 ?>

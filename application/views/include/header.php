@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-
+<?$v = 5?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,8 +9,8 @@
       src="https://code.jquery.com/jquery-3.4.1.min.js"
       integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
       crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/assets/css/main.css?v=2">
-    <script src="/assets/js/jquery.uploadifive.js?v=2" type="text/javascript"></script>
+    <link rel="stylesheet" href="/assets/css/main.css?v=<?=$v?>">
+    <script src="/assets/js/jquery.uploadifive.js?v=<?=$v?>" type="text/javascript"></script>
 
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
 

@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+define('STORAGE_SIZE', 500*1024*1024);
 
 /*
 |--------------------------------------------------------------------------

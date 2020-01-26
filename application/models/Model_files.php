@@ -11,13 +11,23 @@ class Model_files extends CI_Model {
         $query = $this->db->query("SELECT * FROM files WHERE dir='$dir_id' ORDER BY id DESC");
 
         foreach ($query->result_array() as $row) {
-            $files[$i]['id']         = $row['id'];
-            $files[$i]['src']        = $row['src'];
-            $files[$i]['name']       = $row['name'];
-            $files[$i]['type']       = $row['type'];
-            $files[$i]['user_id']    = $row['user_id'];
-            $files[$i]['filesize_o'] = $row['filesize_o'];
-            $files[$i]['filesize_s'] = $row['filesize_s'];
+            foreach ($row as $key => $value) {
+                $files[$i][$key] = $value;
+            }
+            $i++;
+
+        }
+        return $files;
+    }
+
+    public function getAllFiles()
+    {
+        $query = $this->db->query("SELECT * FROM files ORDER BY id DESC");
+
+        foreach ($query->result_array() as $row) {
+            foreach ($row as $key => $value) {
+                $files[$i][$key] = $value;
+            }
             $i++;
 
         }
@@ -29,13 +39,9 @@ class Model_files extends CI_Model {
         $query = $this->db->query("SELECT * FROM files WHERE user_id='$user_id'");
 
         foreach ($query->result_array() as $row) {
-            $files[$i]['id']         = $row['id'];
-            $files[$i]['src']        = $row['src'];
-            $files[$i]['name']       = $row['name'];
-            $files[$i]['type']       = $row['type'];
-            $files[$i]['user_id']    = $row['user_id'];
-            $files[$i]['filesize_o'] = $row['filesize_o'];
-            $files[$i]['filesize_s'] = $row['filesize_s'];
+            foreach ($row as $key => $value) {
+                $files[$i][$key] = $value;
+            }
             $i++;
 
         }
@@ -47,12 +53,9 @@ class Model_files extends CI_Model {
         $query = $this->db->query("SELECT * FROM dirs WHERE parent_id='$parent_id' ORDER BY id DESC");
 
         foreach ($query->result_array() as $row) {
-            $folders[$i]['id']        = $row['id'];
-            $folders[$i]['free']      = $row['free'];
-            $folders[$i]['name']      = $row['name'];
-            $folders[$i]['owners']    = $row['owners'];
-            $folders[$i]['owner_id']  = $row['owner_id'];
-            $folders[$i]['parent_id'] = $row['user_id'];
+            foreach ($row as $key => $value) {
+                $folders[$i][$key] = $value;
+            }
             $i++;
 
         }
@@ -74,15 +77,9 @@ class Model_files extends CI_Model {
 
         foreach ($query->result_array() as $row)
         {
-            $file['id']         = $row['id'];
-            $file['src']        = $row['src'];
-            $file['dir']        = $row['dir'];
-            $file['name']       = $row['name'];
-            $file['type']       = $row['type'];
-            $file['free']       = $row['free'];
-            $file['user_id']    = $row['user_id'];
-            $file['filesize_o'] = $row['filesize_o'];
-            $file['filesize_s'] = $row['filesize_s'];
+            foreach ($row as $key => $value) {
+                $file[$key] = $value;
+            }
         }
         return $file;
     }
@@ -92,12 +89,9 @@ class Model_files extends CI_Model {
         $query = $this->db->query("SELECT * FROM dirs WHERE id='$id'");
 
         foreach ($query->result_array() as $row) {
-            $folder['id']        = $row['id'];
-            $folder['free']      = $row['free'];
-            $folder['name']      = $row['name'];
-            $folder['owners']    = $row['owners'];
-            $folder['owner_id']  = $row['owner_id'];
-            $folder['parent_id'] = $row['parent_id'];
+            foreach ($row as $key => $value) {
+                $folder[$key] = $value;
+            }
         }
         return $folder;
     }
@@ -140,6 +134,7 @@ class Model_files extends CI_Model {
     public function uploadFile($src, $user_id, $type, $folder_id, $name, $filesize_o, $filesize_s)
     {
         $this->db->query("INSERT INTO files (src, name, user_id, type, dir, filesize_o, filesize_s) VALUES ('$src', '$name', '$user_id', '$type', '$folder_id', '$filesize_o', '$filesize_s')");
+        return $insert_id = $this->db->insert_id();
     }
 
     public function addFolder($name, $owner_id, $parent_id)
@@ -157,6 +152,11 @@ class Model_files extends CI_Model {
     public function updateDirName($id, $name)
     {
         $this->db->query("UPDATE dirs SET name='$name' WHERE id='$id'");
+    }
+
+    public function updateFileSize ($id, $size_o, $size_s) {
+        $this->db->query("UPDATE files SET filesize_o='$size_o' WHERE id='$id'");
+        $this->db->query("UPDATE files SET filesize_s='$size_s' WHERE id='$id'");
     }
 
 
