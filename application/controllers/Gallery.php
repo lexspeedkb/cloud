@@ -3,8 +3,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Gallery extends CI_Controller {
 
-    public function index()
+    private $user;
+
+    public function __construct()
     {
+        parent::__construct();
         $this->load->library('session');
         $this->load->model('Model_files');
         $this->load->model('Model_auth');
@@ -12,12 +15,15 @@ class Gallery extends CI_Controller {
 
         $this->Model_auth->checkToken($_SESSION['id'], $_SESSION['token']);
 
-        $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
+        $this->user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
+    }
 
-        $data['user'] = $user;
+    public function index()
+    {
+        $data['user'] = $this->user;
 
         if (empty($this->uri->segment(3))) {
-            $ROOTfolder = $this->Model_auth->getRootFolder($user['id']);
+            $ROOTfolder = $this->Model_auth->getRootFolder($this->user['id']);
 
             $data['files']   = $this->Model_files->getFiles($ROOTfolder['id']);
             $data['folders'] = $this->Model_files->getFolders($ROOTfolder['id']);
@@ -26,7 +32,7 @@ class Gallery extends CI_Controller {
 
             $data['current_folder'] = $ROOTfolder['id'];
         } else {
-            if ($this->isOwner('dir', $this->uri->segment(3), $user['id'])!==true) {
+            if ($this->isOwner('dir', $this->uri->segment(3), $this->user['id'])!==true) {
 
                 header('HTTP/1.0 403 Forbidden');
                 die();

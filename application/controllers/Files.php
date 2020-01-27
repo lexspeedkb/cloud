@@ -3,15 +3,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Files extends CI_Controller {
 
-    public function render () {
+    private $user;
+
+    public function __construct()
+    {
+        parent::__construct();
         $this->load->library('session');
         $this->load->model('Model_files');
         $this->load->model('Model_auth');
         $this->load->helper('files');
 
-        $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
+        $this->Model_auth->checkToken($_SESSION['id'], $_SESSION['token']);
 
-        if ($this->isOwner('name', $this->uri->segment(4), $user['id'])!==true) {
+        $this->user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
+    }
+
+    public function render () {
+
+
+
+        if ($this->isOwner('name', $this->uri->segment(4), $this->user['id'])!==true) {
             header('HTTP/1.0 403 Forbidden');
             die();
         }
@@ -30,17 +41,10 @@ class Files extends CI_Controller {
 
     public function upload()
     {
-        $this->load->library('session');
-        $this->load->model('Model_files');
-        $this->load->model('Model_auth');
-        $this->load->helper('files');
-
 
         $folder_id = $_POST['folder_id'];
 
-        $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
-
-        if ($this->isOwner('dir', $folder_id, $user['id'])!==true) {
+        if ($this->isOwner('dir', $folder_id, $this->user['id'])!==true) {
             header('HTTP/1.0 403 Forbidden');
             die();
         }
@@ -101,17 +105,17 @@ class Files extends CI_Controller {
                 }
                 $name = $_POST['name'] ?? basename($_FILES['Filedata']['name']);
 
-                $insert_id = $this->Model_files->uploadFile($basename, $user['id'], $type['full'], $folder_id, $name, $filesize_o, $filesize_s);
+                $insert_id = $this->Model_files->uploadFile($basename, $this->user['id'], $type['full'], $folder_id, $name, $filesize_o, $filesize_s);
 
 
-                $files = $this->Model_files->getFilesOfUser($user['id']);
+                $files = $this->Model_files->getFilesOfUser($this->user['id']);
 
                 $allData=0;
                 foreach ($files as $file) {
                     $allData += $file['filesize_o'] + $file['filesize_s'];
                 }
 
-                if ($allData > $user['max_upload'] && $user['id']!=0) {
+                if ($allData > $this->user['max_upload'] && $this->user['id']!=0) {
 
                     $this->Model_files->delete($insert_id);
                     $limit = bytesConvert(STORAGE_SIZE);
@@ -129,22 +133,15 @@ class Files extends CI_Controller {
 
     public function addFolder ()
     {
-        $this->load->library('session');
-        $this->load->model('Model_files');
-        $this->load->model('Model_auth');
-        $this->load->helper('files');
-
 
         $parent_id = $_POST['folder_id'];
 
-        $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
-
-        if ($this->isOwner('dir', $parent_id, $user['id'])!==true) {
+        if ($this->isOwner('dir', $parent_id, $this->user['id'])!==true) {
             header('HTTP/1.0 403 Forbidden');
             die();
         }
 
-        $new_folder_id = $this->Model_files->addFolder($_POST['name'], $user['id'], $parent_id);
+        $new_folder_id = $this->Model_files->addFolder($_POST['name'], $this->user['id'], $parent_id);
 
         echo '<meta http-equiv="refresh" content="0;URL=/gallery/index/'.$new_folder_id.'">';
     }
@@ -172,14 +169,8 @@ class Files extends CI_Controller {
 
     public function delete ()
     {
-        $this->load->library('session');
-        $this->load->model('Model_files');
-        $this->load->model('Model_auth');
-        $this->load->helper('files');
 
-        $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
-
-        if ($this->isOwner('id', $this->uri->segment(3), $user['id'])!==true) {
+        if ($this->isOwner('id', $this->uri->segment(3), $this->user['id'])!==true) {
             header('HTTP/1.0 403 Forbidden');
             die();
         }
@@ -198,14 +189,8 @@ class Files extends CI_Controller {
 
     public function deleteFolder ()
     {
-        $this->load->library('session');
-        $this->load->model('Model_files');
-        $this->load->model('Model_auth');
-        $this->load->helper('files');
 
-        $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
-
-        if ($this->isOwner('dir', $this->uri->segment(3), $user['id'])!==true) {
+        if ($this->isOwner('dir', $this->uri->segment(3), $this->user['id'])!==true) {
             header('HTTP/1.0 403 Forbidden');
             die();
         }
@@ -224,14 +209,10 @@ class Files extends CI_Controller {
 
     public function deleteAction ($file_id='')
     {
-        $this->load->library('session');
-        $this->load->model('Model_files');
-        $this->load->model('Model_auth');
 
         if ($file_id=='') {
-            $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
 
-            if ($this->isOwner('id', $this->uri->segment(3), $user['id'])!==true) {
+            if ($this->isOwner('id', $this->uri->segment(3), $this->user['id'])!==true) {
                 header('HTTP/1.0 403 Forbidden');
                 die();
             }
@@ -240,9 +221,8 @@ class Files extends CI_Controller {
 
             echo '<meta http-equiv="refresh" content="0;URL=/">';
         } else {
-            $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
 
-            if ($this->isOwner('id', $file_id, $user['id'])!==true) {
+            if ($this->isOwner('id', $file_id, $this->user['id'])!==true) {
                 header('HTTP/1.0 403 Forbidden');
                 die();
             }
@@ -254,14 +234,10 @@ class Files extends CI_Controller {
 
     public function deleteFolderAction ($folder_id)
     {
-        $this->load->library('session');
-        $this->load->model('Model_files');
-        $this->load->model('Model_auth');
 
         if ($folder_id=='') {
-            $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
 
-            if ($this->isOwner('dir', $this->uri->segment(3), $user['id'])!==true) {
+            if ($this->isOwner('dir', $this->uri->segment(3), $this->user['id'])!==true) {
                 header('HTTP/1.0 403 Forbidden');
                 die();
             }
@@ -270,9 +246,8 @@ class Files extends CI_Controller {
 
             echo '<meta http-equiv="refresh" content="0;URL=/">';
         } else {
-            $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
 
-            if ($this->isOwner('dir', $folder_id, $user['id'])!==true) {
+            if ($this->isOwner('dir', $folder_id, $this->user['id'])!==true) {
                 header('HTTP/1.0 403 Forbidden');
                 die();
             }
@@ -284,13 +259,8 @@ class Files extends CI_Controller {
 
     public function toggleFolderFree ()
     {
-        $this->load->library('session');
-        $this->load->model('Model_files');
-        $this->load->model('Model_auth');
 
-        $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
-
-        if ($this->isOwner('dir', $this->uri->segment(3), $user['id'])!==true) {
+        if ($this->isOwner('dir', $this->uri->segment(3), $this->user['id'])!==true) {
             header('HTTP/1.0 403 Forbidden');
             die();
         }
@@ -308,13 +278,8 @@ class Files extends CI_Controller {
 
     public function changeName ()
     {
-        $this->load->library('session');
-        $this->load->model('Model_files');
-        $this->load->model('Model_auth');
 
-        $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
-
-        if ($this->isOwner('id', $_POST['id'], $user['id'])!==true) {
+        if ($this->isOwner('id', $_POST['id'], $this->user['id'])!==true) {
             header('HTTP/1.0 403 Forbidden');
             die();
         }
@@ -326,13 +291,8 @@ class Files extends CI_Controller {
 
     public function changeDirName ()
     {
-        $this->load->library('session');
-        $this->load->model('Model_files');
-        $this->load->model('Model_auth');
 
-        $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
-
-        if ($this->isOwner('dir', $_POST['id'], $user['id'])!==true) {
+        if ($this->isOwner('dir', $_POST['id'], $this->user['id'])!==true) {
             header('HTTP/1.0 403 Forbidden');
             die();
         }

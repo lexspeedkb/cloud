@@ -27,6 +27,7 @@
 
             <?php if ($_SESSION['id']==1): ?>
                 <a class="mdl-navigation__link" href="/admin/filesIndexing">Переиндексация размера файлов</a>
+                <a class="mdl-navigation__link" href="/admin/users">Пользователи</a>
             <?php endif; ?>
         </nav>
     </div>
