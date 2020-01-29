@@ -3,7 +3,7 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="44555db8-330b-4813-8421-be2c76470c29" name="cloud (project level)" url="http://195.138.69.2">
-        <fileTransfer host="195.138.69.2" port="21" rootFolder="/default">
+        <fileTransfer host="195.138.69.2" port="21" rootFolder="/var/www/default">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" />
           </advancedOptions>
