@@ -16,26 +16,6 @@ class Api extends CI_Controller {
         $this->user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
     }
 
-    public function login () {
-        if (empty($data['login'])) return 1;
-        if (empty($data['password'])) return 2;
-        $checkLogin = $this->Model_auth->checkLogin($data['login'], $data['password']);
-
-        if ($checkLogin == 0) {
-            $newToken = $this->generateRandomString(100);
-            $userData = $this->Model_auth->getDataByLogin($data['login']);
-            $array = array(
-                'id' => $userData['id'],
-                'token' => $newToken,
-            );
-            $this->Model_auth->updateToken($userData['id'], $newToken);
-            $this->session->set_userdata($array);
-            return 0;
-        } else {
-            return 3;
-        }
-    }
-
     public function getSession() {
         print_r($_SESSION);
     }
@@ -71,6 +51,57 @@ class Api extends CI_Controller {
 
     public function changeName () {
         $this->Model_files->updateName($_POST['id'], $_POST['value']);
+    }
+
+//    AUTH
+
+    public function auth () {
+        if (isset($_POST['log'])) {
+            if ($_POST['log'] == 1) {
+                $authReturn = $this->authorization($_POST);
+                switch ($authReturn) {
+                    case 1:
+                        echo 'Empty login';
+                        break;
+                    case 2:
+                        echo 'Empty password';
+                        break;
+                    case 3:
+                        echo 'Login incorrect';
+                        break;
+                    default:
+                        $json = json_encode($authReturn);
+                        echo $json;
+                        break;
+
+                }
+            }
+        }
+    }
+
+    public function checkToken() {
+        echo $this->Model_auth->checkToken($_POST['id'], $_POST['token']);
+    }
+
+    public function authorization($data)
+    {
+        if (empty($data['login'])) return 1;
+        if (empty($data['password'])) return 2;
+        $checkLogin = $this->Model_auth->checkLogin($data['login'], $data['password']);
+
+        if ($checkLogin == 0) {
+            $newToken = generateRandomString(100);
+            $userData = $this->Model_auth->getDataByLogin($data['login']);
+            $array = array(
+                'id' => $userData['id'],
+                'token' => $newToken,
+            );
+            $this->Model_auth->updateToken($userData['id'], $newToken);
+            return $array;
+        } else {
+            return 3;
+        }
+
     }
 
     private function arrToApi ($array, $multi=FALSE) {

@@ -3,12 +3,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Auth extends CI_Controller {
 
-    public function login()
+    public function __construct()
     {
+        parent::__construct();
+
         $this->load->library('session');
         $this->load->helper('html');
         $this->load->helper('url');
+        $this->load->helper('files');
         $this->load->model('Model_auth');
+    }
+
+    public function login()
+    {
+
         $this->Model_auth->checkToken($_SESSION['id'], $_SESSION['token'], true);
         if (isset($_POST['log'])) {
             if ($_POST['log'] == 1) {
@@ -98,7 +106,7 @@ class Auth extends CI_Controller {
         $checkLogin = $this->Model_auth->checkLogin($data['login'], $data['password']);
         
         if ($checkLogin == 0) {
-            $newToken = $this->generateRandomString(100);
+            $newToken = generateRandomString(100);
             $userData = $this->Model_auth->getDataByLogin($data['login']);
             $array = array(
                 'id' => $userData['id'],
