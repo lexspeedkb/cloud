@@ -21,7 +21,13 @@ class Api extends CI_Controller {
     }
 
     public function getAllUserPhotos () {
-        $files = $this->Model_files->getFilesOfUser(2);
+
+        $tok = $this->checkToken(true);
+        if ($tok == "1") {
+            die();
+        }
+
+        $files = $this->Model_files->getFilesOfUser($_POST['id']);
 
         foreach ($files as $key => $value) {
             $p = getPath($value['src']);
@@ -79,8 +85,12 @@ class Api extends CI_Controller {
         }
     }
 
-    public function checkToken() {
-        echo $this->Model_auth->checkToken($_POST['id'], $_POST['token']);
+    public function checkToken($return = false) {
+        if ($return) {
+            return $this->Model_auth->checkToken($_POST['id'], $_POST['token']);
+        } else {
+            echo $this->Model_auth->checkToken($_POST['id'], $_POST['token']);
+        }
     }
 
     public function authorization($data)
