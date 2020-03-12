@@ -44,7 +44,7 @@ class Model_auth extends CI_Model {
         $row = $query->row();
         if (!empty($row->id)) {
             if ($loginPage){
-                redirect('/', 'refresh');
+//                redirect('/', 'refresh');
                 return 1;
             } else {
                 return 0;
@@ -53,7 +53,7 @@ class Model_auth extends CI_Model {
             if ($loginPage) {
                 return 0;
             } else {
-                redirect('/auth/login', 'refresh');
+//                redirect('/auth/login', 'refresh');
                 return 1;
             }
         }

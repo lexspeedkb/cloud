@@ -80,6 +80,7 @@ class Api extends CI_Controller {
     }
 
     public function checkToken() {
+        var_dump($_POST);
         echo $this->Model_auth->checkToken($_POST['id'], $_POST['token']);
     }
 

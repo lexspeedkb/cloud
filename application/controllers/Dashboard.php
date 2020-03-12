@@ -10,7 +10,10 @@ class Dashboard extends CI_Controller {
         $this->load->model('Model_auth');
         $this->load->helper('files');
 
-        $this->Model_auth->checkToken($_SESSION['id'], $_SESSION['token']);
+        $tok = $this->Model_auth->checkToken($_SESSION['id'], $_SESSION['token']);
+        if ($tok == '1') {
+            redirect('/auth/login', 'refresh');
+        }
 
         $user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
 
