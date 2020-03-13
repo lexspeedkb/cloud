@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Api extends CI_Controller {
 
-//    private $user;
+    private $user;
 
     public function __construct()
     {
@@ -13,7 +13,12 @@ class Api extends CI_Controller {
         $this->load->model('Model_auth');
         $this->load->helper('files');
 
-        $this->user = $this->Model_auth->getDataByToken($_SESSION['id'], $_SESSION['token']);
+        if (isset($_POST['id'])) {
+            $this->user = $this->Model_auth->getDataByToken($_POST['id'], $_POST['token']);
+        } else {
+            $this->user = $this->Model_auth->getDataByToken($_GET['id'], $_GET['token']);
+        }
+
     }
 
     public function getSession() {
@@ -126,6 +131,62 @@ class Api extends CI_Controller {
             return $items;
         } else {
 
+        }
+    }
+
+
+
+
+    public function render () {
+        if ($this->isOwner('name', $this->uri->segment(4), $this->user['id'])!==true) {
+            header('HTTP/1.0 403 Forbidden');
+            die();
+        }
+
+        $img = str_replace('/', '', $this->uri->segment(4));
+
+        $path = getPath($img);
+
+        $fileInfo = $this->Model_files->getOneFile('name', $this->uri->segment(4));
+
+        header( 'Content-Type: '.$fileInfo['type'] );
+
+        $file = file_get_contents($_SERVER['DOCUMENT_ROOT'].'/files/'.$this->uri->segment(3) .'/'. $path['text']. $path['name'], true);
+        echo $file;
+    }
+
+    public function isOwner ($type, $search, $user_id)
+    {
+        $this->load->model('Model_files');
+
+        if ($_SESSION['id'] == '1') {
+            return true;
+        }
+
+        if ($type == 'dir') {
+            $folder = $this->Model_files->getOneFolder($search);
+
+            if ($folder['owner_id']==$user_id || $folder['free']) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            $file = $this->Model_files->getOneFile($type, $search);
+
+            // If folder is free to use
+            $breadcrumbs = $this->breadcrumbs($file['dir']);
+            foreach ($breadcrumbs as $item) {
+                if ($item['free']) {
+                    return true;
+                }
+            }
+
+            if ($file['user_id']==$user_id) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 }
